@@ -4,10 +4,10 @@
 \alias{pcaToList}
 \title{Perform PCA and create list with results}
 \usage{
-pcaToList(m, transpose = FALSE, roundDigits = 2, ...)
+pcaToList(x, transpose = FALSE, roundDigits = 2, ...)
 }
 \arguments{
-\item{m}{The matrix to analyze.}
+\item{x}{The matrix to analyze.}
 
 \item{transpose}{Wether to transpose or not the input matrix.}
 

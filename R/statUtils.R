@@ -13,10 +13,8 @@ pairwiseContrasts <- function(x, sep = "-") {
 
   # create all possible pairwise comparison matrix
   pairMat <- combn(unique(x), 2)
-
   # return collapsed columns
   contrasts <- apply(pairMat, 2, function(y) paste(y[1], y[2], sep = sep))
-
   return(contrasts)
 
 }
@@ -27,7 +25,7 @@ pairwiseContrasts <- function(x, sep = "-") {
 #' and returns a list with the formatted results.
 #'
 #'
-#' @param m The matrix to analyze.
+#' @param x The matrix to analyze.
 #' @param transpose Wether to transpose or not the input matrix.
 #' @param roundDigits Number of digits for the rounded percent of
 #' variance explained by each PC.
@@ -39,19 +37,74 @@ pairwiseContrasts <- function(x, sep = "-") {
 #' \item{pcts}{A character vector with the variance explained by each PC.}
 #' @export
 #'
-pcaToList <- function(m, transpose = FALSE, roundDigits = 2, ...) {
+pcaToList <- function(x, transpose = FALSE, roundDigits = 2, ...) {
 
   # transpose if it is not transposed
-  if(transpose) m <- t(m)
-
+  if(transpose) x <- t(x)
   # perform prcomp analysis
-  pcaRes <- prcomp(m , ...)
+  pcaRes <- prcomp(x , ...)
   pcaResSum <- summary(pcaRes)
-
   # add proportion of variance explained
   variancePcts <- round(pcaResSum$importance[2, ]*100, roundDigits)
   pcPcts <- paste0(colnames(pcaRes$x), " ( ", variancePcts, "% )")
-
   return(list(result = pcaRes, summary = pcaResSum, pcts = pcPcts))
 
 }
+
+#' Not sensitive T Test
+#'
+#' Applies the T Test function returning NA
+#' instead of error when problems appear (as continuous). Additionally,
+#' it extracts the P value from the resulting object when available.
+#'
+#' @param ... Arguments for \code{t.test} function.
+#'
+#' @return The P value resulting from the T Test or \code{NA} when any problem appears.
+#' @export
+#'
+#' @examples
+nsTest <- function(...) {
+
+  pValue <- tryCatch(t.test(...)$p.value, error= function(y) NA)
+  return(pValue)
+
+}
+
+#' One sample T-Test over log ratio matrix
+#'
+#' Applies One Sample T-Test at row level in a matrix containing log transformed fold changes.
+#'
+#' @param x The logFC matrix.
+#' @param adjustMethod The P value adjustment method.
+#' @param idName Name for the resulting feature id column.
+#' @param fcName Name for the resulting fold change column.
+#' @param pName Name for the resulting p value column.
+#' @param pAdjName Name for the resulting adjusted p value column.
+#' @param ... Rest of arguments for \code{t.test} function.
+#'
+#' @return A data frame with:
+#' \item{id}{From row names.}
+#' \item{logFC}{From row means.}
+#' \item{pValue}{From the One Sample T-Test.}
+#' \item{pAdj}{From multiple testing correction.}
+#' @export
+#'
+#' @examples
+osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc", pName = "pValue", pAdjName = "pAdj", ...) {
+
+  # create statistics
+  logFc <- rowMeans(x, na.rm = TRUE)
+  pValue <- apply(x, 1, function(y) nsTest(y, ...))
+  pAdj <- p.adjust(p = pValue, method = adjustMethod)
+  # prepare id from rownames
+  if(is.null(rownames(x))) outId <- 1:nrow(x)
+  if(!is.null(rownames(x))) outId <- rownames(x)
+  # prepare out df
+  outDf <- data.frame(outId, logFc, pValue, pAdj, stringsAsFactors = FALSE)
+  colnames(outDf) <- c(idName, fcName, pName, pAdjName)
+  return(outDf)
+
+}
+
+
+

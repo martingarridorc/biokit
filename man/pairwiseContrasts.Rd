@@ -18,7 +18,3 @@ A character vector containing all the possible pairwise contrasts.
 Creates all the possible pairwise contrasts between
 the unique elements of a vector.
 }
-\examples{
-
-pairwiseContrasts(c("A","B","C"))
-}
