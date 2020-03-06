@@ -72,8 +72,6 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
 #' @param sourceKey Character indicating the column of the df where the source ids are stored.
 #' @param targetKey Character indicating the column of the df where the source ids are stored.
 #'
-#' @export
-#'
 messageMappingInfo <- function(df, sourceKey, targetKey) {
 
   # remove NAs
