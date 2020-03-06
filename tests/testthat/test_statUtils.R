@@ -1,8 +1,7 @@
 library(biokit)
 
-# create random matrix for testing
-set.seed(149)
-testMat <- matrix( runif(n = 6000), ncol = 6)
+# prepare data for testing
+testMat <- matrix(rnorm(6000), ncol = 6, nrow = 1000)
 testNaMat <- matrix(NA, ncol = 6, nrow = 1000)
 
 test_that("Pairwise contrasts",{
@@ -13,7 +12,7 @@ test_that("Pairwise contrasts",{
 
 test_that("Prcomp results",{
 
-  expect_equal(pcaToList(testMat)$result, prcomp(testMat))
+  expect_equal(pcaToList(cbdMat)$result, prcomp(cbdMat))
 
 })
 
@@ -28,11 +27,14 @@ test_that("Insensitive T-Test",{
 
 test_that("One sample T-Test over log ratio matrix",{
 
-  expect_equal(osTestMatrix(testMat)$logFc, rowMeans(testMat, na.rm = TRUE))
+  matRes <- osTestMatrix(testMat)
+  naRes <- osTestMatrix(testNaMat)
+
+  expect_equal(matRes$logFc, rowMeans(testMat, na.rm = TRUE))
   expect_equal(osTestMatrix(testMat)$pValue[1], t.test(testMat[1,])$p.value)
-  expect_true(is.na(osTestMatrix(testNaMat)$logFc)[1])
-  expect_true(is.na(osTestMatrix(testNaMat)$pValue)[1])
-  expect_true(is.na(osTestMatrix(testNaMat)$pAdj)[1])
+  expect_true(is.na(naRes$logFc)[1])
+  expect_true(is.na(naRes$pValue)[1])
+  expect_true(is.na(naRes$pAdj)[1])
 
 })
 

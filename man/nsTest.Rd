@@ -2,7 +2,7 @@
 % Please edit documentation in R/statUtils.R
 \name{nsTest}
 \alias{nsTest}
-\title{Not sensitive T.Test}
+\title{Not sensitive T Test}
 \usage{
 nsTest(...)
 }
@@ -10,11 +10,10 @@ nsTest(...)
 \item{...}{Arguments for \code{t.test} function.}
 }
 \value{
-The P.value resulting from the T-Test or \code{NA} when any problem appears.
+The P value resulting from the T Test or \code{NA} when any problem appears.
 }
 \description{
-This function applies the T-Test function returning NA
+Applies the T Test function returning NA
 instead of error when problems appear (as continuous). Additionally,
-it extracts the P value from the resulting object and returns it when
-available.
+it extracts the P value from the resulting object when available.
 }

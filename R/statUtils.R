@@ -62,7 +62,6 @@ pcaToList <- function(x, transpose = FALSE, roundDigits = 2, ...) {
 #' @return The P value resulting from the T Test or \code{NA} when any problem appears.
 #' @export
 #'
-#' @examples
 nsTest <- function(...) {
 
   pValue <- tryCatch(t.test(...)$p.value, error= function(y) NA)
@@ -89,7 +88,6 @@ nsTest <- function(...) {
 #' \item{pAdj}{From multiple testing correction.}
 #' @export
 #'
-#' @examples
 osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc", pName = "pValue", pAdjName = "pAdj", ...) {
 
   # create statistics
