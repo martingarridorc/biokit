@@ -272,10 +272,6 @@ autoEdgeR <- function(se, groupColumn, useFilterByExpr = TRUE,
                       fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
 
 
-
-
-
-
 }
 
 

@@ -15,4 +15,6 @@ Imports:
     dplyr,
     limma,
     tibble
+Suggests:
+    testthat
 RoxygenNote: 7.0.2
