@@ -1,12 +1,17 @@
 Package: biokit
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Set of tools for analyzing omic data.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Martin Garrido Rodriguez-Cordoba
+Maintainer: Martin Garrido Rodriguez-Cordoba<martinmail@gmail.com>
+Description: Early stage
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+    AnnotationDbi,
+    SummarizedExperiment,
+    dplyr,
+    limma,
+    tibble
 RoxygenNote: 7.0.2
