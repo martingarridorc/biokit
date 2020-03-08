@@ -267,6 +267,8 @@ countsToTmm <- function(x, log = TRUE, prior.count = 3) {
 }
 
 
+
+
 autoEdgeR <- function(se, groupColumn, useFilterByExpr = TRUE,
                       compName = "comparison", featName = "feature",
                       fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
