@@ -4,7 +4,7 @@
 \alias{pcaToList}
 \title{Perform PCA and create list with results}
 \usage{
-pcaToList(x, transpose = FALSE, roundDigits = 2, ...)
+pcaToList(x, transpose = TRUE, roundDigits = 2, ...)
 }
 \arguments{
 \item{x}{The matrix to analyze.}

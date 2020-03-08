@@ -40,7 +40,7 @@ translateMatrix <- function(x, db, sourceKey, targetKey, summariseFun) {
 #' @return A matrix with translated and summarised ids.
 #' @export
 #'
-#' @importFrom dplyr %>% group_by summarise_all
+#' @importFrom dplyr %>% group_by summarise_all sym
 #' @importFrom tibble rownames_to_column column_to_rownames
 #'
 summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
@@ -57,7 +57,7 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
   # remove source id, group and summarize
   mergedDf[,sourceKey] <- NULL
   # tidy eval for targetKey (https://tidyeval.tidyverse.org/introduction.html)
-  outMat <- dplyr::group_by(mergedDf, !!sym(targetKey)) %>%
+  outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>%
     dplyr::summarise_all(.funs = summariseFun) %>%
     tibble::column_to_rownames(var = targetKey) %>%
     as.matrix()
