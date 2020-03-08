@@ -7,7 +7,10 @@
 #' @param sep The separator for the resulting contrasts.
 #'
 #' @return A character vector containing all the possible pairwise contrasts.
+#'
 #' @export
+#'
+#' @importFrom utils combn
 #'
 pairwiseContrasts <- function(x, sep = "-") {
 
@@ -35,7 +38,10 @@ pairwiseContrasts <- function(x, sep = "-") {
 #' \item{result}{The prcomp object containing the results of the PCA.}
 #' \item{summary}{The summary objects containing the matrix with PC values.}
 #' \item{pcts}{A character vector with the variance explained by each PC.}
+#'
 #' @export
+#'
+#' @importFrom stats prcomp
 #'
 pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
 
@@ -62,6 +68,8 @@ pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
 #' @return The P value resulting from the T Test or \code{NA} when any problem appears.
 #' @export
 #'
+#' @importFrom stats t.test
+#'
 nsTest <- function(...) {
 
   pValue <- tryCatch(t.test(...)$p.value, error= function(y) NA)
@@ -86,7 +94,10 @@ nsTest <- function(...) {
 #' \item{logFC}{From row means.}
 #' \item{pValue}{From the One Sample T-Test.}
 #' \item{pAdj}{From multiple testing correction.}
+#'
 #' @export
+#'
+#' @importFrom stats p.adjust
 #'
 osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc", pName = "pValue", pAdjName = "pAdj", ...) {
 
@@ -115,6 +126,8 @@ osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc"
 #' @return The composed design matrix.
 #'
 #' @export
+#'
+#' @importFrom stats formula model.matrix
 #'
 designFromSampInfo <- function(x, column) {
 
@@ -224,5 +237,47 @@ autoLimma <- function(se, groupColumn, compName = "comparison", featName = "feat
   return(results)
 
 }
+
+#' Normalize counts with TMM
+#'
+#' Normalizes a raw counts matrix into log transformed counts per millions using
+#' the edgeR "Trimmed Mean of M-Values" (TMM) normalization method. For more information
+#' please refer to the edgeR package (https://bioconductor.org/packages/release/bioc/html/edgeR.html).
+#'
+#' @param x The matrix of counts.
+#' @param log Passed to \code{edgeR::cpm()}.
+#' @param prior.count Passed to \code{edgeR::cpm()}.
+#'
+#' @return The normalized expression matrix
+#'
+#' @export
+#'
+#' @importFrom edgeR DGEList calcNormFactors cpm
+#'
+countsToTmm <- function(x, log = TRUE, prior.count = 3) {
+
+  # transform into edgeR DGEList
+  dgeList <- edgeR::DGEList(counts = x)
+  # calculate normalization factors
+  dgeList <- edgeR::calcNormFactors(object = dgeList, method = "TMM")
+  # obtain normalized logCpm matrix
+  logCpm <- edgeR::cpm(dgeList, log = log, prior.count = prior.count)
+  return(logCpm)
+
+}
+
+
+autoEdgeR <- function(se, groupColumn, useFilterByExpr = TRUE,
+                      compName = "comparison", featName = "feature",
+                      fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
+
+
+
+
+
+
+}
+
+
 
 

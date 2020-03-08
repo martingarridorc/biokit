@@ -1,4 +1,5 @@
 library(biokit)
+library(testthat)
 
 # prepare data for testing
 intMat <- matrix(1:60, ncol = 6, nrow = 10)
@@ -14,8 +15,3 @@ test_that("Summarise matrix",{
   expect_equal(as.numeric(rowSums(res)[3]), 576)
 
 })
-
-library(SummarizedExperiment)
-data("cbdData")
-rownames(cbdSampInfo) <- c("a1", "a3", "ae", "en","ajsn","asijdn")
-se <- SummarizedExperiment(assays = cbdMat, colData = cbdSampInfo)

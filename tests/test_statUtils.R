@@ -1,4 +1,7 @@
+library(testthat)
 library(biokit)
+library(edgeR)
+library(dplyr)
 
 # prepare cbd data for testing
 data("cbdData")
@@ -78,6 +81,14 @@ test_that("Integrative test for limma comparisons", {
   expect_equal(unique(limmaRes$comparison), c("A-B", "A-C", "B-C"))
   expect_equal(colnames(cbdAutoRes), c("comparison", "feature", "logFc", "AveExpr", "t", "pValue", "pAdj", "B"))
   expect_equal(unique(cbdAutoRes$comparison), "cbd-control")
+
+})
+
+test_that("TMM norm", {
+
+  cbdTmms <- DGEList(counts = cbdMat) %>% calcNormFactors() %>% cpm(y = ., log = TRUE, prior.count = 3)
+
+  expect_equal(countsToTmm(x = cbdMat), cbdTmms)
 
 })
 
