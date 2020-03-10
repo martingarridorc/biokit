@@ -9,9 +9,9 @@ countsToTmm(x, log = TRUE, prior.count = 3)
 \arguments{
 \item{x}{The matrix of counts.}
 
-\item{log}{Passed to \code{edgeR::cpm()}.}
+\item{log}{Passed to \link[edgeR]{cpm}.}
 
-\item{prior.count}{Passed to \code{edgeR::cpm()}.}
+\item{prior.count}{Passed to \link[edgeR]{cpm}.}
 }
 \value{
 The normalized expression matrix

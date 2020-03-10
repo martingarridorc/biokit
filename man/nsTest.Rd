@@ -7,13 +7,13 @@
 nsTest(...)
 }
 \arguments{
-\item{...}{Arguments for \code{t.test} function.}
+\item{...}{Arguments for the \link[stats]{t.test} function.}
 }
 \value{
 The P value resulting from the T Test or \code{NA} when any problem appears.
 }
 \description{
 Applies the T Test function returning NA
-instead of error when problems appear (as continuous). Additionally,
+instead of error when problems appear. Additionally,
 it extracts the P value from the resulting object when available.
 }

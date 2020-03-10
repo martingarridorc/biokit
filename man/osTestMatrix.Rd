@@ -27,7 +27,7 @@ osTestMatrix(
 
 \item{pAdjName}{Name for the resulting adjusted p value column.}
 
-\item{...}{Rest of arguments for \code{t.test} function.}
+\item{...}{Rest of arguments for \link[stats]{t.test} function.}
 }
 \value{
 A data frame with:

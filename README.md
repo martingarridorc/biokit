@@ -1,4 +1,4 @@
-biokit <img src="icon/icon.png" align="right"  width="210" height="250" />
+biokit <img src="icon/icon.png" align="right"  width="100" height="100" />
 ================
 [![Build Status](https://travis-ci.com/martingarrido/biokit.svg?branch=master)](https://travis-ci.com/martingarrido/biokit)
 [![CodeCov](https://codecov.io/gh/martingarrido/biokit/branch/master/graph/badge.svg)](https://codecov.io/gh/martingarrido/biokit/)

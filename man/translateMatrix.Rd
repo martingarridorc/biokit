@@ -21,7 +21,8 @@ translateMatrix(x, db, sourceKey, targetKey, summariseFun)
 A matrix with translated and summarised ids.
 }
 \description{
-Uses a database like org.Hs.eg.db (https://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html) or
-org.Mm.eg.db (https://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html) to translate the rownames of the input matrix
+Uses a database like \href{https://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html}{org.Hs.eg.db} or
+\href{https://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html}{org.Mm.eg.db}
+to translate the rownames of the input matrix
 into the desired ids. When input ids maps to several target ids, uses the input function to resolve conflicts.
 }

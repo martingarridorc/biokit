@@ -4,30 +4,14 @@
 \alias{autoLimma}
 \title{Automatic limma analysis from SummarizedExperiment}
 \usage{
-autoLimma(
-  se,
-  groupColumn,
-  compName = "comparison",
-  featName = "feature",
-  fcName = "logFc",
-  pName = "pValue",
-  pAdjName = "pAdj"
-)
+autoLimma(se, groupColumn, ...)
 }
 \arguments{
 \item{se}{The SummarizedExperiment object to analyze.}
 
-\item{groupColumn}{The id of the \code{colData()} column that is used to}
+\item{groupColumn}{The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.}
 
-\item{compName}{Name for the column that indicates the pairwise comparison in the tidy data frame.}
-
-\item{featName}{Name for the column that indicates the analyzed row feature the tidy data frame.}
-
-\item{fcName}{Name for the resulting fold change column.}
-
-\item{pName}{Name for the resulting p value column.}
-
-\item{pAdjName}{Name for the resulting adjusted p value column.}
+\item{...}{Arguments passed to the \link[biokit]{limmaDfFromContrasts} function.}
 }
 \value{
 A data frame with the results in a tidy format.
@@ -35,5 +19,5 @@ A data frame with the results in a tidy format.
 \description{
 Uses data stored in a SummarizedExperiment object to
 automatically perform all the possible pairwise comparisons
-between the groups defined in a \code{colData()} column.
+between the groups defined in a \link[SummarizedExperiment]{colData} column.
 }

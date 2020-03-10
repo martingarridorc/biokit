@@ -14,5 +14,5 @@ A contrast matrix with all the possible pairwise comparisons.
 }
 \description{
 Uses levels defined in the column names of the design matrix
-to create a contrast matrix with all the possible pairwise comparisons.
+to create a contrast matrix with \link[limma]{makeContrasts}.
 }

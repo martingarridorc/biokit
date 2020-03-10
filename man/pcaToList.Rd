@@ -14,7 +14,7 @@ pcaToList(x, transpose = TRUE, roundDigits = 2, ...)
 \item{roundDigits}{Number of digits for the rounded percent of
 variance explained by each PC.}
 
-\item{...}{Other parameters passed to the prcomp function}
+\item{...}{Other parameters passed to the \link[stats]{prcomp} function.}
 }
 \value{
 A list with three elements:

@@ -1,7 +1,8 @@
 #' Translate the input matrix rownames to the desired DB ids
 #'
-#' Uses a database like org.Hs.eg.db (https://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html) or
-#' org.Mm.eg.db (https://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html) to translate the rownames of the input matrix
+#' Uses a database like \href{https://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html}{org.Hs.eg.db} or
+#' \href{https://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html}{org.Mm.eg.db}
+#' to translate the rownames of the input matrix
 #' into the desired ids. When input ids maps to several target ids, uses the input function to resolve conflicts.
 #'
 #' @param x The input matrix. Should have rownames.
@@ -51,7 +52,8 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
   mapped <- !is.na(df[,targetKey])
   df <- df[mapped,]
   # transform mat into data frame
-  xDf <- as.data.frame(x) %>% tibble::rownames_to_column("id")
+  xDf <- as.data.frame(x) %>%
+    tibble::rownames_to_column("id")
   # merge with data
   mergedDf <- merge(x = df, y = xDf, by.x = sourceKey, by.y = "id")
   # remove source id, group and summarize
@@ -84,12 +86,15 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
   uniqueSource <- length(unique(df[,sourceKey]))
   uniqueTarget <- length(unique(df[,targetKey]))
   # print info
-  message(paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."))
-  message(paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."))
-  message(paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."))
-  message("------------------------------------------------")
-  message(paste0( "Input keys were finally mapped to ", uniqueTarget, " target ids."))
-
+  m <- paste("------------------------------------------------",
+             paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."),
+             paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."),
+             paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."),
+             "------------------------------------------------",
+             paste0( "Input keys were finally mapped to ", uniqueTarget, " target ids."),
+             "------------------------------------------------",
+             sep = "\n")
+  message(m)
 }
 
 
