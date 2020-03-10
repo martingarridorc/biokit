@@ -1,11 +1,11 @@
 Package: biokit
 Type: Package
-Title: Set of tools for analyzing omic data.
+Title: Set of tools for analyzing omic data
 Version: 0.1.0
 Author: Martin Garrido Rodriguez-Cordoba
 Maintainer: Martin Garrido Rodriguez-Cordoba<martinmail@gmail.com>
-Description: Early stage
-License: GPL-3
+Description: This is an early stage of the biokit. Contains several tools for the automatic analysis of omic data.
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:

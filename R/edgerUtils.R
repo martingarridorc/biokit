@@ -87,10 +87,11 @@ edgeRFromContrasts <- function(object, desMat, conMat,
 #' @param useFilterByExpr Wether to use or not the filter obtained from applying \link[edgeR]{filterByExpr}.
 #' @param ... Arguments passed to the \link[biokit]{edgeRFromContrasts} function.
 #'
-#' @return
+#' @return A data frame with the results in a tidy format.
 #' @export
 #'
-#' @examples
+#' @importFrom edgeR DGEList filterByExpr
+#'
 autoEdgeR <- function(se, groupColumn, minCounts = 0, useFilterByExpr = TRUE, ...) {
 
   # obtain design matrix

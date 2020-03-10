@@ -1,6 +1,7 @@
 language: r
 r: bioc-release
 warnings_are_errors: false
+cache: packages
 # for codecov
 r_packages:
   - covr
