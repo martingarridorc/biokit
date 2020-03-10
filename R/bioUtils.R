@@ -41,11 +41,13 @@ translateMatrix <- function(x, db, sourceKey, targetKey, summariseFun) {
 #' @return A matrix with translated and summarised ids.
 #' @export
 #'
-#' @importFrom dplyr %>% group_by summarise_all sym
+#' @importFrom dplyr %>% group_by summarise_all sym distinct
 #' @importFrom tibble rownames_to_column column_to_rownames
 #'
 summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
 
+  # remove duplicated rows in source to target df
+  df <- dplyr::distinct(df)
   # print mapping info
   messageMappingInfo(df, sourceKey, targetKey)
   # remove not mapped ids
