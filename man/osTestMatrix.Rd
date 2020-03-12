@@ -15,9 +15,9 @@ osTestMatrix(
 )
 }
 \arguments{
-\item{x}{The logFC matrix.}
+\item{x}{logFC matrix.}
 
-\item{adjustMethod}{The P value adjustment method.}
+\item{adjustMethod}{P value adjustment method.}
 
 \item{idName}{Name for the resulting feature id column.}
 
@@ -27,7 +27,7 @@ osTestMatrix(
 
 \item{pAdjName}{Name for the resulting adjusted p value column.}
 
-\item{...}{Rest of arguments for \link[stats]{t.test} function.}
+\item{...}{Rest of arguments passed to \link[stats]{t.test} function.}
 }
 \value{
 A data frame with:

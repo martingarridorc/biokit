@@ -9,7 +9,7 @@ pairwiseContrasts(x, sep = "-")
 \arguments{
 \item{x}{Vector to be combined in pairs.}
 
-\item{sep}{The separator for the resulting contrasts.}
+\item{sep}{Separator for the resulting contrasts.}
 }
 \value{
 A character vector containing all the possible pairwise contrasts.

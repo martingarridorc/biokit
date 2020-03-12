@@ -7,7 +7,7 @@
 summariseMatrix(x, df, sourceKey, targetKey, summariseFun)
 }
 \arguments{
-\item{x}{The input matrix. Should have rownames.}
+\item{x}{Input matrix. Should have rownames.}
 
 \item{df}{A 2-columns translator data frame with source to target ids.}
 

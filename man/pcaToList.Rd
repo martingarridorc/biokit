@@ -7,7 +7,7 @@
 pcaToList(x, transpose = TRUE, roundDigits = 2, ...)
 }
 \arguments{
-\item{x}{The matrix to analyze.}
+\item{x}{Matrix to analyze.}
 
 \item{transpose}{Wether to transpose or not the input matrix.}
 
@@ -18,9 +18,9 @@ variance explained by each PC.}
 }
 \value{
 A list with three elements:
-\item{result}{The prcomp object containing the results of the PCA.}
-\item{summary}{The summary objects containing the matrix with PC values.}
-\item{pcts}{A character vector with the variance explained by each PC.}
+\item{result}{Prcomp object containing the results of the PCA.}
+\item{summary}{Summary object containing the matrix with PC values.}
+\item{pcts}{Character vector with the variance explained by each PC.}
 }
 \description{
 Performs principal component analysis for a given matrix

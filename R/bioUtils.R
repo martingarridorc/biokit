@@ -5,10 +5,10 @@
 #' to translate the rownames of the input matrix
 #' into the desired ids. When input ids maps to several target ids, uses the input function to resolve conflicts.
 #'
-#' @param x The input matrix. Should have rownames.
-#' @param db The database to use for the translation.
-#' @param sourceKey The source key in the DB.
-#' @param targetKey The target key in the DB.
+#' @param x Iinput matrix. Should have rownames.
+#' @param db Database to use for the translation.
+#' @param sourceKey Source key in the DB.
+#' @param targetKey Target key in the DB.
 #' @param summariseFun Function used to resolve multi-mapping situations.
 #'
 #' @return A matrix with translated and summarised ids.
@@ -32,7 +32,7 @@ translateMatrix <- function(x, db, sourceKey, targetKey, summariseFun) {
 #' into the desired ids. When input ids maps to several
 #' target ids, uses the input function to resolve conflicts.
 #'
-#' @param x The input matrix. Should have rownames.
+#' @param x Input matrix. Should have rownames.
 #' @param df A 2-columns translator data frame with source to target ids.
 #' @param sourceKey Character indicating the column of the df where the source ids are stored.
 #' @param targetKey Character indicating the column of the df where the source ids are stored.
@@ -69,7 +69,6 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
 
 }
 
-
 #' Evaluate and print translator df information
 #'
 #' @param df A 2-columns translator data frame with source to target ids.
@@ -98,7 +97,3 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
              sep = "\n")
   message(m)
 }
-
-
-
-

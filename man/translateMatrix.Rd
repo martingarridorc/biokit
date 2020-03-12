@@ -7,13 +7,13 @@
 translateMatrix(x, db, sourceKey, targetKey, summariseFun)
 }
 \arguments{
-\item{x}{The input matrix. Should have rownames.}
+\item{x}{Iinput matrix. Should have rownames.}
 
-\item{db}{The database to use for the translation.}
+\item{db}{Database to use for the translation.}
 
-\item{sourceKey}{The source key in the DB.}
+\item{sourceKey}{Source key in the DB.}
 
-\item{targetKey}{The target key in the DB.}
+\item{targetKey}{Target key in the DB.}
 
 \item{summariseFun}{Function used to resolve multi-mapping situations.}
 }

@@ -16,5 +16,7 @@ Imports:
     limma,
     tibble
 Suggests:
-    testthat
+    testthat,
+    org.Hs.eg.db,
+    org.Mm.eg.db
 RoxygenNote: 7.0.2

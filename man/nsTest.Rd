@@ -10,7 +10,7 @@ nsTest(...)
 \item{...}{Arguments for the \link[stats]{t.test} function.}
 }
 \value{
-The P value resulting from the T Test or \code{NA} when any problem appears.
+P value resulting from the Test or \code{NA} when any problem appears.
 }
 \description{
 Applies the T Test function returning NA
