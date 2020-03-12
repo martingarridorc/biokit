@@ -11,12 +11,12 @@
 #' @importFrom limma makeContrasts
 #'
 contrastsFromDesign <- function(x) {
-
-  # get contrasts from interesting column and build contrast matrix with limma
-  contrasts <- pairwiseContrasts(colnames(x))
-  contrastMatrix <- limma::makeContrasts(contrasts = contrasts, levels = x)
-  return(contrastMatrix)
-
+    
+    # get contrasts from interesting column and build contrast matrix with limma
+    contrasts <- pairwiseContrasts(colnames(x))
+    contrastMatrix <- limma::makeContrasts(contrasts = contrasts, levels = x)
+    return(contrastMatrix)
+    
 }
 
 #' Obtain limma results from data, design and contrasts matrix.
@@ -41,27 +41,25 @@ contrastsFromDesign <- function(x) {
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-limmaDfFromContrasts <- function(x, desMat, conMat,
-                                 compName = "comparison", featName = "feature", exprName = "AveExpr",
-                                 fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
-
-  # fit model
-  fit <- limma::lmFit(object = x, design = desMat)
-  fit2 <- limma::contrasts.fit(fit, contrasts = conMat)
-  # empirical bayes smoothing to the standard errors
-  fit2 <- limma::eBayes(fit2)
-  # obtain list of dataframes from contrasts column names
-  dfList <- lapply(colnames(conMat), function(y) limma::topTable(fit2, coef = y, number = Inf))
-  # rownames to feature column
-  dfList <- lapply(dfList, function(y) tibble::rownames_to_column(y, var = featName))
-  # set names to list
-  names(dfList) <- colnames(conMat)
-  # bind rows
-  outDf <- dplyr::bind_rows(dfList, .id = compName)
-  # set column names as indicated and return formatted df
-  colnames(outDf) <- c(compName, featName, fcName, exprName, "t", pName, pAdjName, "B")
-  return(outDf)
-
+limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
+    
+    # fit model
+    fit <- limma::lmFit(object = x, design = desMat)
+    fit2 <- limma::contrasts.fit(fit, contrasts = conMat)
+    # empirical bayes smoothing to the standard errors
+    fit2 <- limma::eBayes(fit2)
+    # obtain list of dataframes from contrasts column names
+    dfList <- lapply(colnames(conMat), function(y) limma::topTable(fit2, coef = y, number = Inf))
+    # rownames to feature column
+    dfList <- lapply(dfList, function(y) tibble::rownames_to_column(y, var = featName))
+    # set names to list
+    names(dfList) <- colnames(conMat)
+    # bind rows
+    outDf <- dplyr::bind_rows(dfList, .id = compName)
+    # set column names as indicated and return formatted df
+    colnames(outDf) <- c(compName, featName, fcName, exprName, "t", pName, pAdjName, "B")
+    return(outDf)
+    
 }
 
 #' Automatic limma analysis from SummarizedExperiment
@@ -80,10 +78,10 @@ limmaDfFromContrasts <- function(x, desMat, conMat,
 #' @import SummarizedExperiment
 #'
 autoLimma <- function(se, groupColumn, ...) {
-
-  desMat <- designFromSampInfo(x = colData(se), column = groupColumn)
-  conMat <- contrastsFromDesign(x = desMat)
-  results <- limmaDfFromContrasts(x = assay(se), desMat = desMat, conMat = conMat, ...)
-  return(results)
-
+    
+    desMat <- designFromSampInfo(x = colData(se), column = groupColumn)
+    conMat <- contrastsFromDesign(x = desMat)
+    results <- limmaDfFromContrasts(x = assay(se), desMat = desMat, conMat = conMat, ...)
+    return(results)
+    
 }
