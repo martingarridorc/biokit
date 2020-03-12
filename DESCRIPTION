@@ -14,7 +14,8 @@ Imports:
     edgeR,
     dplyr,
     limma,
-    tibble
+    tibble,
+    ggplot2
 Suggests:
     testthat,
     org.Hs.eg.db,

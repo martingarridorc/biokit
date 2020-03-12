@@ -18,6 +18,6 @@ The normalized expression matrix
 }
 \description{
 Normalizes a raw counts matrix into log transformed counts per millions using
-the edgeR "Trimmed Mean of M-Values" (TMM) normalization method. For more information
+the edgeR 'Trimmed Mean of M-Values' (TMM) normalization method. For more information
 please refer to the edgeR package (https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 }

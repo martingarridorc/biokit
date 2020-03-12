@@ -84,9 +84,10 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
     uniqueSource <- length(unique(df[, sourceKey]))
     uniqueTarget <- length(unique(df[, targetKey]))
     # print info
-    m <- paste("------------------------------------------------", paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."), paste0(sourceMultiMap, 
-        " of ", uniqueSource, " input ids were mapped to 2 or more target ids."), paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."), 
-        "------------------------------------------------", paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."), "------------------------------------------------", 
+    m <- paste("------------------------------------------------", paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."), 
+        paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."), paste0(targetMultiMap, 
+            " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."), "------------------------------------------------", 
+        paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."), "------------------------------------------------", 
         sep = "\n")
     message(m)
 }

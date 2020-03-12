@@ -13,13 +13,13 @@
 #' @importFrom utils combn
 #'
 pairwiseContrasts <- function(x, sep = "-") {
-
+    
     # create all possible pairwise comparison matrix
     pairMat <- combn(unique(x), 2)
     # return collapsed columns
     contrasts <- apply(pairMat, 2, function(y) paste(y[1], y[2], sep = sep))
     return(contrasts)
-
+    
 }
 
 #' Perform PCA and create list with results
@@ -44,9 +44,9 @@ pairwiseContrasts <- function(x, sep = "-") {
 #' @importFrom stats prcomp
 #'
 pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
-
+    
     # transpose if it is not transposed
-    if (transpose)
+    if (transpose) 
         x <- t(x)
     # perform prcomp analysis
     pcaRes <- prcomp(x, ...)
@@ -55,7 +55,7 @@ pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
     variancePcts <- round(pcaResSum$importance[2, ] * 100, roundDigits)
     pcPcts <- paste0(colnames(pcaRes$x), " ( ", variancePcts, "% )")
     return(list(result = pcaRes, summary = pcaResSum, pcts = pcPcts))
-
+    
 }
 
 #' Not sensitive T Test
@@ -73,10 +73,10 @@ pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
 #' @importFrom stats t.test
 #'
 nsTest <- function(...) {
-
+    
     pValue <- tryCatch(t.test(...)$p.value, error = function(y) NA)
     return(pValue)
-
+    
 }
 
 #' One sample T-Test over log ratio matrix
@@ -102,21 +102,21 @@ nsTest <- function(...) {
 #' @importFrom stats p.adjust
 #'
 osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc", pName = "pValue", pAdjName = "pAdj", ...) {
-
+    
     # create statistics
     logFc <- rowMeans(x, na.rm = TRUE)
     pValue <- apply(x, 1, function(y) nsTest(y, ...))
     pAdj <- p.adjust(p = pValue, method = adjustMethod)
     # prepare id from rownames
-    if (is.null(rownames(x)))
+    if (is.null(rownames(x))) 
         outId <- 1:nrow(x)
-    if (!is.null(rownames(x)))
+    if (!is.null(rownames(x))) 
         outId <- rownames(x)
     # prepare out df
     outDf <- data.frame(outId, logFc, pValue, pAdj, stringsAsFactors = FALSE)
     colnames(outDf) <- c(idName, fcName, pName, pAdjName)
     return(outDf)
-
+    
 }
 
 #' Create design matrix from sample metadata
@@ -134,7 +134,7 @@ osTestMatrix <- function(x, adjustMethod = "BH", idName = "id", fcName = "logFc"
 #' @importFrom stats formula model.matrix
 #'
 designFromSampInfo <- function(x, column) {
-
+    
     # prepare formula
     groupFormula <- formula(paste0("~ 0 + ", column))
     # create design matrix
@@ -142,7 +142,7 @@ designFromSampInfo <- function(x, column) {
     # remove column name in design colnames
     colnames(designMatrix) <- gsub(pattern = column, replacement = "", x = colnames(designMatrix))
     return(designMatrix)
-
+    
 }
 
 #' Add status column to comparison data frame using cutoff
@@ -166,9 +166,9 @@ designFromSampInfo <- function(x, column) {
 #'
 #' @export
 #'
-annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE, fcCol = "logFc", pCol = "pAdj", noChangeLabel = "No change", statusCol = "status",
-    upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
-
+annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE, fcCol = "logFc", pCol = "pAdj", noChangeLabel = "No change", 
+    statusCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
+    
     x[, statusCol] <- noChangeLabel
     # if split, then return up and down labels, else return significant or not significant
     if (splitUpDown) {
@@ -181,7 +181,7 @@ annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE
         x[sig, statusCol] <- sigLabel
     }
     return(x)
-
+    
 }
 
 #' Add status column to comparison data frame using top N features
@@ -206,9 +206,9 @@ annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE
 #'
 #' @export
 #'
-annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, fcCol = "logFc", noChangeLabel = "No change", statusCol = "status",
-    upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
-
+annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, fcCol = "logFc", noChangeLabel = "No change", 
+    statusCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
+    
     x[, statusCol] <- noChangeLabel
     x <- x[order(x[, sortCol], decreasing = decreasing), ]
     # if split and twoSides, annotate both extremes of the df
@@ -226,7 +226,7 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
         x[, statusCol][1:n] <- sigLabel
     }
     return(x)
-
+    
 }
 
 #' Annotate multiple comparisons data frame
@@ -246,7 +246,7 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
 #' @importFrom dplyr bind_rows
 #'
 annotateMultiComparison <- function(x, useCutoff, compCol = "comparison", ...) {
-
+    
     # split list into comparisons
     dfList <- split(x, f = x[, compCol])
     # apply function of interest
@@ -256,7 +256,7 @@ annotateMultiComparison <- function(x, useCutoff, compCol = "comparison", ...) {
         aDfList <- lapply(dfList, function(y) annotateTopN(x = y, ...))
     }
     # coerce resultant data frames
-    result <- dplyr::bind_rows(aDfList, .id = compCol)
+    result <- dplyr::bind_rows(aDfList)
     return(result)
-
+    
 }

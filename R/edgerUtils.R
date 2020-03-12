@@ -50,7 +50,8 @@ countsToTmm <- function(x, log = TRUE, prior.count = 3) {
 #' @importFrom dplyr %>% bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-edgeRFromContrasts <- function(object, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
+edgeRFromContrasts <- function(object, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", 
+    pName = "pValue", pAdjName = "pAdj") {
     
     # calculate normalization factors and estimate dispersion
     y <- edgeR::calcNormFactors(object)

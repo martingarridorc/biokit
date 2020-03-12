@@ -21,7 +21,7 @@ annotateByCutoff(
 \arguments{
 \item{x}{Data frame to annotate.}
 
-\item{fcCutoff}{Fold change cutoff. Should be positive, as it is transformed into negative when annotating "downregulated" features.}
+\item{fcCutoff}{Fold change cutoff. Should be positive, as it is transformed into negative when annotating 'downregulated' features.}
 
 \item{pCutoff}{P Value cutoff.}
 

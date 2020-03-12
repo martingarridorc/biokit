@@ -8,8 +8,8 @@ annotateTopN(
   x,
   n,
   sortCol,
-  splitUpDown = TRUE,
   decreasing = FALSE,
+  splitUpDown = TRUE,
   twoSides = FALSE,
   fcCol = "logFc",
   noChangeLabel = "No change",
@@ -26,9 +26,9 @@ annotateTopN(
 
 \item{sortCol}{Column used to sort the data frame.}
 
-\item{splitUpDown}{Wether to split top N features into up and down regulated using a fold change column. This will annotate 2*n features.}
-
 \item{decreasing}{Order sortCol decreasing.}
+
+\item{splitUpDown}{Wether to split top N features into up and down regulated using a fold change column. This will annotate 2*n features.}
 
 \item{twoSides}{Pick up both extremes of the sorted data frame as the top N features. SplitUpDown should be TRUE.}
 

@@ -41,7 +41,8 @@ contrastsFromDesign <- function(x) {
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
+limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", 
+    pName = "pValue", pAdjName = "pAdj") {
     
     # fit model
     fit <- limma::lmFit(object = x, design = desMat)
