@@ -4,7 +4,7 @@
 \alias{defaultPcaPlot}
 \title{Default Principal Component Analysis Plot}
 \usage{
-defaultPcaPlot(x, sampInfoDf, groupCol, showLabel = TRUE, encircle = TRUE)
+defaultPcaPlot(x, sampInfoDf, groupCol, showLabel = TRUE)
 }
 \arguments{
 \item{x}{Result obtained with \link[biokit]{pcaToList}.}
@@ -14,8 +14,6 @@ defaultPcaPlot(x, sampInfoDf, groupCol, showLabel = TRUE, encircle = TRUE)
 \item{groupCol}{Column of the data frame that indicates group of samples.}
 
 \item{showLabel}{Show row labels?}
-
-\item{encircle}{Encircle points by group?}
 }
 \value{
 A ggplot containing the default pca plot.
