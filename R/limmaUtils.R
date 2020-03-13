@@ -41,8 +41,7 @@ contrastsFromDesign <- function(x) {
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", 
-    pName = "pValue", pAdjName = "pAdj") {
+limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
     
     # fit model
     fit <- limma::lmFit(object = x, design = desMat)
@@ -70,7 +69,7 @@ limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", fea
 #' between the groups defined in a \link[SummarizedExperiment]{colData} column.
 #'
 #' @param se The SummarizedExperiment object to analyze.
-#' @param groupColumn The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.
+#' @param groupCol The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.
 #' @param ... Arguments passed to the \link[biokit]{limmaDfFromContrasts} function.
 #'
 #' @return A data frame with the results in a tidy format.
@@ -78,9 +77,9 @@ limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", fea
 #'
 #' @import SummarizedExperiment
 #'
-autoLimma <- function(se, groupColumn, ...) {
+autoLimma <- function(se, groupCol, ...) {
     
-    desMat <- designFromSampInfo(x = colData(se), column = groupColumn)
+    desMat <- designFromSampInfo(x = colData(se), column = groupCol)
     conMat <- contrastsFromDesign(x = desMat)
     results <- limmaDfFromContrasts(x = assay(se), desMat = desMat, conMat = conMat, ...)
     return(results)

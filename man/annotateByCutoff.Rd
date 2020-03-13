@@ -25,7 +25,7 @@ annotateByCutoff(
 
 \item{pCutoff}{P Value cutoff.}
 
-\item{splitUpDown}{Wethter to split generated label into up and down features.}
+\item{splitUpDown}{Split generated label into up and down features?}
 
 \item{fcCol}{Column used to filter by fc.}
 

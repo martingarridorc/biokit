@@ -6,8 +6,8 @@ testSampInfo <- data.frame(row.names = colnames(testMat), group = rep(c("A", "B"
 testNaMat <- matrix(NA, ncol = 9, nrow = 1000)
 testDesign <- model.matrix(~0 + group, testSampInfo)
 colnames(testDesign) <- c("A", "B", "C")
-testDf <- data.frame(logFc = c(0.9, 0.01, 0.1, 2, -2, -0.6, -1.2, 3), pAdj = c(0.02, 0.01, 0.03, 0.05, 0.04, 0.06, 0.03, 0.01), 
-    comparison = rep(c("comparison_A", "comparison_B"), each = 4))
+testDf <- data.frame(logFc = c(0.9, 0.01, 0.1, 2, -2, -0.6, -1.2, 3), pAdj = c(0.02, 0.01, 0.03, 0.05, 0.04, 0.06, 0.03, 0.01), comparison = rep(c("comparison_A", "comparison_B"), 
+    each = 4))
 
 test_that("Pairwise contrasts", {
     

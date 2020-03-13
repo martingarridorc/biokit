@@ -45,7 +45,7 @@ defaultVolcano(
 \item{downLabel}{Down regulated features label.}
 }
 \value{
-A ggplot containing the default volcano plots
+A ggplot containing the default volcano plots.
 }
 \description{
 Creates a default volcano plot from comparison data frame.

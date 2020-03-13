@@ -29,7 +29,7 @@ pairwiseContrasts <- function(x, sep = "-") {
 #'
 #'
 #' @param x Matrix to analyze.
-#' @param transpose Wether to transpose or not the input matrix.
+#' @param transpose Transpose input matrix?
 #' @param roundDigits Number of digits for the rounded percent of
 #' variance explained by each PC.
 #' @param ... Other parameters passed to the \link[stats]{prcomp} function.
@@ -53,7 +53,7 @@ pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
     pcaResSum <- summary(pcaRes)
     # add proportion of variance explained
     variancePcts <- round(pcaResSum$importance[2, ] * 100, roundDigits)
-    pcPcts <- paste0(colnames(pcaRes$x), " ( ", variancePcts, "% )")
+    pcPcts <- paste0(colnames(pcaRes$x), " (", variancePcts, "%)")
     return(list(result = pcaRes, summary = pcaResSum, pcts = pcPcts))
     
 }
@@ -153,7 +153,7 @@ designFromSampInfo <- function(x, column) {
 #' @param x Data frame to annotate.
 #' @param fcCutoff Fold change cutoff. Should be positive, as it is transformed into negative when annotating 'downregulated' features.
 #' @param pCutoff P Value cutoff.
-#' @param splitUpDown Wethter to split generated label into up and down features.
+#' @param splitUpDown Split generated label into up and down features?
 #' @param fcCol Column used to filter by fc.
 #' @param pCol Column used to filter by p value.
 #' @param noChangeLabel Label used for not-changing features.
@@ -166,8 +166,8 @@ designFromSampInfo <- function(x, column) {
 #'
 #' @export
 #'
-annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE, fcCol = "logFc", pCol = "pAdj", noChangeLabel = "No change", 
-    statusCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
+annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE, fcCol = "logFc", pCol = "pAdj", noChangeLabel = "No change", statusCol = "status", upLabel = "Up", 
+    downLabel = "Down", sigLabel = "Significant") {
     
     x[, statusCol] <- noChangeLabel
     # if split, then return up and down labels, else return significant or not significant
@@ -192,9 +192,9 @@ annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE
 #' @param x Data frame to annotate.
 #' @param n Top N features to be annotated
 #' @param sortCol Column used to sort the data frame.
-#' @param splitUpDown Wether to split top N features into up and down regulated using a fold change column. This will annotate 2*n features.
-#' @param decreasing Order sortCol decreasing.
-#' @param twoSides Pick up both extremes of the sorted data frame as the top N features. SplitUpDown should be TRUE.
+#' @param splitUpDown Split top N features into up and down regulated? Uses the fcCol argument. This will annotate 2*n features.
+#' @param decreasing Order sortCol decreasing?
+#' @param twoSides Pick up both extremes of the sorted data frame as the top N features? SplitUpDown should be TRUE.
 #' @param fcCol Fold change column used to sepparate up and down features.
 #' @param noChangeLabel Label used for not-changing features.
 #' @param statusCol Name of the new column containing labels.
@@ -206,8 +206,8 @@ annotateByCutoff <- function(x, fcCutoff = 1, pCutoff = 0.05, splitUpDown = TRUE
 #'
 #' @export
 #'
-annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, fcCol = "logFc", noChangeLabel = "No change", 
-    statusCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
+annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, fcCol = "logFc", noChangeLabel = "No change", statusCol = "status", upLabel = "Up", 
+    downLabel = "Down", sigLabel = "Significant") {
     
     x[, statusCol] <- noChangeLabel
     x <- x[order(x[, sortCol], decreasing = decreasing), ]
@@ -235,7 +235,7 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
 #' data frame by sepparating data for each comparison.
 #'
 #' @param x Multi-comparison data frame to annotate.
-#' @param useCutoff Wether to use \link[biokit]{annotateByCutoff} or \link[biokit]{annotateTopN}.
+#' @param useCutoff Wether to use \link[biokit]{annotateByCutoff} or \link[biokit]{annotateTopN} (FALSE).
 #' @param compCol Column with the comparison id.
 #' @param ... Rest of arguments passed to \link[biokit]{annotateByCutoff} or \link[biokit]{annotateTopN}.
 #'

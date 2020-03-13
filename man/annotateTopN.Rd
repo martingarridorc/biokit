@@ -26,11 +26,11 @@ annotateTopN(
 
 \item{sortCol}{Column used to sort the data frame.}
 
-\item{decreasing}{Order sortCol decreasing.}
+\item{decreasing}{Order sortCol decreasing?}
 
-\item{splitUpDown}{Wether to split top N features into up and down regulated using a fold change column. This will annotate 2*n features.}
+\item{splitUpDown}{Split top N features into up and down regulated? Uses the fcCol argument. This will annotate 2*n features.}
 
-\item{twoSides}{Pick up both extremes of the sorted data frame as the top N features. SplitUpDown should be TRUE.}
+\item{twoSides}{Pick up both extremes of the sorted data frame as the top N features? SplitUpDown should be TRUE.}
 
 \item{fcCol}{Fold change column used to sepparate up and down features.}
 

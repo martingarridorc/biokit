@@ -9,7 +9,7 @@ pcaToList(x, transpose = TRUE, roundDigits = 2, ...)
 \arguments{
 \item{x}{Matrix to analyze.}
 
-\item{transpose}{Wether to transpose or not the input matrix.}
+\item{transpose}{Transpose input matrix?}
 
 \item{roundDigits}{Number of digits for the rounded percent of
 variance explained by each PC.}

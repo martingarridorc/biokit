@@ -50,8 +50,7 @@ countsToTmm <- function(x, log = TRUE, prior.count = 3) {
 #' @importFrom dplyr %>% bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-edgeRFromContrasts <- function(object, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", 
-    pName = "pValue", pAdjName = "pAdj") {
+edgeRFromContrasts <- function(object, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
     
     # calculate normalization factors and estimate dispersion
     y <- edgeR::calcNormFactors(object)
@@ -81,7 +80,7 @@ edgeRFromContrasts <- function(object, desMat, conMat, compName = "comparison", 
 #' @param se The SummarizedExperiment object to analyze.
 #' @param groupColumn The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.
 #' @param minCounts The minimum number of counts per feature that will be used to filter the count matrix.
-#' @param useFilterByExpr Wether to use or not the filter obtained from applying \link[edgeR]{filterByExpr}.
+#' @param useFilterByExpr Apply \link[edgeR]{filterByExpr}?
 #' @param ... Arguments passed to the \link[biokit]{edgeRFromContrasts} function.
 #'
 #' @return A data frame with the results in a tidy format.

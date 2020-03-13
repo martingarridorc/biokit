@@ -60,8 +60,7 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
     # remove source id, group and summarize
     mergedDf[, sourceKey] <- NULL
     # tidy eval for targetKey (https://tidyeval.tidyverse.org/introduction.html)
-    outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>% dplyr::summarise_all(.funs = summariseFun) %>% tibble::column_to_rownames(var = targetKey) %>% 
-        as.matrix()
+    outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>% dplyr::summarise_all(.funs = summariseFun) %>% tibble::column_to_rownames(var = targetKey) %>% as.matrix()
     return(outMat)
     
 }
@@ -84,10 +83,9 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
     uniqueSource <- length(unique(df[, sourceKey]))
     uniqueTarget <- length(unique(df[, targetKey]))
     # print info
-    m <- paste("------------------------------------------------", paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."), 
-        paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."), paste0(targetMultiMap, 
-            " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."), "------------------------------------------------", 
-        paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."), "------------------------------------------------", 
-        sep = "\n")
+    m <- paste("------------------------------------------------", paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."), paste0(sourceMultiMap, " of ", 
+        uniqueSource, " input ids were mapped to 2 or more target ids."), paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."), "------------------------------------------------", 
+        paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."), "------------------------------------------------", sep = "\n")
     message(m)
+    
 }

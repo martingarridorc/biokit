@@ -9,7 +9,7 @@ annotateMultiComparison(x, useCutoff, compCol = "comparison", ...)
 \arguments{
 \item{x}{Multi-comparison data frame to annotate.}
 
-\item{useCutoff}{Wether to use \link[biokit]{annotateByCutoff} or \link[biokit]{annotateTopN}.}
+\item{useCutoff}{Wether to use \link[biokit]{annotateByCutoff} or \link[biokit]{annotateTopN} (FALSE).}
 
 \item{compCol}{Column with the comparison id.}
 

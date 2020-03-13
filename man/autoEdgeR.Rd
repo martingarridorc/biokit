@@ -13,7 +13,7 @@ autoEdgeR(se, groupColumn, minCounts = 0, useFilterByExpr = TRUE, ...)
 
 \item{minCounts}{The minimum number of counts per feature that will be used to filter the count matrix.}
 
-\item{useFilterByExpr}{Wether to use or not the filter obtained from applying \link[edgeR]{filterByExpr}.}
+\item{useFilterByExpr}{Apply \link[edgeR]{filterByExpr}?}
 
 \item{...}{Arguments passed to the \link[biokit]{edgeRFromContrasts} function.}
 }

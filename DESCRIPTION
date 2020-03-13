@@ -15,7 +15,8 @@ Imports:
     dplyr,
     limma,
     tibble,
-    ggplot2
+    ggplot2,
+    ggalt
 Suggests:
     testthat,
     org.Hs.eg.db,

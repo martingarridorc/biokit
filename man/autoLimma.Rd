@@ -4,12 +4,12 @@
 \alias{autoLimma}
 \title{Automatic limma analysis from SummarizedExperiment}
 \usage{
-autoLimma(se, groupColumn, ...)
+autoLimma(se, groupCol, ...)
 }
 \arguments{
 \item{se}{The SummarizedExperiment object to analyze.}
 
-\item{groupColumn}{The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.}
+\item{groupCol}{The id of the \link[SummarizedExperiment]{colData} column that is used to create the pairwise contrasts.}
 
 \item{...}{Arguments passed to the \link[biokit]{limmaDfFromContrasts} function.}
 }
