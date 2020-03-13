@@ -24,7 +24,7 @@ defaultVolcano(
 
 \item{fcCol}{Fold change column.}
 
-\item{pCol}{P value column}
+\item{pCol}{P value column.}
 
 \item{statusCol}{Status column.}
 
