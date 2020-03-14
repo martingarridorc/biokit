@@ -48,3 +48,14 @@ test_that("Ora from list", {
 
 })
 
+test_that("GSEA from list", {
+
+    rList <- biokit::getRankedVectorList(x = res)
+    t <- gseaFromList(x = rList, funCategories = hallmarks)
+    df <- cpResultsToDf(t)
+    expect_equal(class(t), "list")
+    expect_equal(class(df), "data.frame")
+
+})
+
+

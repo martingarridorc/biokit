@@ -45,3 +45,12 @@ test_that("Split by label", {
   expect_equal(class(t2), "list")
 
 })
+
+test_that("Get ranked vector and vector list", {
+
+  t1 <- getRankedVector(testDf)
+  t2 <- getRankedVectorList(testDf)
+  expect_equal(class(t1), "numeric")
+  expect_equal(class(t2), "list")
+
+})

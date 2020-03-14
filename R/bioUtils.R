@@ -152,3 +152,28 @@ cpResultsToDf <- function(x, splitName = "comparison") {
     return(df)
 
 }
+
+
+#' Perform Gene Set Enrichment Analysis from list of ranked vectors
+#'
+#' Uses \link[clusterProfiler]{GSEA} to perform the gene set enrichment analysis
+#' over a list of ranked vectors.
+#'
+#' @param x The list of ranked vectors.
+#' @param funCategories Two-columns data frame containing the functional categories info.
+#' First column should correspond to categories and the second to features.
+#' Passed to \link[clusterProfiler]{GSEA} TERM2GENE argument.
+#' @param ... Rest of arguments passed to \link[clusterProfiler]{GSEA}.
+#'
+#' @return A list of \link[clusterProfiler]{GSEA} results.
+#'
+#' @export
+#'
+#' @importFrom clusterProfiler GSEA
+#'
+gseaFromList <- function(x, funCategories, ...) {
+
+    result <- lapply(x, function(y) GSEA(geneList = y, TERM2GENE = funCategories, ...))
+    return(result)
+
+}

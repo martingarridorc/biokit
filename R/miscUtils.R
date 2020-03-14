@@ -163,3 +163,46 @@ splitFeatures <- function(x, annotCol = "status", featCol = "feature", labelToRe
     return(splitted)
 
 }
+
+#' Get ranked vector from data frame
+#'
+#' Prepares a vector of the given data frame column, after naming and sorting it.
+#'
+#' @param x Data frame to process.
+#' @param metricCol Column to extract as ranked vector.
+#' @param featCol Column containing the names for the ranked vector.
+#' @param decreasing Sort vector decreasing?
+#'
+#' @return A vector in the desired format.
+#'
+#' @export
+#'
+getRankedVector <- function(x, metricCol = "logFc", featCol = "feature", decreasing = TRUE) {
+
+    ranked <- x[, metricCol]
+    names(ranked) <- x[, featCol]
+    ranked <- sort(ranked, decreasing = decreasing)
+    return(ranked)
+
+}
+
+#' Get ranked list of vectors from data frame
+#'
+#' Uses a column to split a data frame and then creates a list of named vectors using
+#' \link[biokit]{getRankedVector}.
+#'
+#' @param x Data frame to process.
+#' @param splitCol Column used to split the data frame.
+#' @param ... Rest of arguments passed to \link[biokit]{getRankedVector}.
+#'
+#' @return A list of sorted and named vectors.
+#'
+#' @export
+#'
+getRankedVectorList <- function(x, splitCol = "comparison", ...) {
+
+    splitted <- split(x, f = x[,splitCol])
+    rankedList <- lapply(splitted, function(y) getRankedVector(y, ...))
+    return(rankedList)
+
+}
