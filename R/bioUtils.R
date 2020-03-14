@@ -17,13 +17,14 @@
 #' @export
 #'
 translateMatrix <- function(x, db, sourceKey, targetKey, summariseFun) {
-    
+
     # get mapping df
     srcTarget <- AnnotationDbi::select(db, keys = rownames(x), keytype = sourceKey, columns = targetKey)
     # translate matrix
-    translatedMat <- summariseMatrix(x, df = srcTarget, sourceKey = sourceKey, targetKey = targetKey, summariseFun = summariseFun)
+    translatedMat <- summariseMatrix(x, df = srcTarget, sourceKey = sourceKey,
+                                     targetKey = targetKey, summariseFun = summariseFun)
     return(translatedMat)
-    
+
 }
 
 #' Translate input matrix using a translator df
@@ -45,7 +46,7 @@ translateMatrix <- function(x, db, sourceKey, targetKey, summariseFun) {
 #' @importFrom tibble rownames_to_column column_to_rownames
 #'
 summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
-    
+
     # remove duplicated rows in source to target df
     df <- dplyr::distinct(df)
     # print mapping info
@@ -60,10 +61,12 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
     # remove source id, group and summarize
     mergedDf[, sourceKey] <- NULL
     # tidy eval for targetKey (https://tidyeval.tidyverse.org/introduction.html)
-    outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>% dplyr::summarise_all(.funs = summariseFun) %>% tibble::column_to_rownames(var = targetKey) %>% 
+    outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>%
+        dplyr::summarise_all(.funs = summariseFun) %>%
+        tibble::column_to_rownames(var = targetKey) %>%
         as.matrix()
     return(outMat)
-    
+
 }
 
 #' Evaluate and print translator df information
@@ -73,7 +76,7 @@ summariseMatrix <- function(x, df, sourceKey, targetKey, summariseFun) {
 #' @param targetKey Character indicating the column of the df where the source ids are stored.
 #'
 messageMappingInfo <- function(df, sourceKey, targetKey) {
-    
+
     # remove NAs
     notMapped <- is.na(df[, targetKey])
     df <- df[!notMapped, ]
@@ -84,11 +87,68 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
     uniqueSource <- length(unique(df[, sourceKey]))
     uniqueTarget <- length(unique(df[, targetKey]))
     # print info
-    m <- paste("------------------------------------------------", paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."), 
-        paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."), paste0(targetMultiMap, 
-            " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."), "------------------------------------------------", 
-        paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."), "------------------------------------------------", 
+    m <- paste("------------------------------------------------",
+               paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."),
+               paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."),
+               paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."),
+               "------------------------------------------------",
+               paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."),
+               "------------------------------------------------",
         sep = "\n")
     message(m)
-    
+
+}
+
+#' Over-representation analysis over a list of features
+#'
+#' Uses a over-representation strategy (Fisher Exact T-Test) to
+#' evaluate the over-represented categories in a list of features. Uses
+#' the \link[clusterProfiler]{enricher} function to perform the analyses.
+#'
+#' @param x The list of features to be analysed.
+#' @param funCategories Two-columns data frame containing the functional categories info.
+#' First column should correspond to categories and the second to features.
+#' Passed to \link[clusterProfiler]{enricher} TERM2GENE argument.
+#' @param minFeatures Minimum features to evaluate.
+#' The function will filter all list elements with a lower number of features than this value.
+#' @param ... Rest of arguments passed to \link[clusterProfiler]{enricher}
+#'
+#' @return A list of \link[clusterProfiler]{enricher} results, one per list element.
+#'
+#' @export
+#'
+#' @importFrom clusterProfiler enricher
+#'
+oraFromList <- function(x, funCategories, minFeatures = 10, ...) {
+
+    # remove list elements lower than minFeatures
+    l <- unlist(lapply(x, length))
+    keep <- unlist(l) >= minFeatures
+    x <- x[keep]
+    # perform enrichment analysis in all elements of the list
+    result <- lapply(x, function(y) enricher(gene = y, TERM2GENE = funCategories, ...))
+    return(result)
+
+}
+
+#' Transform list of clusterProfiler results into tidy data frame
+#'
+#' Binds the rows of a list of clusterProfiler results annotating the
+#' resulting data frame with the list names.
+#'
+#' @param x The list of clusterProfiler results
+#' @param splitName The name for the new id column.
+#'
+#' @return A data frame with the clusterProfiler results in a tidy format.
+#'
+#' @export
+#'
+#' @importFrom dplyr bind_rows
+#'
+cpResultsToDf <- function(x, splitName = "comparison") {
+
+    dfList <- lapply(x, function(y)y@result)
+    df <- dplyr::bind_rows(dfList, .id = splitName)
+    return(df)
+
 }

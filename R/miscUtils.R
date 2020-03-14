@@ -19,27 +19,34 @@
 #'
 #' @export
 #'
-annotateByCutoff <- function(x, metricCutoff = 1, sigCutoff = 0.05, splitUpDown = TRUE, metricCol = "logFc", sigCol = "pAdj", 
+annotateByCutoff <- function(x, metricCutoff = 1, sigCutoff = 0.05, splitUpDown = TRUE, metricCol = "logFc", sigCol = "pAdj",
     noChangeLabel = "No change", annotationCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
-    
+
     x[, annotationCol] <- noChangeLabel
     # if split, then return up and down labels, else return significant or not significant
     if (splitUpDown) {
-        up <- x[, metricCol] >= metricCutoff & x[, sigCol] <= sigCutoff
-        down <- x[, metricCol] <= -metricCutoff & x[, sigCol] <= sigCutoff
-        x[up, annotationCol] <- upLabel
-        x[down, annotationCol] <- downLabel
+        if(is.null(sigCutoff)) {
+            up <- x[, metricCol] >= metricCutoff
+            down <- x[, metricCol] <= -metricCutoff
+            x[up, annotationCol] <- upLabel
+            x[down, annotationCol] <- downLabel
+        } else {
+            up <- x[, metricCol] >= metricCutoff & x[, sigCol] <= sigCutoff
+            down <- x[, metricCol] <= -metricCutoff & x[, sigCol] <= sigCutoff
+            x[up, annotationCol] <- upLabel
+            x[down, annotationCol] <- downLabel
+        }
     } else {
-        if (is.null(metricCutoff)) 
+        if (is.null(metricCutoff))
             sig <- x[, sigCol] <= sigCutoff
-        if (is.null(sigCutoff)) 
+        if (is.null(sigCutoff))
             sig <- abs(x[, metricCol]) >= metricCutoff
-        if (!is.null(sigCutoff) & !is.null(metricCutoff)) 
+        if (!is.null(sigCutoff) & !is.null(metricCutoff))
             sig <- abs(x[, metricCol]) >= metricCutoff & x[, sigCol] <= sigCutoff
         x[sig, annotationCol] <- sigLabel
     }
     return(x)
-    
+
 }
 
 #' Add status column to comparison data frame using top N features
@@ -65,9 +72,9 @@ annotateByCutoff <- function(x, metricCutoff = 1, sigCutoff = 0.05, splitUpDown 
 #'
 #' @export
 #'
-annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, metricCol = "logFc", metricCutoff = 0, 
+annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, twoSides = FALSE, metricCol = "logFc", metricCutoff = 0,
     noChangeLabel = "No change", annotationCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
-    
+
     x[, annotationCol] <- noChangeLabel
     x <- x[order(x[, sortCol], decreasing = decreasing), ]
     # if split and twoSides, annotate both extremes of the df
@@ -85,7 +92,7 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
         x[, annotationCol][1:n] <- sigLabel
     }
     return(x)
-    
+
 }
 
 #' Annotate multiple comparisons data frame
@@ -105,7 +112,7 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
 #' @importFrom dplyr bind_rows
 #'
 annotateMultiComparison <- function(x, useCutoff, compCol = "comparison", ...) {
-    
+
     # split list into comparisons
     dfList <- split(x, f = x[, compCol])
     # apply function of interest
@@ -117,5 +124,42 @@ annotateMultiComparison <- function(x, useCutoff, compCol = "comparison", ...) {
     # coerce resultant data frames
     result <- dplyr::bind_rows(aDfList)
     return(result)
-    
+
+}
+
+
+#' Split data frame into list of features
+#'
+#' Uses annotation labels to split a data frame of results into
+#' a list containing a character vector of features. If an additional split column is provided,
+#' then it split by the combination of the annotation and the split column.
+#'
+#' @param x Data frame to split.
+#' @param annotCol Column containing the annotation label.
+#' @param featCol Column containing the feature id. Coerced to character.
+#' @param labelToRemove Label assigned to the elements which will not be splitted.
+#' @param splitCol Additional column to use for splitting.
+#' @param sep Separator of the new splitting variable.
+#'
+#' @return A list of character vectors.
+#'
+#' @export
+#'
+splitFeatures <- function(x, annotCol = "status", featCol = "feature", labelToRemove = "No change",
+                          splitCol = NULL, sep = "_") {
+
+    # remove rows based on annotation column and label to remove
+    keep <- x[, annotCol] != labelToRemove
+    x <- x[keep,]
+    # if an additional split column is defined, then paste it to annotation column
+    if(is.null(splitCol)) {
+        splitted <- split(x, f = x[,annotCol])
+        splitted <- lapply(splitted, function(y) as.character(y[, featCol]))
+    } else {
+        x$toSplitBy <- paste(x[,splitCol], x[,annotCol], sep = "_")
+        splitted <- split(x, f = x$toSplitBy)
+        splitted <- lapply(splitted, function(y) as.character(y[, featCol]))
+    }
+    return(splitted)
+
 }

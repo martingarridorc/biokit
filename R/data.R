@@ -18,3 +18,8 @@
 #' @source \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121659}
 "blmSampInfo"
 
+#' Mus musculus MSigDb hallmarks in TERM2GENE format
+#'
+#' @source \url{https://www.gsea-msigdb.org/gsea/msigdb/collections.jsp}
+"hallmarks"
+
