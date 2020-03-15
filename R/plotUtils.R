@@ -20,20 +20,20 @@
 #'
 #' @import ggplot2
 #'
-defaultVolcano <- function(x, fcCol = "logFc", pCol = "pAdj", statusCol = "status", compCol = NULL, featCol = "feature", 
+defaultVolcano <- function(x, fcCol = "logFc", pCol = "pAdj", statusCol = "status", compCol = NULL, featCol = "feature",
     upColor = "red", noChangeColor = "black", downColor = "blue", upLabel = "Up", noChangeLabel = "No change", downLabel = "Down") {
-    
+
     # prepare color values
     colVal <- c(upColor, noChangeColor, downColor)
     names(colVal) <- c(upLabel, noChangeLabel, downLabel)
     # tidy eval for column names (https://tidyeval.tidyverse.org/introduction.html)
-    p <- ggplot(x, aes(x = !!sym(fcCol), y = -log10(!!sym(pCol)), color = !!sym(statusCol), feature = !!sym(featCol))) + 
+    p <- ggplot(x, aes(x = !!sym(fcCol), y = -log10(!!sym(pCol)), color = !!sym(statusCol), feature = !!sym(featCol))) +
         geom_point(alpha = 0.5) + scale_color_manual(values = colVal) + theme_bw()
     # if comparison column specified, facet wrap using it
-    if (!is.null(compCol)) 
+    if (!is.null(compCol))
         p <- p + facet_wrap(facets = vars(!!sym(compCol)))
     return(p)
-    
+
 }
 
 
@@ -55,18 +55,85 @@ defaultVolcano <- function(x, fcCol = "logFc", pCol = "pAdj", statusCol = "statu
 #' @importFrom tibble rownames_to_column
 #'
 defaultPcaPlot <- function(x, sampInfoDf, groupCol, showLabel = TRUE) {
-    
+
     # check sampInfo rownames
-    if (!all(rownames(sampInfoDf) == rownames(x$result$x))) 
+    if (!all(rownames(sampInfoDf) == rownames(x$result$x)))
         stop("Rownames of the sample information data frame could not be mapped to pca result.")
     # create df to plot
     toPlotDf <- cbind(tibble::rownames_to_column(sampInfoDf, var = "id"), x$result$x)
     # create plot
-    p <- ggplot(toPlotDf, mapping = aes(x = !!sym("PC1"), y = !!sym("PC2"), color = !!sym(groupCol), fill = !!sym(groupCol), 
+    p <- ggplot(toPlotDf, mapping = aes(x = !!sym("PC1"), y = !!sym("PC2"), color = !!sym(groupCol), fill = !!sym(groupCol),
         label = !!sym("id"))) + geom_point() + xlab(x$pcts[1]) + ylab(x$pcts[2]) + theme_bw()
     # add label if required
-    if (showLabel) 
+    if (showLabel)
         p <- p + geom_label(fill = "white")
     return(p)
-    
+
 }
+
+#' Default Over-representation analysis plot
+#'
+#' Creates a simple representation of the results of \link[clusterProfiler]{enricher} formatted
+#' with \link[biokit]{cpResultsToDf}. The X axis represents column of interest while Y axis
+#' represents the functional category. The presence of a point indicates the enrichment of a
+#' functional category in a group of interest. The data frame can be filtered beforehand or
+#' setting the pCutoff parameter.
+#'
+#' @param x Data frame with results to plot.
+#' @param idColumn Column used as id of the analysed group, will be plotted in the X axis.
+#' @param splitStatus Split id Column into up and down features?
+#' @param facetByStatus Facet final plot by status of the analysed features?
+#' @param upLabel Label used to indicate status of up-regulated features in the idColumn.
+#' @param downLabel Label used to indicate status of up-regulated features in the idColumn..
+#' @param idSep Separator used to paste group and status label.
+#' @param upColor Color used to plot enrichments in up regulated features.
+#' @param downColor Color used to plot enrichments in down regulated features.
+#' @param pCutoff Adjusted P Value cutoff used to filter results before plotting.
+#'
+#' @return A ggplot containing the default ora plot.
+#'
+#' @export
+#'
+#' @import ggplot2
+#'
+defaultOraPlot <- function(x, idColumn = "comparison", splitStatus = FALSE, facetByStatus = TRUE,
+                           upLabel = "Up", downLabel = "Down", idSep = "_",
+                           upColor = "red", downColor = "blue", pCutoff = NULL) {
+
+    # filter by cutoff before plotting
+    if(!is.null(pCutoff)) {
+        x <- x[x$p.adjust <= pCutoff,]
+    }
+    # remove the up and down label from idColumn and add new column with status
+    if(splitStatus) {
+        x[,"plotStatus"] <- upLabel
+        x[,"plotStatus"][grepl(downLabel, x[,idColumn])] <- downLabel
+        pattern <- paste0(idSep, upLabel, "|", idSep, downLabel)
+        x[, idColumn] <- gsub(pattern = pattern, replacement = "", x = x[, idColumn])
+        # prepare color scale for plot
+        colVal <- c(upColor, downColor)
+        names(colVal) <- c(upLabel, downLabel)
+    }
+    # create plot
+    p <- ggplot(data = x, mapping = aes(x = !!sym(idColumn), y = !!sym("ID"), size = !!sym("Count")))
+    # add colored points if splitUpDown = TRUE
+    if(splitStatus)
+        p <- p +
+        geom_point(mapping = aes(color = !!sym("plotStatus"))) +
+        scale_color_manual(values = colVal)
+    # facet by status if required
+    if(splitStatus & facetByStatus)
+        p <- p + facet_grid(cols = vars(!!sym("plotStatus")))
+    # otherwise, add points colored by adjusted P
+    if(!splitStatus)
+        p <- p + geom_point(aes(color = !!sym("p.adjust")))
+    # format final plot
+    p <- p + theme_bw() + theme(axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1))
+    return(p)
+
+}
+
+
+
+
+
