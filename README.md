@@ -6,6 +6,6 @@ This package is my personal wrapper for functions and utilities that I use repea
 
 ## Installation
 
-The package can be installed by running the `install_github()` function from the [devtools package](https://cran.r-project.org/web/packages/devtools/index.html).
+The package can be installed by running the `install_github()` function from [devtools](https://cran.r-project.org/web/packages/devtools/index.html) or [remotes](https://cran.r-project.org/web/packages/remotes/index.html).
 
-`devtools::install_github(repo = "https://github.com/martingarrido/biokit")`
+`install_github(repo = "https://github.com/martingarrido/biokit")`
