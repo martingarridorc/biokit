@@ -14,7 +14,7 @@ test_that("edgeR from contrasts and design matrix", {
 
 })
 
-test_that("edgeR from SummarizedExperiment", {
+test_that("AutoEdgeR from SummarizedExperiment", {
 
   blmSe <- SummarizedExperiment::SummarizedExperiment(assays = blmCounts, colData = blmSampInfo)
   cbdSe <- SummarizedExperiment::SummarizedExperiment(assays = cbdCounts, colData = cbdSampInfo)

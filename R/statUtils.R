@@ -34,23 +34,44 @@ pcaToList <- function(x, transpose = TRUE, roundDigits = 2, ...) {
 
 }
 
-#' Not sensitive T Test
+#' Not sensitive T test p value
 #'
 #' Applies the T Test function returning NA
 #' instead of error when problems appear. Additionally,
 #' it extracts the P value from the resulting object when available.
 #'
-#' @param ... Arguments for the \link[stats]{t.test} function.
+#' @param ... Arguments passed to \link[stats]{t.test}.
 #'
-#' @return P value resulting from the Test or \code{NA} when any problem appears.
+#' @return P value resulting from the T Test or \code{NA} when any problem appears.
 #'
 #' @export
 #'
 #' @importFrom stats t.test
 #'
-nsTest <- function(...) {
+nsTestPValue <- function(...) {
 
     pValue <- tryCatch(t.test(...)$p.value, error = function(y) NA)
+    return(pValue)
+
+}
+
+#' Not sensitive T Test statistic
+#'
+#' Applies the T Test function returning NA
+#' instead of error when problems appear. Additionally,
+#' it extracts the statistic from the resulting object when available.
+#'
+#' @param ... Arguments passed to \link[stats]{t.test}.
+#'
+#' @return Statistic resulting from the T Test or \code{NA} when any problem appears.
+#'
+#' @export
+#'
+#' @importFrom stats t.test
+#'
+nsTestT <- function(...) {
+
+    pValue <- tryCatch(t.test(...)$statistic, error = function(y) NA)
     return(pValue)
 
 }

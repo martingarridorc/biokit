@@ -23,6 +23,7 @@ test_that("Split features and ORA", {
   expect_equal(class(t3), "data.frame")
 
 })
+
 test_that("Ranked lists and GSEA", {
 
   ranked <- getRankedVector(x = statDf)
