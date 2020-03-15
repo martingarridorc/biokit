@@ -3,7 +3,7 @@
 \docType{data}
 \name{cbdSampInfo}
 \alias{cbdSampInfo}
-\title{Sample information from the {GSE131565} experiment.}
+\title{Sample information for the {GSE131565} experiment.}
 \format{An object of class \code{data.frame} with 6 rows and 1 columns.}
 \source{
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE131565}
@@ -12,6 +12,6 @@
 cbdSampInfo
 }
 \description{
-Sample information from the {GSE131565} experiment.
+Sample information for the {GSE131565} experiment.
 }
 \keyword{datasets}
