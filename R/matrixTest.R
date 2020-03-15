@@ -19,7 +19,7 @@
 #'
 #' @export
 #'
-singleMatrixTest <- function(x,
+matrixSingleTest <- function(x,
                          metricFun = function(x) mean(x, na.rm = TRUE),
                          statisticFun = function(x) nsTestT(x),
                          pValueFun = function(x) nsTestPValue(x),

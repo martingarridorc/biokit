@@ -6,8 +6,8 @@ rownames(namedMat) <- paste0("id", 1:1000)
 
 test_that("Single matrix One Sample T-Test", {
 
-  t <- singleMatrixTest(testMat)
-  t2 <- singleMatrixTest(namedMat)
+  t <- matrixSingleTest(testMat)
+  t2 <- matrixSingleTest(namedMat)
 
   expect_equal(t$logFc, rowMeans(testMat, na.rm = TRUE))
   expect_true(is.na(t$pValue[4]))
