@@ -29,6 +29,8 @@ defaultGseaDotPlot(
 \item{upColor}{Color used to indicate status of up regulated functional categories.}
 
 \item{downColor}{Color used to indicate status of down regulated functional categories.}
+
+\item{pCutoff}{Adjusted P Value cutoff used to filter results before plotting.}
 }
 \value{
 A ggplot containing the default gsea dot plot.

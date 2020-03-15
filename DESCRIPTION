@@ -1,10 +1,13 @@
 Package: biokit
 Type: Package
-Title: Toolkit for the automatic analysis of omic data
+Title: Toolkit for the automatic analysis of omics data
 Version: 0.1.0
 Author: Martin Garrido-Rodriguez
 Maintainer: Martin Garrido-Rodriguez<mgrcprof@gmail.com>
-Description: This package is my personal wrapper for functions and utilities that I use repeatedly across projects and collaborations involving omic data analysis. Particularly, it makes use of the core functions from packages such as limma, edgeR and clusterProfiler to automate processes as the statistical comparison and functional analysis of omic data.
+Description: This package is my personal wrapper for functions and utilities 
+    that I use repeatedly across projects and collaborations involving omics data analysis. 
+    Particularly, it makes use of the core functions from packages such as limma, edgeR and 
+    clusterProfiler to automate processes as the statistical comparison and functional analysis of omics data.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true

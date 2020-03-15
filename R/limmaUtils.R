@@ -1,24 +1,3 @@
-#' Create contrast matrix given a design matrix.
-#'
-#' Uses levels defined in the column names of the design matrix
-#' to create a contrast matrix with \link[limma]{makeContrasts}.
-#'
-#' @param x The design matrix.
-#'
-#' @return A contrast matrix with all the possible pairwise comparisons.
-#' @export
-#'
-#' @importFrom limma makeContrasts
-#'
-contrastsFromDesign <- function(x) {
-    
-    # get contrasts from interesting column and build contrast matrix with limma
-    contrasts <- pairwiseContrasts(colnames(x))
-    contrastMatrix <- limma::makeContrasts(contrasts = contrasts, levels = x)
-    return(contrastMatrix)
-    
-}
-
 #' Obtain limma results from data, design and contrasts matrix.
 #'
 #' Creates a linear model with limma and fits it to the provided contrasts. Then uses \link[limma]{eBayes}
@@ -41,9 +20,9 @@ contrastsFromDesign <- function(x) {
 #' @importFrom dplyr bind_rows
 #' @importFrom tibble rownames_to_column
 #'
-limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr", 
+limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", featName = "feature", exprName = "AveExpr",
     fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
-    
+
     # fit model
     fit <- limma::lmFit(object = x, design = desMat)
     fit2 <- limma::contrasts.fit(fit, contrasts = conMat)
@@ -60,7 +39,7 @@ limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", fea
     # set column names as indicated and return formatted df
     colnames(outDf) <- c(compName, featName, fcName, exprName, "t", pName, pAdjName, "B")
     return(outDf)
-    
+
 }
 
 #' Automatic limma analysis from SummarizedExperiment
@@ -79,10 +58,10 @@ limmaDfFromContrasts <- function(x, desMat, conMat, compName = "comparison", fea
 #' @import SummarizedExperiment
 #'
 autoLimma <- function(se, groupCol, ...) {
-    
+
     desMat <- designFromSampInfo(x = colData(se), column = groupCol)
     conMat <- contrastsFromDesign(x = desMat)
     results <- limmaDfFromContrasts(x = assay(se), desMat = desMat, conMat = conMat, ...)
     return(results)
-    
+
 }
