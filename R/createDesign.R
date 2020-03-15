@@ -23,24 +23,3 @@ designFromSampInfo <- function(x, column) {
   return(designMatrix)
 
 }
-
-#' Create contrast matrix given a design matrix.
-#'
-#' Uses levels defined in the column names of the design matrix
-#' to create a contrast matrix with \link[limma]{makeContrasts}.
-#'
-#' @param x The design matrix.
-#'
-#' @return A contrast matrix with all the possible pairwise comparisons.
-#' @export
-#'
-#' @importFrom limma makeContrasts
-#'
-contrastsFromDesign <- function(x) {
-
-  # get contrasts from interesting column and build contrast matrix with limma
-  contrasts <- pairwiseContrasts(colnames(x))
-  contrastMatrix <- limma::makeContrasts(contrasts = contrasts, levels = x)
-  return(contrastMatrix)
-
-}

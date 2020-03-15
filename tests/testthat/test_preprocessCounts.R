@@ -20,3 +20,11 @@ test_that("Test translate matrix with db", {
   expect_equal(typeof(t), "integer")
 
 })
+
+test_that("Tmm normalization", {
+
+  t <- countsToTmm(x = blmCounts)
+  expect_equal(class(t), "matrix")
+  expect_equal(typeof(t), "double")
+
+})
