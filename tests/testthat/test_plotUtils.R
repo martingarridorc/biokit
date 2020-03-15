@@ -18,6 +18,10 @@ data("msigdbHallmarks")
 featList <- biokit::splitFeatures(x = res, splitCol = "comparison")
 oraRes <- oraFromList(x = featList, funCategories = hallmarks)
 oraDf <- cpResultsToDf(oraRes)
+rList <- biokit::getRankedVectorList(x = res)
+gseaRes <- gseaFromList(x = rList, funCategories = hallmarks, seed = 149)
+gseaDf <- cpResultsToDf(gseaRes)
+
 
 test_that("Default volcano plot", {
 
@@ -26,7 +30,7 @@ test_that("Default volcano plot", {
 
 })
 
-test_that("Defaults pca plot", {
+test_that("Default pca plot", {
 
     res <- pcaToList(testMat)
     p <- defaultPcaPlot(x = res, sampInfoDf = testSampInfo, groupCol = "group")
@@ -35,11 +39,19 @@ test_that("Defaults pca plot", {
 
 })
 
-test_that("Defaults ora plot", {
+test_that("Default ora plot", {
 
     expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = TRUE)), c("gg", "ggplot"))
     expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = FALSE)), c("gg", "ggplot"))
     expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = TRUE, pCutoff = 0.05)), c("gg", "ggplot"))
+
+})
+
+test_that("Defaults gsea plot", {
+
+    expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = FALSE)), c("gg", "ggplot"))
+    expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = TRUE)), c("gg", "ggplot"))
+    expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = TRUE, pCutoff = 0.05)), c("gg", "ggplot"))
 
 })
 

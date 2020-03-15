@@ -133,6 +133,57 @@ defaultOraPlot <- function(x, idColumn = "comparison", splitStatus = FALSE, face
 
 }
 
+#' Create default GSEA dot plot
+#'
+#' Creates a simple representation of the results of \link[clusterProfiler]{GSEA} formatted
+#' with \link[biokit]{cpResultsToDf}. The X axis represents comparison or status of the pathway.
+#' The data frame can be filtered beforehand or setting the pCutoff parameter.
+#'
+#' @param x Data frame with results to plot.
+#' @param splitById Use a column id to separate results?
+#' @param idCol Name of the column used to separate results. Placed at the X axis instead of Up and down features.
+#' @param upLabel Label used to indicate status of up regulated functional categories.
+#' @param downLabel Label used to indicate status of down regulated functional categories.
+#' @param upColor Color used to indicate status of up regulated functional categories.
+#' @param downColor Color used to indicate status of down regulated functional categories.
+#' @param pCutoff Adjusted P Value cutoff used to filter results before plotting.
+#'
+#' @return A ggplot containing the default gsea dot plot.
+#'
+#' @export
+#'
+#' @import ggplot2
+#'
+defaultGseaDotPlot <- function(x, splitById = FALSE, idCol = "comparison", upLabel = "Up",
+                               downLabel = "Down", upColor = "red", downColor = "blue", pCutoff = NULL) {
+
+    # filter by cutoff before plotting
+    if(!is.null(pCutoff)) {
+        x <- x[x$p.adjust <= pCutoff,]
+    }
+    # add status column based on NES
+    x[, "plotStatus"] <- upLabel
+    x[, "plotStatus"][x[, "NES"] < 0 ] <- downLabel
+    # prepare color scale for plot
+    colVal <- c(upColor, downColor)
+    names(colVal) <- c(upLabel, downLabel)
+    shapeVal <- c(24,25)
+    names(shapeVal) <- c(upLabel, downLabel)
+    # create base plot depending on ID
+    if(splitById) {
+        p <- ggplot(data = x, mapping = aes( x = !!sym(idCol)))
+    } else {
+        p <- ggplot(data = x, mapping = aes( x = !!sym("plotStatus")))
+    }
+    # add points
+    p <- p + geom_point(aes(y = !!sym("ID"), fill = !!sym("plotStatus"),
+                            shape = !!sym("plotStatus"), size = -log10(!!sym("p.adjust")))) +
+        scale_color_manual(values = colVal) + scale_shape_manual(values = shapeVal)
+    # add theme and return
+    p <- p + theme_bw() + theme(axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1))
+    return(p)
+
+}
 
 
 
