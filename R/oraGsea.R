@@ -40,6 +40,7 @@ oraFromList <- function(x, funCategories, minFeatures = 10, ...) {
 #' First column should correspond to categories and the second to features.
 #' Passed to \link[clusterProfiler]{GSEA} TERM2GENE argument.
 #' @param ... Rest of arguments passed to \link[clusterProfiler]{GSEA}.
+#' @param preSeed Seed to be set before running each GSEA analysis. Defaults to 149.
 #'
 #' @return A list of \link[clusterProfiler]{GSEA} results.
 #'
@@ -47,9 +48,12 @@ oraFromList <- function(x, funCategories, minFeatures = 10, ...) {
 #'
 #' @importFrom clusterProfiler GSEA
 #'
-gseaFromList <- function(x, funCategories, ...) {
+gseaFromList <- function(x, funCategories, preSeed = 149, ...) {
 
-  result <- lapply(x, function(y) GSEA(geneList = y, TERM2GENE = funCategories, ...))
+  result <- lapply(x, function(y) {
+    set.seed(preSeed)
+    GSEA(geneList = y, TERM2GENE = funCategories, ...)
+  })
   return(result)
 
 }

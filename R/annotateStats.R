@@ -20,11 +20,13 @@
 #' @export
 #'
 annotateByCutoff <- function(x, metricCutoff = 1, sigCutoff = 0.05, splitUpDown = TRUE, metricCol = "logFc", sigCol = "pAdj",
-                             noChangeLabel = "No change", annotationCol = "status", upLabel = "Up", downLabel = "Down", sigLabel = "Significant") {
+                             noChangeLabel = "No change", annotationCol = "status", upLabel = "Up", downLabel = "Down",
+                             sigLabel = "Significant") {
 
   x[, annotationCol] <- noChangeLabel
   # if split, then return up and down labels, else return significant or not significant
   if (splitUpDown) {
+    # if no significance cutoff then use only metric cutoff
     if(is.null(sigCutoff)) {
       up <- x[, metricCol] >= metricCutoff
       down <- x[, metricCol] <= -metricCutoff
@@ -37,10 +39,13 @@ annotateByCutoff <- function(x, metricCutoff = 1, sigCutoff = 0.05, splitUpDown 
       x[down, annotationCol] <- downLabel
     }
   } else {
+    # if no metric cutoff then use only significance cutoff
     if (is.null(metricCutoff))
       sig <- x[, sigCol] <= sigCutoff
+    # if no significance cutoff then use only metric cutoff
     if (is.null(sigCutoff))
       sig <- abs(x[, metricCol]) >= metricCutoff
+    # if both cutoffs present then return
     if (!is.null(sigCutoff) & !is.null(metricCutoff))
       sig <- abs(x[, metricCol]) >= metricCutoff & x[, sigCol] <= sigCutoff
     x[sig, annotationCol] <- sigLabel
@@ -77,12 +82,12 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
 
   x[, annotationCol] <- noChangeLabel
   x <- x[order(x[, sortCol], decreasing = decreasing), ]
-  # if split and twoSides, annotate both extremes of the df
+  # if splitUpDown and twoSides, annotate both extremes of the df
   if (splitUpDown & twoSides) {
     x[1:n, annotationCol] <- upLabel
     x[(nrow(x) - n + 1):nrow(x), annotationCol] <- downLabel
   }
-  # if split and !twoSides, pick top N
+  # if splitUpDown and !twoSides, pick top N
   if (splitUpDown & !twoSides) {
     x[x[, metricCol] > metricCutoff, annotationCol][1:n] <- upLabel
     x[x[, metricCol] < metricCutoff, annotationCol][1:n] <- downLabel
@@ -113,16 +118,16 @@ annotateTopN <- function(x, n, sortCol, decreasing = FALSE, splitUpDown = TRUE, 
 #'
 annotateMultiComparison <- function(x, useCutoff, compCol = "comparison", ...) {
 
-  # split list into comparisons
-  dfList <- split(x, f = x[, compCol])
   # apply function of interest
   if (useCutoff) {
-    aDfList <- lapply(dfList, function(y) annotateByCutoff(x = y, ...))
+    result <- annotateByCutoff(x, ...)
   } else {
+    # split list into comparisons
+    dfList <- split(x, f = x[, compCol])
     aDfList <- lapply(dfList, function(y) annotateTopN(x = y, ...))
+    # coerce resultant data frames
+    result <- dplyr::bind_rows(aDfList)
   }
-  # coerce resultant data frames
-  result <- dplyr::bind_rows(aDfList)
   return(result)
 
 }
