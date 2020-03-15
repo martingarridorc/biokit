@@ -22,3 +22,4 @@ Suggests:
     org.Hs.eg.db,
     org.Mm.eg.db
 RoxygenNote: 7.0.2
+biocViews: GeneExpression
