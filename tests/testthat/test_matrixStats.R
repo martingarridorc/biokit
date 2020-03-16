@@ -19,7 +19,7 @@ test_that("Single matrix One Sample T-Test", {
   expect_true(is.na(t$t[4]))
   expect_true(is.na(t$pValue[8]))
   expect_true(is.na(t$t[8]))
-  expect_equal(t2$id, 1:nrow(unNamedMat))
+  expect_equal(t2$feature, 1:nrow(unNamedMat))
 
 })
 
@@ -31,14 +31,14 @@ test_that("Pairwise matrix comparison", {
   expect_equal(t$logFc[1], log2(mean(testMat[ 1, 4:6])/mean(testMat[ 1, 1:3])))
   expect_true(is.na(t$pValue[4]))
   expect_true(is.na(t$t[4]))
-  expect_equal(t2$id, 1:nrow(unNamedMat))
+  expect_equal(t2$feature, 1:nrow(unNamedMat))
   expect_error(matrixPairwiseTest(x = testMat, badSampInfo, "group", numerator = "blm", denominator = "control"))
 
 })
 
 test_that("Pairwise matrix comparison from contrasts", {
 
-  t <- matrixTestFromContrasts(x = testMat, blmSampInfo, "group", contrasts = c("blm-control", "blm_aja-control"))
+  t <- matrixTestFromContrasts(x = jitter(testMat), blmSampInfo, "group", contrasts = c("blm-control", "blm_aja-control"))
   expect_equal(nrow(t), 2000)
   expect_error(matrixTestFromContrasts(x = testMat, blmSampInfo, "group", contrasts = badContrasts))
 

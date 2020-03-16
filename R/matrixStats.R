@@ -10,7 +10,7 @@
 #' @param statisticFun Function to obtain statistic.
 #' @param pValueFun Function to obtain p-value.
 #' @param adjustMethod Method to perform p value adjustment.
-#' @param idName Name for the id column, which is created using \link[base]{rownames}.
+#' @param featName Name for the feature id column, which is created using \link[base]{rownames}.
 #' @param metricName Name for the metric column.
 #' @param statName Name for the statistic column.
 #' @param pName Name for the p value column.
@@ -25,7 +25,7 @@ matrixSingleTest <- function(x,
                          statisticFun = function(x) nsTestT(x),
                          pValueFun = function(x) nsTestPValue(x),
                          adjustMethod = "BH",
-                         idName = "id", metricName = "logFc",statName = "t", pName = "pValue", pAdjName = "pAdj") {
+                         featName = "feature", metricName = "logFc",statName = "t", pName = "pValue", pAdjName = "pAdj") {
 
   # create statistics
   metric <- apply(x, 1, metricFun)
@@ -39,7 +39,7 @@ matrixSingleTest <- function(x,
     outId <- rownames(x)
   # prepare out df
   outDf <- data.frame(outId, metric, statistic, pValue, pAdj, stringsAsFactors = FALSE)
-  colnames(outDf) <- c(idName, metricName, statName, pName, pAdjName)
+  colnames(outDf) <- c(featName, metricName, statName, pName, pAdjName)
   return(outDf)
 
 }
@@ -60,7 +60,7 @@ matrixSingleTest <- function(x,
 #' @param statisticFun Function to obtain statistic.
 #' @param pValueFun Function to obtain p-value.
 #' @param adjustMethod Method to perform p value adjustment.
-#' @param idName Name for the id column, which is created using \link[base]{rownames}.
+#' @param featName Name for the feature id column, which is created using \link[base]{rownames}.
 #' @param metricName Name for the metric column.
 #' @param statName Name for the statistic column.
 #' @param pName Name for the p value column.
@@ -75,7 +75,7 @@ matrixPairwiseTest <- function(x, sampInfoDf, groupCol, numerator, denominator,
                                statisticFun = function(x,y) nsTestT(x = x, y = y),
                                pValueFun = function(x,y) nsTestPValue(x = x, y = y),
                                adjustMethod = "BH",
-                               idName = "id", metricName = "logFc",statName = "t", pName = "pValue", pAdjName = "pAdj") {
+                               featName = "feature", metricName = "logFc",statName = "t", pName = "pValue", pAdjName = "pAdj") {
 
   # check that sampInfoDf rownames match colnames of the matrix to analyse
   if (!all(rownames(sampInfoDf) == colnames(x)))
@@ -95,7 +95,7 @@ matrixPairwiseTest <- function(x, sampInfoDf, groupCol, numerator, denominator,
     outId <- rownames(x)
   # prepare out df
   outDf <- data.frame(outId, metric, statistic, pValue, pAdj, stringsAsFactors = FALSE)
-  colnames(outDf) <- c(idName, metricName, statName, pName, pAdjName)
+  colnames(outDf) <- c(featName, metricName, statName, pName, pAdjName)
   return(outDf)
 
 }
@@ -156,7 +156,7 @@ matrixTestFromContrasts <- function(x, sampInfoDf, groupCol, contrasts, sep = "-
 #'
 autoMatrixPairwise <- function(se, groupCol, ...) {
 
-  contrasts <- pairwiseContrasts(colData(se)[, groupCol])
+  contrasts <- pairwiseContrasts(levels(colData(se)[, groupCol]))
   mat <- assay(se)
   res <- matrixTestFromContrasts(x = mat, sampInfoDf = colData(se), contrasts = contrasts, groupCol = groupCol, ...)
   return(res)
