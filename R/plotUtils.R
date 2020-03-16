@@ -28,7 +28,8 @@ defaultVolcano <- function(x, fcCol = "logFc", pCol = "pAdj", statusCol = "statu
     names(colVal) <- c(upLabel, noChangeLabel, downLabel)
     # tidy eval for column names (https://tidyeval.tidyverse.org/introduction.html)
     p <- ggplot(x, aes(x = !!sym(fcCol), y = -log10(!!sym(pCol)), color = !!sym(statusCol), feature = !!sym(featCol))) +
-        geom_point(alpha = 0.5) + scale_color_manual(values = colVal) + theme_bw()
+        geom_point(alpha = 0.5) + scale_color_manual(values = colVal) + ggtitle("Volcano Plot") + theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5))
     # if comparison column specified, facet wrap using it
     if (!is.null(compCol))
         p <- p + facet_wrap(facets = vars(!!sym(compCol)))
@@ -63,7 +64,8 @@ defaultPcaPlot <- function(x, sampInfoDf, groupCol, showLabel = TRUE) {
     toPlotDf <- cbind(tibble::rownames_to_column(sampInfoDf, var = "id"), x$result$x)
     # create plot
     p <- ggplot(toPlotDf, mapping = aes(x = !!sym("PC1"), y = !!sym("PC2"), color = !!sym(groupCol), fill = !!sym(groupCol),
-        label = !!sym("id"))) + geom_point() + xlab(x$pcts[1]) + ylab(x$pcts[2]) + theme_bw()
+        label = !!sym("id"))) + geom_point() + xlab(x$pcts[1]) + ylab(x$pcts[2]) + ggtitle("Principal Component Analysis") + theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5))
     # add label if required
     if (showLabel)
         p <- p + geom_label(fill = "white")
@@ -128,7 +130,8 @@ defaultOraPlot <- function(x, idColumn = "comparison", splitStatus = FALSE, face
     if(!splitStatus)
         p <- p + geom_point(aes(color = !!sym("p.adjust")))
     # format final plot
-    p <- p + theme_bw() + theme(axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1))
+    p <- p + theme_bw() + ggtitle("Over Representation Analysis") + theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1), axis.title.x = element_blank())
     return(p)
 
 }
@@ -180,7 +183,8 @@ defaultGseaDotPlot <- function(x, splitById = FALSE, idCol = "comparison", upLab
                             shape = !!sym("plotStatus"), size = -log10(!!sym("p.adjust")))) +
         scale_color_manual(values = colVal) + scale_shape_manual(values = shapeVal)
     # add theme and return
-    p <- p + theme_bw() + theme(axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1))
+    p <- p +  ggtitle("Gene Set Enrichment Analysis")+ theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 60, hjust = 1, vjust = 1), axis.title.x = element_blank())
     return(p)
 
 }

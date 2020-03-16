@@ -10,7 +10,7 @@ matrixPairwiseTest(
   groupCol,
   numerator,
   denominator,
-  metricFun = function(x, y) mean(x, na.rm = TRUE)/mean(y, na.rm = TRUE),
+  metricFun = function(x, y) log2(mean(x, na.rm = TRUE)/mean(y, na.rm = TRUE)),
   statisticFun = function(x, y) nsTestT(x = x, y = y),
   pValueFun = function(x, y) nsTestPValue(x = x, y = y),
   adjustMethod = "BH",

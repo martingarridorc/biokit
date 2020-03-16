@@ -111,7 +111,7 @@ matrixPairwiseTest <- function(x, sampInfoDf, groupCol, numerator, denominator,
 #' @param contrasts Vector containing the contrasts to analyze.
 #' @param sep Character used to split contrasts into numerator and denominator.
 #' @param compName Name for the column that indicates the pairwise comparison in the tidy data frame.
-#' @param ... Rest of arguments passed to \link[biokit]{matrixPairwiseTest].
+#' @param ... Rest of arguments passed to \link[biokit]{matrixPairwiseTest}.
 #'
 #' @return  A tidy data frame with results.
 #'

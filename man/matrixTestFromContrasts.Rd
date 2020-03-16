@@ -26,6 +26,8 @@ matrixTestFromContrasts(
 \item{sep}{Character used to split contrasts into numerator and denominator.}
 
 \item{compName}{Name for the column that indicates the pairwise comparison in the tidy data frame.}
+
+\item{...}{Rest of arguments passed to \link[biokit]{matrixPairwiseTest}.}
 }
 \value{
 A tidy data frame with results.
