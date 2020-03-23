@@ -34,6 +34,7 @@ test_that("Default ora plot", {
   expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = TRUE)), c("gg", "ggplot"))
   expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = FALSE)), c("gg", "ggplot"))
   expect_equal(class(defaultOraPlot(x = oraDf, splitStatus = TRUE, pCutoff = 1)), c("gg", "ggplot"))
+  expect_error(defaultOraPlot(x = oraDf, splitStatus = TRUE, pCutoff = -1))
 
 })
 
@@ -42,5 +43,6 @@ test_that("Defaults gsea plot", {
   expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = FALSE)), c("gg", "ggplot"))
   expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = TRUE)), c("gg", "ggplot"))
   expect_equal(class(defaultGseaDotPlot(x = gseaDf, splitById = TRUE, pCutoff = 1)), c("gg", "ggplot"))
+  expect_error(defaultGseaDotPlot(x = gseaDf, splitById = TRUE, pCutoff = -1))
 
 })

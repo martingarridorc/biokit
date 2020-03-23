@@ -8,10 +8,10 @@ blmSingle <- subset(blmDeTable, comparison == "blm-control")
 
 test_that("Default analysis from table", {
 
-  t <- defaultFromTable(blmDeTable, funCategories = mouseHallmarks, gseaPCutoff = 1, oraPCutoff = 1)
-  t2 <- defaultFromTable(blmSingle, funCategories = mouseHallmarks, gseaPCutoff = 1, oraPCutoff = 1)
-  t3 <- defaultFromTable(blmDeTable, funCategories = mouseHallmarks, useCutoff = FALSE, gseaPCutoff = 1, oraPCutoff = 1)
-  t4 <- defaultFromTable(blmSingle, funCategories = mouseHallmarks, useCutoff = FALSE, gseaPCutoff = 1, oraPCutoff = 1)
+  t <- analyzeDeTable(blmDeTable, funCategories = mouseHallmarks)
+  t2 <- analyzeDeTable(blmSingle, funCategories = mouseHallmarks)
+  t3 <- analyzeDeTable(blmDeTable, funCategories = mouseHallmarks, useCutoff = FALSE)
+  t4 <- analyzeDeTable(blmSingle, funCategories = mouseHallmarks, useCutoff = FALSE)
 
   expect_equal(class(t), "list")
   expect_equal(class(t2), "list")

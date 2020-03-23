@@ -7,9 +7,9 @@ blmNorm <- SummarizedExperiment::SummarizedExperiment(assays = jitter(countsToTm
 
 test_that("Default analysis from table", {
 
-  t <- defaultFromCounts(se = blmSe, groupCol = "group", funCategories = mouseHallmarks)
-  t2 <- defaultFromNormMatrix(se = blmNorm, groupCol = "group", funCategories = mouseHallmarks, useLimma = TRUE)
-  t3 <- defaultFromNormMatrix(se = blmNorm, groupCol = "group", funCategories = mouseHallmarks, useLimma = FALSE, useCutoff = FALSE)
+  t <- analyzeCounts(se = blmSe, groupCol = "group", funCategories = mouseHallmarks)
+  t2 <- analyzeMatrix(se = blmNorm, groupCol = "group", funCategories = mouseHallmarks, useLimma = TRUE)
+  t3 <- analyzeMatrix(se = blmNorm, groupCol = "group", funCategories = mouseHallmarks, useLimma = FALSE, useCutoff = FALSE)
 
   expect_equal(class(t), "list")
   expect_equal(class(t2), "list")

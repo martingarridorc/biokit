@@ -9,21 +9,18 @@
 #'
 #' @export
 #'
-defaultFromCounts <- function(se, groupCol, funCategories, ...) {
+analyzeCounts <- function(se, groupCol, funCategories, ...) {
 
   # obtain TMMs
   normExpr <- countsToTmm(assay(se))
   # obtain deTable
   deTable <- autoEdgeR(se, groupCol)
   # obtain deTable
-  result <- defaultFromTable(deTable, compCol = "comparison", funCategories = mouseHallmarks, gseaPCutoff = 1, oraPCutoff = 1, ...)
+  result <- analyzeDeTable(deTable, compCol = "comparison", funCategories = mouseHallmarks, ...)
   # get pcaPlot
   pcaRes <- pcaToList(normExpr)
-  # plot results
-  pcaPlot <- defaultPcaPlot(x = pcaRes, sampInfoDf = as.data.frame(colData(se)), groupCol = "group")
   # add elements to result list
   result[["normExpr"]] <- normExpr
-  result[["pcaPlot"]] <- pcaPlot
   return(result)
 
 }
@@ -40,19 +37,13 @@ defaultFromCounts <- function(se, groupCol, funCategories, ...) {
 #'
 #' @export
 #'
-defaultFromNormMatrix <- function(se, groupCol, funCategories, useLimma = TRUE, ...) {
+analyzeMatrix <- function(se, groupCol, funCategories, useLimma = TRUE, ...) {
 
   # use autoLimma or autoMatrixPairwise to obtain deTable
   if(useLimma) deTable <- autoLimma(se, groupCol)
   if(!useLimma) deTable <- autoMatrixPairwise(se, groupCol)
   # obtain deTable
-  result <- defaultFromTable(deTable, compCol = "comparison", funCategories = funCategories, gseaPCutoff = 1, oraPCutoff = 1, ...)
-  # get pcaPlot
-  pcaRes <- pcaToList(assay(se))
-  # plot results
-  pcaPlot <- defaultPcaPlot(x = pcaRes, sampInfoDf = as.data.frame(colData(se)), groupCol = "group")
-  # add elements to result list
-  result[["pcaPlot"]] <- pcaPlot
+  result <- analyzeDeTable(deTable, compCol = "comparison", funCategories = funCategories, ...)
   return(result)
 
 }

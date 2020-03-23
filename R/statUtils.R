@@ -3,7 +3,6 @@
 #' Performs principal component analysis for a given matrix
 #' and returns a list with the formatted results.
 #'
-#'
 #' @param x Matrix to analyze.
 #' @param transpose Transpose input matrix?
 #' @param roundDigits Number of digits for the rounded percent of
@@ -55,7 +54,7 @@ nsTestPValue <- function(...) {
 
 }
 
-#' Not sensitive T Test statistic
+#' Non sensitive T Test statistic
 #'
 #' Applies the T Test function returning NA
 #' instead of error when problems appear. Additionally,

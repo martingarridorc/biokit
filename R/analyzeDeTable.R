@@ -11,14 +11,14 @@
 #'
 #' @export
 #'
-defaultFromTable <- function(deTable, compCol = "comparison", ...) {
+analyzeDeTable <- function(deTable, compCol = "comparison", ...) {
 
   # get number of comparisons
   nComp <- length(unique(deTable[,compCol]))
   if(nComp == 1) {
-    outList <- defaultSingleComparison(deTable = deTable, ...)
+    outList <- analyzeSingleComp(deTable = deTable, ...)
   } else {
-    outList <- defaultMultiComparison(deTable = deTable, ...)
+    outList <- analyzeMultiComp(deTable = deTable, ...)
   }
   return(outList)
 
@@ -35,8 +35,6 @@ defaultFromTable <- function(deTable, compCol = "comparison", ...) {
 #' @param pValueCutoff P value cutoff. Passed to \link[biokit]{annotateByCutoff}.
 #' @param n N features to annotate. Passed to \link[biokit]{annotateTopN}.
 #' @param sortCol Column used to sort data.  Passed to \link[biokit]{annotateTopN}.
-#' @param oraPCutoff P value threshold to plot ORA result.
-#' @param gseaPCutoff P value threshold to plot GSEA result.
 #'
 #' @return Data frame containing results of annotating deTable, ORA and GSEA and several default plots.
 #'
@@ -44,8 +42,8 @@ defaultFromTable <- function(deTable, compCol = "comparison", ...) {
 #'
 #' @export
 #'
-defaultMultiComparison <- function(deTable, funCategories, useCutoff = TRUE, fcCutoff = 1, pValueCutoff = 0.05,
-                                    n = 50,  sortCol = "pAdj", oraPCutoff = 0.05, gseaPCutoff = 0.05) {
+analyzeMultiComp <- function(deTable, funCategories, useCutoff = TRUE, fcCutoff = 1,
+                             pValueCutoff = 0.05, n = 50,  sortCol = "pAdj") {
 
   # annotate
   if(useCutoff) deTable <- annotateMultiComparison(x = deTable, useCutoff = useCutoff, metricCutoff = fcCutoff, sigCutoff = pValueCutoff)
@@ -58,13 +56,8 @@ defaultMultiComparison <- function(deTable, funCategories, useCutoff = TRUE, fcC
   gseaTable <- getRankedVectorList(deTable, splitCol = "comparison") %>%
     gseaFromList(x = . , funCategories = funCategories, pvalueCutoff = 1) %>%
     cpResultsToDf()
-  # plots
-  volcanoPlot <- defaultVolcano(x = deTable, compCol = "comparison")
-  oraPlot <- defaultOraPlot(oraTable, idColumn = "comparison", splitStatus = TRUE, facetByStatus = TRUE, pCutoff = oraPCutoff)
-  gseaPlot <- defaultGseaDotPlot(x = gseaTable, splitById = TRUE, pCutoff = gseaPCutoff)
   # create output list with all tables and plots
-  outList <- list(deTable = deTable, oraTable = oraTable, gseaTable = gseaTable,
-                  volcanoPlot = volcanoPlot, oraPlot = oraPlot, gseaPlot = gseaPlot)
+  outList <- list(deTable = deTable, oraTable = oraTable, gseaTable = gseaTable)
   return(outList)
 
 }
@@ -80,8 +73,6 @@ defaultMultiComparison <- function(deTable, funCategories, useCutoff = TRUE, fcC
 #' @param pValueCutoff P value cutoff. Passed to \link[biokit]{annotateByCutoff}.
 #' @param n N features to annotate. Passed to \link[biokit]{annotateTopN}.
 #' @param sortCol Column used to sort data.  Passed to \link[biokit]{annotateTopN}.
-#' @param oraPCutoff P value threshold to plot ORA result.
-#' @param gseaPCutoff P value threshold to plot GSEA result.
 #'
 #' @return Data frame containing results of annotating deTable, ORA and GSEA and several default plots.
 #'
@@ -90,8 +81,9 @@ defaultMultiComparison <- function(deTable, funCategories, useCutoff = TRUE, fcC
 #' @importFrom dplyr %>%
 #' @importFrom clusterProfiler GSEA
 #'
-defaultSingleComparison <- function(deTable, funCategories, useCutoff = TRUE, fcCutoff = 1, pValueCutoff = 0.05,
-                                   n = 50,  sortCol = "pAdj", oraPCutoff = 0.05, gseaPCutoff = 0.05) {
+analyzeSingleComp <- function(deTable, funCategories, useCutoff = TRUE, fcCutoff = 1,
+                              pValueCutoff = 0.05, n = 50,  sortCol = "pAdj") {
+
   # annotate
   if(useCutoff) deTable <- annotateByCutoff(deTable, metricCutoff = fcCutoff, sigCutoff = pValueCutoff)
   if(!useCutoff) deTable <- annotateTopN(deTable, n = n, sortCol = sortCol)
@@ -104,13 +96,8 @@ defaultSingleComparison <- function(deTable, funCategories, useCutoff = TRUE, fc
     # use cp functions
     clusterProfiler::GSEA(geneList = . , TERM2GENE =  funCategories, pvalueCutoff = 1) %>%
     .@result
-  # plots
-  volcanoPlot <- defaultVolcano(x = deTable)
-  oraPlot <- defaultOraPlot(oraTable, splitStatus = TRUE, facetByStatus = FALSE, pCutoff = oraPCutoff)
-  gseaPlot <- defaultGseaDotPlot(x = gseaTable, splitById = FALSE, pCutoff = gseaPCutoff)
   # create output list with all tables and plots
-  outList <- list(deTable = deTable, oraTable = oraTable, gseaTable = gseaTable,
-                  volcanoPlot = volcanoPlot, oraPlot = oraPlot, gseaPlot = gseaPlot)
+  outList <- list(deTable = deTable, oraTable = oraTable, gseaTable = gseaTable)
   return(outList)
 
 }

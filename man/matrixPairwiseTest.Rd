@@ -14,7 +14,7 @@ matrixPairwiseTest(
   statisticFun = function(x, y) nsTestT(x = x, y = y),
   pValueFun = function(x, y) nsTestPValue(x = x, y = y),
   adjustMethod = "BH",
-  idName = "id",
+  featName = "feature",
   metricName = "logFc",
   statName = "t",
   pName = "pValue",
@@ -38,7 +38,7 @@ matrixPairwiseTest(
 
 \item{adjustMethod}{Method to perform p value adjustment.}
 
-\item{idName}{Name for the id column, which is created using \link[base]{rownames}.}
+\item{featName}{Name for the feature id column, which is created using \link[base]{rownames}.}
 
 \item{metricName}{Name for the metric column.}
 

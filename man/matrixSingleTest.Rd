@@ -10,7 +10,7 @@ matrixSingleTest(
   statisticFun = function(x) nsTestT(x),
   pValueFun = function(x) nsTestPValue(x),
   adjustMethod = "BH",
-  idName = "id",
+  featName = "feature",
   metricName = "logFc",
   statName = "t",
   pName = "pValue",
@@ -28,7 +28,7 @@ matrixSingleTest(
 
 \item{adjustMethod}{Method to perform p value adjustment.}
 
-\item{idName}{Name for the id column, which is created using \link[base]{rownames}.}
+\item{featName}{Name for the feature id column, which is created using \link[base]{rownames}.}
 
 \item{metricName}{Name for the metric column.}
 

@@ -105,6 +105,8 @@ defaultOraPlot <- function(x, idColumn = "comparison", splitStatus = FALSE, face
     # filter by cutoff before plotting
     if(!is.null(pCutoff)) {
         x <- x[x$p.adjust <= pCutoff,]
+        # check non empty df
+        if( nrow(x)==0 ) stop("No elements in the data frame after filtering by cutoff.")
     }
     # remove the up and down label from idColumn and add new column with status
     if(splitStatus) {
@@ -163,6 +165,8 @@ defaultGseaDotPlot <- function(x, splitById = FALSE, idCol = "comparison", upLab
     # filter by cutoff before plotting
     if(!is.null(pCutoff)) {
         x <- x[x$p.adjust <= pCutoff,]
+        # check non empty df
+        if( nrow(x)==0 ) stop("No elements in the data frame after filtering by cutoff.")
     }
     # add status column based on NES
     x[, "plotStatus"] <- upLabel

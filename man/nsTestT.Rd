@@ -2,7 +2,7 @@
 % Please edit documentation in R/statUtils.R
 \name{nsTestT}
 \alias{nsTestT}
-\title{Not sensitive T Test statistic}
+\title{Non sensitive T Test statistic}
 \usage{
 nsTestT(...)
 }
