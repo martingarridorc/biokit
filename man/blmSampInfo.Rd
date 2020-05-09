@@ -4,7 +4,9 @@
 \name{blmSampInfo}
 \alias{blmSampInfo}
 \title{Sample information from the {GSE121659} experiment.}
-\format{An object of class \code{data.frame} with 12 rows and 1 columns.}
+\format{
+An object of class \code{data.frame} with 12 rows and 1 columns.
+}
 \source{
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121659}
 }

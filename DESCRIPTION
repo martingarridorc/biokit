@@ -26,5 +26,5 @@ Suggests:
     testthat,
     org.Hs.eg.db,
     org.Mm.eg.db
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 biocViews: GeneExpression

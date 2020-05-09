@@ -4,7 +4,9 @@
 \name{mouseHallmarks}
 \alias{mouseHallmarks}
 \title{Mus musculus MSigDb hallmarks in TERM2GENE format}
-\format{An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 7392 rows and 2 columns.}
+\format{
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 7392 rows and 2 columns.
+}
 \source{
 \url{https://www.gsea-msigdb.org/gsea/msigdb/collections.jsp}
 }
