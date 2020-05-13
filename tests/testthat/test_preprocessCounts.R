@@ -8,7 +8,6 @@ test_that("Summarise matrix works nice", {
 
   t <- summariseMatrix(x = testMat, df = translatorDf, sourceKey = "from", targetKey = "to", summariseFun = sum)
   expect_equal(as.numeric(rowSums(t)[3]), 576)
-  expect_equal(class(t), "matrix")
   expect_equal(typeof(t), "integer")
 
 })
@@ -16,7 +15,6 @@ test_that("Summarise matrix works nice", {
 test_that("Test translate matrix with db", {
 
   t <- translateMatrix(x = blmCounts, db = org.Mm.eg.db, sourceKey = "ENTREZID", targetKey = "SYMBOL", summariseFun = sum)
-  expect_equal(class(t), "matrix")
   expect_equal(typeof(t), "integer")
 
 })
@@ -24,7 +22,6 @@ test_that("Test translate matrix with db", {
 test_that("Tmm normalization", {
 
   t <- countsToTmm(x = blmCounts)
-  expect_equal(class(t), "matrix")
   expect_equal(typeof(t), "double")
 
 })

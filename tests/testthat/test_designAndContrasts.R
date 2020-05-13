@@ -1,12 +1,5 @@
 data("blmSubset")
 
-test_that("Create design matrix from sample information", {
-
-  t <- designFromSampInfo(blmSampInfo, column = "group")
-  expect_equal(class(t), "matrix")
-
-})
-
 test_that("Create pairwise contrasts and contrasts from design", {
 
   d <- designFromSampInfo(blmSampInfo, column = "group")
