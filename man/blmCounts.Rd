@@ -4,9 +4,7 @@
 \name{blmCounts}
 \alias{blmCounts}
 \title{RNA-Seq counts for 1000 random genes from the GSE121659 experiment.}
-\format{
-An object of class \code{matrix} (inherits from \code{array}) with 1000 rows and 12 columns.
-}
+\format{An object of class \code{matrix} with 1000 rows and 12 columns.}
 \source{
 \url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE121nnn/GSE121659/suppl/GSE121659_raw_counts_merged.txt.gz}
 }
