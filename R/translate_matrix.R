@@ -39,8 +39,6 @@ translateMatrix <- function(mat, df, sourceKey, targetKey, summariseFun) {
     dplyr::summarise_all(.funs = summariseFun) %>%
     tibble::column_to_rownames(var = targetKey) %>%
     as.matrix()
-  # validate output
-  outputCheck <- validateMatrix(outMat)
   return(outMat)
 
 }

@@ -5,7 +5,6 @@
 #'
 #' @param x Vector to be combined in pairs.
 #' @param sep Separator of resulting contrasts.
-#' @param checkNames Check if vector contains syntactically valid names? If TRUE, it will fix not valid names.
 #'
 #' @return A character vector containing all the possible pairwise contrasts.
 #'
@@ -13,7 +12,7 @@
 #'
 #' @importFrom utils combn
 #'
-pairwiseContrasts <- function(x, sep = "-", checkNames = TRUE) {
+pairwiseContrasts <- function(x, sep = "-") {
 
   # subset to unique elements of the vector
   difNames <- unique(x)
@@ -24,14 +23,6 @@ pairwiseContrasts <- function(x, sep = "-", checkNames = TRUE) {
   if(any(is.na(difNames))) {
     difNames <- difNames[!is.na(difNames)]
     message("Found NA on input vector when making contrasts. They will be removed.")
-  }
-  # check not syntactically valid names
-  if(checkNames) {
-    goodNames <- make.names(difNames)
-    if(any(goodNames != difNames)) {
-      message("Some levels are not syntactically valid names. They will be fixed.")
-      difNames <- goodNames
-    }
   }
   # create all possible pairwise comparison matrix
   pairMat <- combn(difNames, 2)
