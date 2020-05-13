@@ -34,7 +34,7 @@ pairwiseContrasts <- function(x, sep = "-", checkNames = TRUE) {
     }
   }
   # create all possible pairwise comparison matrix
-  pairMat <- combn(unique(x), 2)
+  pairMat <- combn(difNames, 2)
   # return collapsed columns
   contrasts <- apply(pairMat, 2, function(y) paste(y[1], y[2], sep = sep))
   return(contrasts)
