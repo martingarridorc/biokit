@@ -24,5 +24,5 @@ A matrix with translated and summarised ids.
 Uses an annotation package like
 \href{https://bioconductor.org/packages/release/data/annotation/html/org.Hs.eg.db.html}{org.Hs.eg.db} or
 \href{https://bioconductor.org/packages/release/data/annotation/html/org.Mm.eg.db.html}{org.Mm.eg.db}
-to translate the rownames of the input matrix using \link[biokit]{summariseMatrix}.
+to translate the rownames of the input matrix using \link[biokit]{translateMatrix}.
 }

@@ -12,3 +12,7 @@ The package can be installed by running the `install_github()` function from [de
 ```
 install_github(repo = "https://github.com/martingarridorc/biokit")
 ```
+
+## Acknowledgments
+
+@loucerac and his mathematical wisdowm.

@@ -14,8 +14,7 @@ validateTranslatorDf(df, sourceKey, targetKey)
 \item{targetKey}{Character indicating the column of the df where the source ids are stored.}
 }
 \value{
-The validated and ammended translator
-data frame if no problems are found.
+The validated and ammended translator data frame if no problems are found.
 }
 \description{
 Evaluates integrity of the translator data frame, subsetting it

@@ -6,9 +6,9 @@
 \usage{
 addStatusByRank(
   resDf,
-  splitUpDown,
-  topN,
   rankCol,
+  topN,
+  splitUpDown,
   decreasing = TRUE,
   absolute = TRUE,
   splitCol = "logFc",
@@ -23,11 +23,11 @@ addStatusByRank(
 \arguments{
 \item{resDf}{The data frame to annotate.}
 
-\item{splitUpDown}{Split annotation into up and down features? If TRUE, splitCol and splitMidPoint should be provided.}
+\item{rankCol}{The column used to order the data frame.}
 
 \item{topN}{The top N features to be annotated.}
 
-\item{rankCol}{The column used to order the data frame.}
+\item{splitUpDown}{Split annotation into up and down features? If TRUE, splitCol and splitMidPoint should be provided.}
 
 \item{decreasing}{Order rankCol decreasing?}
 
@@ -39,13 +39,13 @@ addStatusByRank(
 
 \item{noChangeLabel}{Label to be used in not annotated rows.}
 
+\item{statusCol}{Name of the status column.}
+
 \item{upLabel}{Label for up-regulated features.}
 
 \item{downLabel}{Label for down-regulated features.}
 
 \item{sigLabel}{Label for significant features. Only used if splitUpDown = FALSE.}
-
-\item{statuCol}{Name of the status column.}
 }
 \value{
 The annotated data frame.

@@ -14,7 +14,7 @@ addStatusByCutoff(
   sigCol = "pAdj",
   sigCutoff = 0.05,
   noChangeLabel = "No change",
-  statuCol = "status",
+  statusCol = "status",
   upLabel = "Up",
   downLabel = "Down",
   sigLabel = "Significant"
@@ -39,7 +39,7 @@ addStatusByCutoff(
 
 \item{noChangeLabel}{Label to be used in not annotated rows.}
 
-\item{statuCol}{Name of the status column.}
+\item{statusCol}{Name of the status column.}
 
 \item{upLabel}{Label for up-regulated features.}
 

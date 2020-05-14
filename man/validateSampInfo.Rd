@@ -19,9 +19,9 @@ validateSampInfo(
 
 \item{mat}{Matrix containing data. If provided, it will check number of columns in mat.}
 
-\item{checkNames}{Check that grouping variable contains syntactically valid names? If TRUE, they are fixed in the output data frame.}
+\item{checkNames}{Check if grouping variable contains syntactically valid names? If TRUE, they are fixed in the output data frame.}
 
-\item{checkSingleSample}{Check that any group contains only one sample? A warning message appears if true.}
+\item{checkSingleSample}{Check if any group contains only one sample? A warning message appears if true.}
 }
 \value{
 The checked sampInfo data frame
