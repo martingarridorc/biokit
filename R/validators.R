@@ -1,3 +1,69 @@
+#' Validate matrix
+#'
+#' Evaluates integrity of the input matrix.
+#'
+#' @param mat The matrix to validate.
+#' @param checkRowNames Check rownames are present? Stop execution if TRUE and mat does not contain rownames.
+#' @param allowNa Allow NA presence in mat?  Stop execution if NAs are found in mat.
+#'
+#' @return TRUE if no errors are found.
+#'
+validateMatrix <- function(mat, checkRowNames = TRUE, allowNa = TRUE) {
+
+  # check class
+  matClass <- class(mat)
+  if(! all(matClass == c("matrix", "array"))) stop("Input is not a matrix.")
+  # check rownames
+  if(checkRowNames & is.null(rownames(mat))) stop("Matrix does not have rownames.")
+  # check NAs
+  naCount <- sum(is.na(mat))
+  if(naCount != 0 & allowNa) message("Matrix contain NAs. This may produce unexpected results.")
+  if(naCount != 0 & (! allowNa)) stop("Matrix contain NAs.")
+  return(TRUE)
+
+}
+
+#' Validate sample information
+#'
+#' Evaluates integrity of the grouping variable at the sample information data frame.
+#'
+#' @param sampInfo The sample information data frame.
+#' @param groupCol The column containing the grouping variable.
+#' @param checkNames Check that grouping variable contains syntactically valid names? If TRUE, they are fixed in the output data frame.
+#' @param checkSingleSample Check that any group contains only one sample? A warning message appears if true.
+#' @param mat Matrix containing data. If provided, it will check number of columns in mat.
+#'
+#' @return The checked sampInfo data frame
+#'
+validateSampInfo <- function(sampInfo, groupCol, mat,
+                             checkNames = TRUE, checkSingleSample = TRUE) {
+
+  # check not syntactically valid names
+  if(checkNames) {
+    groupVar <- sampInfo[ , groupCol]
+    goodNames <- make.names(groupVar)
+    if(any(goodNames != groupVar)) {
+      message("Some levels at the groupìng variable are not syntactically valid names. They will be fixed.")
+      sampInfo[ , groupCol] <- goodNames
+    }
+  }
+  # check number of rows is same than matrix ncol
+  if(!missing(mat)) {
+    if(ncol(mat) != nrow(sampInfo)) {
+      stop("Number of rows for sampInfo is not equal to number of matrix columns.")
+    }
+  }
+  # check presence of single sample groups
+  if(checkSingleSample) {
+    groupN <- table(sampInfo[, groupCol])
+    if(any(groupN == 1)) {
+      warning("Some sample groups contains only 1 sample. This may produce unexpected results.")
+    }
+  }
+  return(sampInfo)
+
+}
+
 #' Evaluate and print translator df information
 #'
 #' @param df A 2-columns translator data frame with source to target ids.
@@ -43,11 +109,6 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
 #'
 validateTranslatorDf <- function(df, sourceKey, targetKey) {
 
-  # check data frame class
-  dfClass <- class(df)
-  if(dfClass != "data.frame") {
-    stop("Input is not a data frame.")
-  }
   # subset to desired columns
   translatorDf <- df[ , c(sourceKey, targetKey)]
   # remove duplicated rows in source to target df
