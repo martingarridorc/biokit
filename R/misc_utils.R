@@ -34,11 +34,32 @@ nsTestT <- function(...) {
 #' @param y Denominator vector.
 #' @param na.rm Remove NAs?
 #'
-#' @return
+#' @return Log 2  of means ratio
 #'
 defaultLogFc <- function(x, y, na.rm = TRUE) {
 
   metric <- log2(mean(x, na.rm = na.rm) / mean(y, na.rm = na.rm))
   return(metric)
+
+}
+
+#' Split, Function and Merge
+#'
+#' Splits the input data frame using a grouping column, applies
+#' the provided function over each list element and return the row-binded
+#' resulting data frame.
+#'
+#' @param df Data frame to process.
+#' @param splitCol Column to split by.
+#' @param fun Function to be applied to each sub-data frame.
+#'
+#' @return The processed data frame
+#'
+splitFunMerge <- function(df, splitCol, fun) {
+
+  splitted <- split(x = df, f = df[, splitCol])
+  splitted <- lapply(splitted, fun)
+  binded <- dplyr::bind_rows(splitted, .id = splitCol)
+  return(binded)
 
 }
