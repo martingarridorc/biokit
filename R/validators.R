@@ -29,8 +29,8 @@ validateMatrix <- function(mat, checkRowNames = TRUE, allowNa = TRUE) {
 #'
 #' @param sampInfo The sample information data frame.
 #' @param groupCol The column containing the grouping variable.
-#' @param checkNames Check that grouping variable contains syntactically valid names? If TRUE, they are fixed in the output data frame.
-#' @param checkSingleSample Check that any group contains only one sample? A warning message appears if true.
+#' @param checkNames Check if grouping variable contains syntactically valid names? If TRUE, they are fixed in the output data frame.
+#' @param checkSingleSample Check if any group contains only one sample? A warning message appears if true.
 #' @param mat Matrix containing data. If provided, it will check number of columns in mat.
 #'
 #' @return The checked sampInfo data frame
@@ -104,8 +104,7 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
 #' @param sourceKey Character indicating the column of the df where the source ids are stored.
 #' @param targetKey Character indicating the column of the df where the source ids are stored.
 #'
-#' @return The validated and ammended translator
-#' data frame if no problems are found.
+#' @return The validated and ammended translator data frame if no problems are found.
 #'
 validateTranslatorDf <- function(df, sourceKey, targetKey) {
 

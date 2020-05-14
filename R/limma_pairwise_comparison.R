@@ -34,7 +34,7 @@ limmaDfFromContrasts <- function(mat, desMat, conMat, compName = "comparison",
   # obtain list of dataframes from contrasts column names
   dfList <- lapply(colnames(conMat), function(y) {
     resDf <- limma::topTable(fit2, coef = y, number = Inf) %>%
-      tibble::rownames_to_column(., var = featName)
+      tibble::rownames_to_column(var = featName)
     return(resDf)
   })
   # set names to list

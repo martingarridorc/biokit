@@ -38,8 +38,8 @@ edgerDfFromContrasts <- function(counts, desMat, conMat, filterByExpr = FALSE,
     y <- y[keep, ]
   }
   # calculate normalization factor and estimate dispersion
-  y <- edgeR::calcNormFactors(object = y) %>%
-    edgeR::estimateDisp(y = ., design = desMat)
+  y <- edgeR::calcNormFactors(object = y)
+  y <- edgeR::estimateDisp(y = y, design = desMat)
   # fit ql netgative binomial gl model
   fit <- edgeR::glmQLFit(y, desMat)
   # obtain DE table for each contrast
