@@ -7,7 +7,7 @@
 messageMappingInfo(df, sourceKey, targetKey)
 }
 \arguments{
-\item{df}{A 2-columns translator data frame with source to target ids.}
+\item{df}{A 2 columns translator data frame with source to target ids.}
 
 \item{sourceKey}{Character indicating the column of the df where the source ids are stored.}
 

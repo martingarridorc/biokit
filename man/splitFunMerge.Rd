@@ -14,7 +14,7 @@ splitFunMerge(df, splitCol, fun)
 \item{fun}{Function to be applied to each sub-data frame.}
 }
 \value{
-The processed data frame
+The processed data frame.
 }
 \description{
 Splits the input data frame using a grouping column, applies

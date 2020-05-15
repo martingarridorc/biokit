@@ -60,6 +60,7 @@ fisherExactTest <- function(features, funCat, universe) {
 #' @param universe A vector of characters to be used as the statistical background for the different tests. If not supplied, defaults to all the features in funCatList.
 #' @param minSize Minimal size of a functional category to test. All functional categories below the threshold are excluded.
 #' @param maxSize Minimal size of a functional category to test. All functional categories aboce the threshold are excluded.
+#' @param removeNoOverlap Remove functional categories without overlapping features before performing the P adjustment?
 #' @param pAdjustMethod The method used to correct estimated p values. Passed to \link[stats]{p.adjust}.
 #'
 #' @return A data frame with results in a tidy format
@@ -67,17 +68,11 @@ fisherExactTest <- function(features, funCat, universe) {
 #' @export
 #'
 #' @importFrom dplyr bind_rows %>%
-#'
-#' @examples
-#'
-#' data("humanHallmarks")
-#' f <- sample(humanHallmarks$gene_symbol, 500)
-#' fList <- split(humanHallmarks, humanHallmarks$gs_name)
-#' fList <- lapply(fList, function(x) as.character(x$gene_symbol))
-#' overRepresentationAnalysis(features = f, funCatList = fList)
+#' @importFrom stats p.adjust
 #'
 overRepresentationAnalysis <- function(features, funCatList, universe,
-                                       minSize = 1, maxSize = Inf, pAdjustMethod = "BH") {
+                                       minSize = 1, maxSize = Inf,
+                                       removeNoOverlap = TRUE, pAdjustMethod = "BH") {
 
   # if missing universe, use all features in the functional category lis
   if(missing(universe)) {
@@ -91,22 +86,27 @@ overRepresentationAnalysis <- function(features, funCatList, universe,
   dfList <- lapply(funCatList, function(funCat) {
 
     overlappingFeatures <- features[features %in% funCat]
-    if(length(overlappingFeatures) == 0) {
+    nOverlap <- length(overlappingFeatures)
+    if(nOverlap== 0) {
       overlappingFeatures <- "No overlap"
     } else {
       overlappingFeatures <- paste(overlappingFeatures, collapse = ", ")
+
     }
     # get enrichment p values
     fisherP <- fisherExactTest(features = features, funCat = funCat, universe = universe)
     # return out df
-    outDf <- data.frame(overlap = overlappingFeatures, pValue = fisherP)
+    outDf <- data.frame(overlap = overlappingFeatures, n = nOverlap, pValue = fisherP)
     return(outDf)
 
   })
   # bind rows
   resDf <- dplyr::bind_rows(dfList, .id = "functionalCategory")
   # adjust p values
-  resDf[ , "pAdj"] <- p.adjust(resDf$pValue, method = pAdjustMethod)
+  if(removeNoOverlap) {
+    resDf <- subset(resDf, n != 0)
+  }
+  resDf[ , "pAdj"] <- stats::p.adjust(resDf$pValue, method = pAdjustMethod)
   # return data frame
   return(resDf)
 

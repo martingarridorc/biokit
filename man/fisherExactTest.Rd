@@ -30,8 +30,8 @@ f2 <- letters[c(1, 10:15)]
 u <- letters
 
 # this should give a low p value (high over-representation)
-phyperTest(g, f, u)
+fisherExactTest(g, f, u)
 # this should give a high p value (low over-representation)
-phyperTest(g, f2, u)
+fisherExactTest(g, f2, u)
 
 }

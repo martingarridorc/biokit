@@ -6,6 +6,7 @@
 #' @param checkRowNames Check rownames are present? Stop execution if TRUE and mat does not contain rownames.
 #' @param allowNa Allow NA presence in mat?  Stop execution if NAs are found in mat.
 #'
+#'
 #' @return TRUE if no errors are found.
 #'
 validateMatrix <- function(mat, checkRowNames = TRUE, allowNa = TRUE) {
@@ -57,7 +58,7 @@ validateSampInfo <- function(sampInfo, groupCol, mat,
   if(checkSingleSample) {
     groupN <- table(sampInfo[, groupCol])
     if(any(groupN == 1)) {
-      warning("Some sample groups contains only 1 sample. This may produce unexpected results.")
+      message("Some sample groups contains only 1 sample. This may produce unexpected results.")
     }
   }
   return(sampInfo)
@@ -66,7 +67,7 @@ validateSampInfo <- function(sampInfo, groupCol, mat,
 
 #' Evaluate and print translator df information
 #'
-#' @param df A 2-columns translator data frame with source to target ids.
+#' @param df A 2 columns translator data frame with source to target ids.
 #' @param sourceKey Character indicating the column of the df where the source ids are stored.
 #' @param targetKey Character indicating the column of the df where the source ids are stored.
 #'
@@ -84,9 +85,9 @@ messageMappingInfo <- function(df, sourceKey, targetKey) {
   uniqueTarget <- length(unique(df[, targetKey]))
   # print info
   m <- paste("------------------------------------------------",
-             paste0(sum(notMapped), " of ", uniqueSource, " input ids could not be mapped."),
-             paste0(sourceMultiMap, " of ", uniqueSource, " input ids were mapped to 2 or more target ids."),
-             paste0(targetMultiMap, " of ", uniqueTarget, " target ids were mapped to 2 or more input ids."),
+             paste0(sum(notMapped), " of ", uniqueSource, " input ids on the translator data frame could not be mapped."),
+             paste0(sourceMultiMap, " of ", uniqueSource, " input ids on the translator data frame were mapped to 2 or more target ids."),
+             paste0(targetMultiMap, " of ", uniqueTarget, " target ids on the translator data frame were mapped to 2 or more input ids."),
              "------------------------------------------------",
              paste0("Input keys were finally mapped to ", uniqueTarget, " target ids."),
              "------------------------------------------------",

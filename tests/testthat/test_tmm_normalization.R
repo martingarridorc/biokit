@@ -1,13 +1,7 @@
-library(org.Hs.eg.db)
 data("sarsCovData")
 
-testMat <- sarsCovMat[1:20,]
-testNaMat <- testMat
-testNaMat[1, ] <- NA
+# prepare testing matrix
+testMat <- sarsCovMat[1:1000,]
+tmm <- countsToTmm(testMat)
 
-test_that("Counts to TMM function works nice",  {
-
-  expect_type(countsToTmm(testMat), "double")
-  expect_error(countsToTmm(testNaMat))
-
-})
+test_that("Normalized output is a matrix", expect_equal(class(tmm),  c("matrix", "array")))

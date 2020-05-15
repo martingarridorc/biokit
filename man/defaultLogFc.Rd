@@ -14,7 +14,7 @@ defaultLogFc(x, y, na.rm = TRUE)
 \item{na.rm}{Remove NAs?}
 }
 \value{
-Log 2  of means ratio
+Log 2  of means ratio.
 }
 \description{
 Log 2 of means ratio

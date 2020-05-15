@@ -1,4 +1,3 @@
-
 #' Translate SummarizedExperiment
 #'
 #' Translates the first assay of a SummarizedExperiment.
