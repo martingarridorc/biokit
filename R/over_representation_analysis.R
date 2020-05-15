@@ -1,53 +1,4 @@
-#' Measure over-representation using Hypergeometric distribution
-#'
-#' Uses \link[stats]{phyper} to calculate the over-representation of
-#' a set of features on a functional category given an "universe" that is used
-#' as statistical background (all the balls in the urn). Based on hypergeometric
-#' distribution.
-#'
-#' @param features Input features.
-#' @param funCat All the features in the functional category.
-#' @param universe All the universe features.
-#'
-#' @return The over-representation significance as a P value.
-#'
-#' @export
-#'
-#' @importFrom stats phyper
-#'
-#' @examples
-#'
-#' g <- letters[1:5]
-#' f <- letters[2:6]
-#' f2 <- letters[c(1, 10:15)]
-#' u <- letters
-#'
-#' # this should give a low p value (high over-representation)
-#' phyperTest(g, f, u)
-#' # this should give a high p value (low over-representation)
-#' phyperTest(g, f2, u)
-#'
-phyperTest <- function(features, funCat, universe) {
-
-  ### adapted from http://pedagogix-tagc.univ-mrs.fr/courses/ASG1/practicals/go_statistics_td/go_statistics_td_2015.html
-  # number of genes in the functional category
-  m <- length(funCat)
-  # total number of genes with at least one annotation. Used to create the statistical "background"
-  N <- length(universe)
-  # number of genes in the universe out of the functional category
-  n <- N - m
-  # number of genes submitted to the analysis
-  k <- length(features)
-  # number of submitted genes inside the functional category
-  x <- sum(features %in% funCat)
-  # perform hypergeometric test and return p value
-  p <- stats::phyper(q = x-1, m=m, n=n, k=k, lower.tail = FALSE)
-  return(p)
-
-}
-
 #' Measure over-representation using Fisher's Exact Test
-#'
 #'
 #' Uses \link[stats]{fisher.test} to calculate the over-representation of
 #' a set of features on a functional category given an "universe" that is used
@@ -62,7 +13,7 @@ phyperTest <- function(features, funCat, universe) {
 #'
 #' @export
 #'
-#' @importFrom stats phyper
+#' @importFrom stats fisher.test
 #'
 #' @examples
 #'
@@ -72,9 +23,9 @@ phyperTest <- function(features, funCat, universe) {
 #' u <- letters
 #'
 #' # this should give a low p value (high over-representation)
-#' phyperTest(g, f, u)
+#' fisherExactTest(g, f, u)
 #' # this should give a high p value (low over-representation)
-#' phyperTest(g, f2, u)
+#' fisherExactTest(g, f2, u)
 #'
 fisherExactTest <- function(features, funCat, universe) {
 
@@ -102,8 +53,7 @@ fisherExactTest <- function(features, funCat, universe) {
 #' Over-representation analysis
 #'
 #' Uses two different approaches to assess the significance of the over-representation
-#' of a feature vector over a list of functional categories. Uses \link[biokit]{phyperTest}
-#' and \link[biokit]{fisherExactTest}.
+#' of a feature vector over a list of functional categories. Uses \link[biokit]{fisherExactTest}.
 #'
 #' @param features A vecor of characters that contains the features to analyze.
 #' @param funCatList A list of character vectors with the functional categories to analyze.
@@ -148,17 +98,15 @@ overRepresentationAnalysis <- function(features, funCatList, universe,
     }
     # get enrichment p values
     fisherP <- fisherExactTest(features = features, funCat = funCat, universe = universe)
-    phyperP <- phyperTest(features = features, funCat = funCat, universe = universe)
     # return out df
-    outDf <- data.frame(overlap = overlappingFeatures, fisherPValue = fisherP, phyperPValue = phyperP)
+    outDf <- data.frame(overlap = overlappingFeatures, pValue = fisherP)
     return(outDf)
 
   })
   # bind rows
   resDf <- dplyr::bind_rows(dfList, .id = "functionalCategory")
   # adjust p values
-  resDf[ , "fisherPAdj"] <- p.adjust(resDf$fisherPValue, method = pAdjustMethod)
-  resDf[ , "phyperPAdj"] <- p.adjust(resDf$phyperPValue, method = pAdjustMethod)
+  resDf[ , "pAdj"] <- p.adjust(resDf$pValue, method = pAdjustMethod)
   # return data frame
   return(resDf)
 
