@@ -61,7 +61,7 @@ splitFunMerge <- function(df, splitCol, fun) {
 
   splitted <- split(x = df, f = df[, splitCol])
   splittedRes <- lapply(splitted, fun)
-  binded <- dplyr::bind_rows(splittedRes, .id = splitCol)
+  binded <- dplyr::bind_rows(splittedRes)
   return(binded)
 
 }
