@@ -9,7 +9,7 @@
 #' @param statusCol Column containing the annotation of features.
 #' @param noChangeLabel Label used to indicate not changing features. Rows with a statusCol value equal to this will be removed.
 #' @param featCol Column containing the feature to submit for the over-representation analysis (i.e gene symbol).
-#' @param ... Other parameters passed to \link[biokit]{Over-representation analysis}.
+#' @param ... Other parameters passed to \link[biokit]{overRepresentationAnalysis}.
 #'
 #' @return A tidy data frame with the results.
 #'

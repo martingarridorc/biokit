@@ -4,7 +4,7 @@
 \alias{splitFunMerge}
 \title{Split, Function and Merge}
 \usage{
-splitFunMerge(df, splitCol, fun)
+splitFunMerge(df, splitCol, fun, addSplitCol = FALSE)
 }
 \arguments{
 \item{df}{Data frame to process.}
@@ -12,6 +12,8 @@ splitFunMerge(df, splitCol, fun)
 \item{splitCol}{Column to split by.}
 
 \item{fun}{Function to be applied to each sub-data frame.}
+
+\item{addSplitCol}{Include a column with splitting variable id?}
 }
 \value{
 The processed data frame.

@@ -11,7 +11,7 @@ validateMatrix(mat, checkRowNames = TRUE, allowNa = TRUE)
 
 \item{checkRowNames}{Check rownames are present? Stop execution if TRUE and mat does not contain rownames.}
 
-\item{allowNa}{Allow NA presence in mat?  Stop execution if NAs are found in mat.}
+\item{allowNa}{Allow NA presence in mat? Stop execution if NAs are found in mat.}
 }
 \value{
 TRUE if no errors are found.

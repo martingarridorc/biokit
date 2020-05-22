@@ -4,7 +4,7 @@
 #'
 #' @param mat The matrix to validate.
 #' @param checkRowNames Check rownames are present? Stop execution if TRUE and mat does not contain rownames.
-#' @param allowNa Allow NA presence in mat?  Stop execution if NAs are found in mat.
+#' @param allowNa Allow NA presence in mat? Stop execution if NAs are found in mat.
 #'
 #'
 #' @return TRUE if no errors are found.
@@ -44,14 +44,14 @@ validateSampInfo <- function(sampInfo, groupCol, mat,
     groupVar <- sampInfo[ , groupCol]
     goodNames <- make.names(groupVar)
     if(any(goodNames != groupVar)) {
-      message("Some levels at the groupìng variable are not syntactically valid names. They will be fixed.")
+      message("Some levels at the grouping variable are not syntactically valid names. They will be fixed.")
       sampInfo[ , groupCol] <- goodNames
     }
   }
   # check number of rows is same than matrix ncol
   if(!missing(mat)) {
     if(ncol(mat) != nrow(sampInfo)) {
-      stop("Number of rows for sampInfo is not equal to number of matrix columns.")
+      stop("Number of rows for sampInfo is not equal to the number of matrix columns.")
     }
   }
   # check presence of single sample groups

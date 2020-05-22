@@ -8,7 +8,7 @@ singleMatrixTest(
   mat,
   metricFun = function(x) mean(x, na.rm = TRUE),
   statFun = nsTestT,
-  pValueFun = nsTestPValue,
+  sigFun = nsTestPValue,
   allowNa = TRUE,
   pAdjustMethod = "BH",
   featName = "feature",
@@ -25,6 +25,8 @@ singleMatrixTest(
 
 \item{statFun}{Function to calculate statistic of change. Defaults to a non-sensitive T-Test T value.}
 
+\item{sigFun}{Function to calculate significance of change. Defaults to a non-sensitive T-Test P value.}
+
 \item{allowNa}{Allow NAs on input matrix?}
 
 \item{pAdjustMethod}{Method used to adjust P values.}
@@ -38,8 +40,6 @@ singleMatrixTest(
 \item{pValName}{Name of the column containing the p values.}
 
 \item{pAdjName}{Name of the column containing the adjusted p values.}
-
-\item{sigFun}{Function to calculate significance of change. Defaults to a non-sensitive T-Test P value.}
 }
 \value{
 A data frame with the row-wise statistical results.

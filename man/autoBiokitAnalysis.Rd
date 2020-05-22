@@ -64,13 +64,13 @@ which will apply \link[biokit]{addStatusByCutoff} or \link[biokit]{addStatusByRa
 
 \item{absolute}{If annotation mode is "byRank", use absolute rankCol values?}
 
+\item{minFunCatSize}{Minimal size of a functional category to test. All functional categories below the threshold are excluded.}
+
+\item{maxFunCatSize}{Minimal size of a functional category to test. All functional categories aboce the threshold are excluded.}
+
 \item{gseaRankCol}{Column used to create pre-ranked gsea list.}
 
 \item{gseaNPerm}{Number of permutations to perform in the pre-ranked gsea analysis.}
-
-\item{minSize}{Minimal size of a functional category to test. All functional categories below the threshold are excluded.}
-
-\item{maxSize}{Minimal size of a functional category to test. All functional categories aboce the threshold are excluded.}
 }
 \value{
 A list containing three data frames: Statistical results, over-representation analysis results and gene set enrichment analysis results.

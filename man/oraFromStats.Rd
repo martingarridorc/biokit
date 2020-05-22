@@ -24,7 +24,7 @@ oraFromStats(
 
 \item{featCol}{Column containing the feature to submit for the over-representation analysis (i.e gene symbol).}
 
-\item{...}{Other parameters passed to \link[biokit]{Over-representation analysis}.}
+\item{...}{Other parameters passed to \link[biokit]{overRepresentationAnalysis}.}
 }
 \value{
 A tidy data frame with the results.

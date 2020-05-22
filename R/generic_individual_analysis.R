@@ -21,7 +21,7 @@
 #' @export
 #'
 singleMatrixTest <- function(mat, metricFun = function(x) mean(x, na.rm = TRUE),
-                             statFun = nsTestT, pValueFun = nsTestPValue,
+                             statFun = nsTestT, sigFun = nsTestPValue,
                              allowNa = TRUE, pAdjustMethod = "BH", featName = "feature", metricName = "logFc",
                              statName = "t", pValName = "pValue", pAdjName = "pAdj") {
 
@@ -30,7 +30,7 @@ singleMatrixTest <- function(mat, metricFun = function(x) mean(x, na.rm = TRUE),
   # create statistics
   metric <- apply(mat, 1, metricFun)
   statistic <- apply(mat, 1, statFun)
-  pValue <- apply(mat, 1, pValueFun)
+  pValue <- apply(mat, 1, sigFun)
   pAdj <-stats:: p.adjust(p = pValue, method = pAdjustMethod)
   outId <- rownames(mat)
   # prepare out df

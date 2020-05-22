@@ -22,8 +22,8 @@
 #' @param topN If annotation mode is "byRank", the top N features to annotate.
 #' @param decreasing If annotation mode is "byRank", order rankCol decreasing?
 #' @param absolute If annotation mode is "byRank", use absolute rankCol values?
-#' @param minSize Minimal size of a functional category to test. All functional categories below the threshold are excluded.
-#' @param maxSize Minimal size of a functional category to test. All functional categories aboce the threshold are excluded.
+#' @param minFunCatSize Minimal size of a functional category to test. All functional categories below the threshold are excluded.
+#' @param maxFunCatSize Minimal size of a functional category to test. All functional categories aboce the threshold are excluded.
 #' @param gseaRankCol Column used to create pre-ranked gsea list.
 #' @param gseaNPerm Number of permutations to perform in the pre-ranked gsea analysis.
 #'
@@ -64,15 +64,18 @@ autoBiokitAnalysis <- function(mat, sampInfo, groupCol, funCatList, statMode, an
                                                                                                  decreasing = decreasing, absolute = absolute))
   }
   # perform over-representation analysis
-  oraRes <- splitFunMerge(statRes, splitCol = "comparison", fun = function(x) oraFromStats(df = x, funCatList = funCatList, statusCol = "status",
-                                                                                           minSize = minFunCatSize, maxSize = maxFunCatSize))
+  oraRes <- splitFunMerge(statRes, splitCol = "comparison", addSplitCol = TRUE, fun = function(x) oraFromStats(df = x, funCatList = funCatList,
+                                                                                                               statusCol = "status",
+                                                                                                               minSize = minFunCatSize,
+                                                                                                               maxSize = maxFunCatSize))
   # perform gene set enrichment analysis
-  gseaRes <- splitFunMerge(statRes, splitCol = "comparison", fun = function(x) gseaFromStats(df = x, funCatList = funCatList,
+  gseaRes <- splitFunMerge(statRes, splitCol = "comparison", addSplitCol = TRUE, fun = function(x) gseaFromStats(df = x, funCatList = funCatList,
                                                                                              minSize = minFunCatSize, maxSize = maxFunCatSize,
                                                                                              rankCol = gseaRankCol , nperm = gseaNPerm))
   # prepare and return output
   outList <- list(statResults = statRes, oraResults = oraRes, gseaResults = gseaRes)
   return(outList)
+
 }
 
 

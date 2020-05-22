@@ -52,16 +52,21 @@ defaultLogFc <- function(x, y, na.rm = TRUE) {
 #' @param df Data frame to process.
 #' @param splitCol Column to split by.
 #' @param fun Function to be applied to each sub-data frame.
+#' @param addSplitCol Include a column with splitting variable id?
 #'
 #' @return The processed data frame.
 #'
 #' @importFrom dplyr bind_rows
 #'
-splitFunMerge <- function(df, splitCol, fun) {
+splitFunMerge <- function(df, splitCol, fun, addSplitCol = FALSE) {
 
   splitted <- split(x = df, f = df[, splitCol])
   splittedRes <- lapply(splitted, fun)
-  binded <- dplyr::bind_rows(splittedRes)
+  if(addSplitCol) {
+    binded <- dplyr::bind_rows(splittedRes, .id = splitCol)
+  } else {
+    binded <- dplyr::bind_rows(splittedRes)
+  }
   return(binded)
 
 }

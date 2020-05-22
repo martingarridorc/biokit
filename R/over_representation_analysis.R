@@ -87,7 +87,7 @@ overRepresentationAnalysis <- function(features, funCatList, universe,
 
     overlappingFeatures <- features[features %in% funCat]
     nOverlap <- length(overlappingFeatures)
-    if(nOverlap== 0) {
+    if(nOverlap == 0) {
       overlappingFeatures <- "No overlap"
     } else {
       overlappingFeatures <- paste(overlappingFeatures, collapse = ", ")
@@ -96,7 +96,7 @@ overRepresentationAnalysis <- function(features, funCatList, universe,
     # get enrichment p values
     fisherP <- fisherExactTest(features = features, funCat = funCat, universe = universe)
     # return out df
-    outDf <- data.frame(overlap = overlappingFeatures, n = nOverlap, pValue = fisherP)
+    outDf <- data.frame(overlap = overlappingFeatures, nOverlap = nOverlap, pValue = fisherP)
     return(outDf)
 
   })
@@ -104,7 +104,7 @@ overRepresentationAnalysis <- function(features, funCatList, universe,
   resDf <- dplyr::bind_rows(dfList, .id = "functionalCategory")
   # adjust p values
   if(removeNoOverlap) {
-    resDf <- subset(resDf, n != 0)
+    resDf <- subset(resDf, resDf$nOverlap != 0)
   }
   resDf[ , "pAdj"] <- stats::p.adjust(resDf$pValue, method = pAdjustMethod)
   # return data frame
