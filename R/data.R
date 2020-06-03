@@ -1,15 +1,20 @@
-#' RNA-Seq counts for 1000 random genes from the GSE121659 experiment.
+#' RNA-Seq data of human cell lines infected with sars-cov-2
 #'
-#' @source \url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE121nnn/GSE121659/suppl/GSE121659_raw_counts_merged.txt.gz}
-"blmCounts"
-
-#' Sample information from the {GSE121659} experiment.
+#' A matrix containing the gene-level counts for the GEO entry GSE147507.
 #'
-#' @source \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121659}
-"blmSampInfo"
+#' @source \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147507}
+"sarsCovMat"
 
-#' Mus musculus MSigDb hallmarks in TERM2GENE format
+#' Sample level information for the sars-cov-2 count matrix
+#'
+#' A data frame containing the relevant information for each sample of the GSE147507 study.
+#'
+#' @source \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147507}
+"sarsCovSampInfo"
+
+#' Human MSigDb hallmarks
+#'
+#' A list of vectors containing the functional categories defined by the MSigDb functional hallmarks.
 #'
 #' @source \url{https://www.gsea-msigdb.org/gsea/msigdb/collections.jsp}
-"mouseHallmarks"
-
+"humanHallmarks"
