@@ -33,12 +33,12 @@ limmaDfFromContrasts <- function(mat, desMat, conMat, compName = "comparison",
   fit2 <- limma::eBayes(fit2)
   # obtain list of dataframes from contrasts column names
   dfList <- lapply(colnames(conMat), function(y) {
-    resDf <- limma::topTable(fit2, coef = y, number = Inf) %>%
+    resDf <- limma::topTable(fit2, coef = y, number = Inf)
     # if the ID column is present, then return directly
     if("ID" %in% colnames(resDf)) {
       return(resDf)
     } else {
-      resDf <- tibble::rownames_to_column(var = featName)
+      resDf <- tibble::rownames_to_column(resDf, var = featName)
       return(resDf)
     }
   })
