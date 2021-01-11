@@ -15,13 +15,14 @@
 #'
 #' @export
 #'
-#' @importFrom dplyr %>% group_by summarise_all sym
+#' @importFrom dplyr %>% group_by summarise_all sym select
 #' @importFrom tibble rownames_to_column column_to_rownames
 #'
 translateMatrix <- function(mat, df, sourceKey, targetKey, summariseFun) {
 
   # if not function is passed, use first match as default function
   if(missing(summariseFun)) {
+    message("------------------------------------------------")
     message("No input summarise function detected, using first match on multi-mapping situations.")
     summariseFun <- function(x) return(x[1])
   }
@@ -33,13 +34,27 @@ translateMatrix <- function(mat, df, sourceKey, targetKey, summariseFun) {
     tibble::rownames_to_column("mergingVariable")
   # merge with data matrix
   mergedDf <- merge(x = df, y = xDf, by.x = sourceKey, by.y = "mergingVariable")
-  # remove source id, group and summarize
+  # get unique sources and keys
+  uniqueSources <- df[, sourceKey][df[, sourceKey] %in% names(table(df[, sourceKey]))[table(df[, sourceKey]) == 1]]
+  uniqueTargets <- df[, targetKey][df[, targetKey] %in% names(table(df[, targetKey]))[table(df[, targetKey]) == 1]]
+  uniqueMatches <- mergedDf[, sourceKey] %in% uniqueSources & mergedDf[,targetKey] %in% uniqueTargets
+  # remove source id, group and split matrixes
   mergedDf[, sourceKey] <- NULL
+  uniqueMat <- mergedDf[uniqueMatches, ] %>%
+    tibble::rownames_to_column(var = "toDiscard") %>%
+    dplyr::select(-toDiscard) %>%
+    column_to_rownames(var = targetKey) %>%
+    as.matrix()
   # tidy eval for targetKey (https://tidyeval.tidyverse.org/introduction.html)
-  outMat <- dplyr::group_by(mergedDf, !!dplyr::sym(targetKey)) %>%
+  duplicatedMat <- mergedDf[ !uniqueMatches, ] %>%
+    tibble::rownames_to_column(var = "toDiscard") %>%
+    dplyr::select(-toDiscard) %>%
+    dplyr::group_by(!!dplyr::sym(targetKey)) %>%
     dplyr::summarise_all(.funs = summariseFun) %>%
     tibble::column_to_rownames(var = targetKey) %>%
     as.matrix()
+  # bind cols and return matrix
+  outMat <- rbind(uniqueMat, duplicatedMat)
   return(outMat)
 
 }
