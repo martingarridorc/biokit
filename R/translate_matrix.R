@@ -39,20 +39,34 @@ translateMatrix <- function(mat, df, sourceKey, targetKey, summariseFun) {
   uniqueTargets <- df[, targetKey][df[, targetKey] %in% names(table(df[, targetKey]))[table(df[, targetKey]) == 1]]
   uniqueMatches <- mergedDf[, sourceKey] %in% uniqueSources & mergedDf[,targetKey] %in% uniqueTargets
   # remove source id, group and split matrixes
-  mergedDf[, sourceKey] <- NULL
-  uniqueMat <- mergedDf[uniqueMatches, ] %>%
-    tibble::rownames_to_column(var = "toDiscard") %>%
-    dplyr::select(-toDiscard) %>%
-    column_to_rownames(var = targetKey) %>%
-    as.matrix()
+  if(sum(uniqueMatches) != 0) {
+    mergedDf[, sourceKey] <- NULL
+    uniqueMat <- mergedDf[uniqueMatches, ] %>%
+      tibble::rownames_to_column(var = "toDiscard") %>%
+      dplyr::select(-toDiscard) %>%
+      column_to_rownames(var = targetKey) %>%
+      as.matrix()
+  } else {
+    uniqueMat <- NULL
+  }
   # tidy eval for targetKey (https://tidyeval.tidyverse.org/introduction.html)
-  duplicatedMat <- mergedDf[ !uniqueMatches, ] %>%
-    tibble::rownames_to_column(var = "toDiscard") %>%
-    dplyr::select(-toDiscard) %>%
-    dplyr::group_by(!!dplyr::sym(targetKey)) %>%
-    dplyr::summarise_all(.funs = summariseFun) %>%
-    tibble::column_to_rownames(var = targetKey) %>%
-    as.matrix()
+  if(sum(!uniqueMatches) != 0) {
+    duplicatedDf <- mergedDf[ !uniqueMatches, ]
+    ids <- unique(duplicatedDf[, targetKey])
+    duplicatedMat <- sapply(ids, function(id) {
+      outVec <- subset(duplicatedDf, duplicatedDf[, targetKey] == id) %>%
+        dplyr::select( -any_of(targetKey)) %>%
+        as.matrix() %>%
+        apply(., 2, FUN = summariseFun)
+      return(outVec)
+    }) %>%
+      # transpose
+      t()
+    # and set new rownames
+    rownames(duplicatedMat) <- ids
+  } else {
+    duplicatedMat <- NULL
+  }
   # bind cols and return matrix
   outMat <- rbind(uniqueMat, duplicatedMat)
   return(outMat)
