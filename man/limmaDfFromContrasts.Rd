@@ -8,6 +8,7 @@ limmaDfFromContrasts(
   mat,
   desMat,
   conMat,
+  trend = FALSE,
   compName = "comparison",
   featName = "feature",
   exprName = "AveExpr",
@@ -22,6 +23,8 @@ limmaDfFromContrasts(
 \item{desMat}{Design matrix.}
 
 \item{conMat}{Contrasts matrix.}
+
+\item{trend}{logical, should an intensity-trend be allowed for the prior variance? Default is that the prior variance is constant.}
 
 \item{compName}{Name for the column that indicates the pairwise comparison in the tidy data frame.}
 

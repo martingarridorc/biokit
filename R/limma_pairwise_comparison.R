@@ -6,6 +6,7 @@
 #' @param mat Matrix with data to analyse.
 #' @param desMat Design matrix.
 #' @param conMat Contrasts matrix.
+#' @param trend logical, should an intensity-trend be allowed for the prior variance? Default is that the prior variance is constant.
 #' @param compName Name for the column that indicates the pairwise comparison in the tidy data frame.
 #' @param featName Name for the column that indicates the analyzed row feature in the tidy data frame.
 #' @param fcName Name for the resulting fold change column.
@@ -20,7 +21,7 @@
 #' @importFrom dplyr bind_rows %>%
 #' @importFrom tibble rownames_to_column
 #'
-limmaDfFromContrasts <- function(mat, desMat, conMat, compName = "comparison",
+limmaDfFromContrasts <- function(mat, desMat, conMat, trend = FALSE, compName = "comparison",
                                  featName = "feature", exprName = "AveExpr",
                                  fcName = "logFc", pName = "pValue", pAdjName = "pAdj") {
 
@@ -30,7 +31,7 @@ limmaDfFromContrasts <- function(mat, desMat, conMat, compName = "comparison",
   fit <- limma::lmFit(object = mat, design = desMat)
   fit2 <- limma::contrasts.fit(fit, contrasts = conMat)
   # empirical bayes smoothing to the standard errors
-  fit2 <- limma::eBayes(fit2)
+  fit2 <- limma::eBayes(fit2, trend = trend)
   # obtain list of dataframes from contrasts column names
   dfList <- lapply(colnames(conMat), function(y) {
     resDf <- limma::topTable(fit2, coef = y, number = Inf)
