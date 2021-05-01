@@ -1,4 +1,4 @@
-# biokit  <img src="pics/icon.png" align="right" height="200" />
+# biokit  <img src="https://raw.githubusercontent.com/martingarridorc/biokit/master/pics/biokit_logo.svg" align="right" height="200" />
 [![Build Status](https://travis-ci.com/martingarridorc/biokit.svg?branch=master)](https://travis-ci.com/martingarridorc/biokit)
 [![CodeCov](https://codecov.io/gh/martingarridorc/biokit/branch/master/graph/badge.svg)](https://codecov.io/gh/martingarridorc/biokit/)
 [![License](https://img.shields.io/github/license/martingarridorc/biokit.svg?color=yellow)](https://github.com/martingarridorc/biokit/blob/master/LICENSE)
