@@ -4,3 +4,6 @@
 ^\.Rproj\.user$
 .travis.yml
 pics/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -13,7 +13,3 @@ The package can be installed through the `install_github()` function from [devto
 ```
 devtools::install_github(repo = "https://github.com/martingarridorc/biokit")
 ```
-
-## Acknowledgments
-
-[Carlos Loucera](https://github.com/loucerac) and his mathematical wisdom.
