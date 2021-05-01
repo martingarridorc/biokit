@@ -2,5 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-05-01T18:11Z
+last_built: 2021-05-01T18:26Z
+urls:
+  reference: https://martingarridorc.github.io/biokit//reference
+  article: https://martingarridorc.github.io/biokit//articles
 
