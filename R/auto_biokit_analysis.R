@@ -3,8 +3,8 @@
 #' This wrapper function performs the  "default" analyses of the package.
 #'
 #' @param mat The input matrix containing normalized data or counts
-#' @param sampInfo sampInfo The sample information data frame.
-#' @param groupCol groupCol The column containing the grouping variable
+#' @param sampInfo The sample information data frame.
+#' @param groupCol The column containing the grouping variable
 #' @param funCatList A list of character vectors with the functional categories to analyze.
 #' @param statMode Type of statistical analysis to perform the row-wise comparison.
 #' Allowed values are: "edgeR", "limma" "tTest",

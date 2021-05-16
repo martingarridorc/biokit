@@ -30,9 +30,9 @@ autoBiokitAnalysis(
 \arguments{
 \item{mat}{The input matrix containing normalized data or counts}
 
-\item{sampInfo}{sampInfo The sample information data frame.}
+\item{sampInfo}{The sample information data frame.}
 
-\item{groupCol}{groupCol The column containing the grouping variable}
+\item{groupCol}{The column containing the grouping variable}
 
 \item{funCatList}{A list of character vectors with the functional categories to analyze.}
 

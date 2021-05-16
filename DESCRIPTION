@@ -20,7 +20,10 @@ Imports:
     edgeR,
     dplyr,
     limma,
-    tibble
+    tibble,
+    ggplot2,
+    ggfortify,
+    pheatmap
 Suggests:
     testthat,
     org.Hs.eg.db

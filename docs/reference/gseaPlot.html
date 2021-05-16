@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gene set enrichment analysis from statistical results — gseaFromStats • biokit</title>
+<title>GSEA plot — gseaPlot • biokit</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Gene set enrichment analysis from statistical results — gseaFromStats" />
-<meta property="og:description" content="Gene set enrichment analysis from statistical results" />
+<meta property="og:title" content="GSEA plot — gseaPlot" />
+<meta property="og:description" content="Plots the results of a gsea analysis" />
 
 
 
@@ -103,58 +103,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gene set enrichment analysis from statistical results</h1>
+    <h1>GSEA plot</h1>
     
-    <div class="hidden name"><code>gseaFromStats.Rd</code></div>
+    <div class="hidden name"><code>gseaPlot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Gene set enrichment analysis from statistical results</p>
+    <p>Plots the results of a gsea analysis</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gseaFromStats</span><span class='op'>(</span>
-  <span class='va'>df</span>,
-  <span class='va'>funCatList</span>,
-  <span class='va'>rankCol</span>,
-  featCol <span class='op'>=</span> <span class='st'>"feature"</span>,
-  splitCol <span class='op'>=</span> <span class='st'>"comparison"</span>,
-  seed <span class='op'>=</span> <span class='fl'>149</span>,
-  nPerm <span class='op'>=</span> <span class='fl'>1000</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gseaPlot</span><span class='op'>(</span><span class='va'>gseaResDf</span>, pCutoff <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>Data frame with results to analyze.</p></td>
+      <th>gseaResDf</th>
+      <td><p>The output data frame from <a href='gseaFromStats.html'>gseaFromStats</a></p></td>
     </tr>
     <tr>
-      <th>funCatList</th>
-      <td><p>A list of character vectors with the functional categories to analyze.</p></td>
-    </tr>
-    <tr>
-      <th>rankCol</th>
-      <td><p>Column used to perform the pre-ranked gsea analysis.</p></td>
-    </tr>
-    <tr>
-      <th>featCol</th>
-      <td><p>Column used to name the rankCol values.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Seed used to avoid reproducibility problems between runs.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Rest of arguments passed to <a href='https://rdrr.io/pkg/fgsea/man/fgseaSimple.html'>fgseaSimple</a>.</p></td>
+      <th>pCutoff</th>
+      <td><p>Adjusted P value cutoff to filter features before plotting</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tidy data frame with the results.</p>
+    <p>A ggplot2 object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

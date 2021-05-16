@@ -64,7 +64,7 @@
   <div class="contents col-md-9">
 <div id="biokit-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#biokit-" class="anchor"></a>biokit <img src="https://raw.githubusercontent.com/martingarridorc/biokit/master/pics/biokit_logo.svg" align="right" height="200">
+<a href="#biokit-" class="anchor"></a>Biokit <img src="reference/figures/biokit_logo.svg" align="right">
 </h1></div>
 
 <p>This package is a toolkit that can be concieved as a wrapper for functions and utilities that I use repeatedly across projects and collaborations involving omics data analysis. Particularly, it makes use of the core functions from packages such as <a href="https://bioconductor.org/packages/release/bioc/html/limma.html">limma</a>, <a href="https://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a> and <a href="https://bioconductor.org/packages/release/bioc/html/fgsea.html">fgsea</a> to automate processes as the statistical comparison and functional analysis of omics data.</p>
@@ -72,7 +72,130 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The package can be installed through the <code>install_github()</code> function from <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a>.</p>
-<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github(repo = "https://github.com/martingarridorc/biokit")</a></code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="dt">repo =</span> <span class="st">"https://github.com/martingarridorc/biokit"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">biokit</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Warning: replacing previous import 'dplyr::select' by 'AnnotationDbi::select'</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">## when loading 'biokit'</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">## Warning: replacing previous import 'AnnotationDbi::select' by 'dplyr::select'</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">## when loading 'biokit'</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>
+  fig.path <span class="op">=</span> <span class="st">"man/figures/"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"sarsCovData"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"humanHallmarks"</span><span class="op">)</span></code></pre></div>
+<p>Filter and normalize counts</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sarsCovMat</span> <span class="op">&lt;-</span> <span class="va">sarsCovMat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">sarsCovMat</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">15</span>, <span class="op">]</span>
+<span class="va">tmmMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/countsToTmm.html">countsToTmm</a></span><span class="op">(</span><span class="va">sarsCovMat</span><span class="op">)</span></code></pre></div>
+<p>Plot value distribution per sample</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">biokit</span><span class="fu">::</span><span class="fu"><a href="reference/violinPlot.html">violinPlot</a></span><span class="op">(</span><span class="va">tmmMat</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-3-1.png"><!-- --></p>
+<p>PCA plot</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">biokit</span><span class="fu">::</span><span class="fu"><a href="reference/pcaPlot.html">pcaPlot</a></span><span class="op">(</span>mat <span class="op">=</span> <span class="va">tmmMat</span>, sampInfo <span class="op">=</span> <span class="va">sarsCovSampInfo</span>, groupCol <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-4-1.png"><!-- --></p>
+<p>Heatmap of the top 25 most variable genes</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/heatmapPlot.html">heatmapPlot</a></span><span class="op">(</span>mat <span class="op">=</span> <span class="va">tmmMat</span>, sampInfo <span class="op">=</span> <span class="va">sarsCovSampInfo</span>, groupCol <span class="op">=</span> <span class="st">"group"</span>,scaleBy <span class="op">=</span> <span class="st">"row"</span>,  nTop <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-5-1.png"><!-- --></p>
+<p>Perform differential expression analysis</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">diffRes</span> <span class="op">&lt;-</span> <span class="fu">biokit</span><span class="fu">::</span><span class="fu"><a href="reference/autoLimmaComparison.html">autoLimmaComparison</a></span><span class="op">(</span>mat <span class="op">=</span> <span class="va">tmmMat</span>, sampInfo <span class="op">=</span> <span class="va">sarsCovSampInfo</span>, groupCol <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></code></pre></div>
+<p>Visualize results with a volcano plot</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">biokit</span><span class="fu">::</span><span class="fu"><a href="reference/volcanoPlot.html">volcanoPlot</a></span><span class="op">(</span><span class="va">diffRes</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-7-1.png"><!-- --></p>
+<p>Perform functional analysis with GSEA</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gseaResults</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gseaFromStats.html">gseaFromStats</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">diffRes</span>, funCatList <span class="op">=</span> <span class="va">humanHallmarks</span>, rankCol <span class="op">=</span> <span class="st">"logFc"</span>, splitCol <span class="op">=</span> <span class="st">"comparison"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (2.2% of the list).</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.58% of the list).</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.43% of the list).</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.73% of the list).</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.42% of the list).</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a></span>
+<span id="cb12-16"><a href="#cb12-16"></a><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (4.55% of the list).</span></span>
+<span id="cb12-17"><a href="#cb12-17"></a><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre></div>
+<p>And plot enriched hallmarks</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/gseaPlot.html">gseaPlot</a></span><span class="op">(</span><span class="va">gseaResults</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-9-1.png"><!-- --></p>
+<p>Session information</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">## R version 4.0.5 (2021-03-31)</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">## Platform: x86_64-w64-mingw32/x64 (64-bit)</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">## Running under: Windows 10 x64 (build 19042)</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co">## </span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">## Matrix products: default</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co">## </span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co">## locale:</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">## [1] LC_COLLATE=English_United Kingdom.1252 </span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="co">## [2] LC_CTYPE=English_United Kingdom.1252   </span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">## [3] LC_MONETARY=English_United Kingdom.1252</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="co">## [4] LC_NUMERIC=C                           </span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">## [5] LC_TIME=English_United Kingdom.1252    </span></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">## </span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co">## attached base packages:</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="co">## </span></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co">## other attached packages:</span></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="co">## [1] biokit_0.1.1</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a><span class="co">## </span></span>
+<span id="cb15-20"><a href="#cb15-20"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span id="cb15-21"><a href="#cb15-21"></a><span class="co">##  [1] locfit_1.5-9.4              Rcpp_1.0.6                 </span></span>
+<span id="cb15-22"><a href="#cb15-22"></a><span class="co">##  [3] lattice_0.20-41             tidyr_1.1.3                </span></span>
+<span id="cb15-23"><a href="#cb15-23"></a><span class="co">##  [5] assertthat_0.2.1            digest_0.6.27              </span></span>
+<span id="cb15-24"><a href="#cb15-24"></a><span class="co">##  [7] utf8_1.2.1                  R6_2.5.0                   </span></span>
+<span id="cb15-25"><a href="#cb15-25"></a><span class="co">##  [9] GenomeInfoDb_1.26.4         stats4_4.0.5               </span></span>
+<span id="cb15-26"><a href="#cb15-26"></a><span class="co">## [11] RSQLite_2.2.5               evaluate_0.14              </span></span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="co">## [13] highr_0.8                   ggplot2_3.3.3              </span></span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="co">## [15] pillar_1.5.1                zlibbioc_1.36.0            </span></span>
+<span id="cb15-29"><a href="#cb15-29"></a><span class="co">## [17] rlang_0.4.10                data.table_1.14.0          </span></span>
+<span id="cb15-30"><a href="#cb15-30"></a><span class="co">## [19] blob_1.2.1                  S4Vectors_0.28.1           </span></span>
+<span id="cb15-31"><a href="#cb15-31"></a><span class="co">## [21] Matrix_1.3-2                rmarkdown_2.7              </span></span>
+<span id="cb15-32"><a href="#cb15-32"></a><span class="co">## [23] labeling_0.4.2              BiocParallel_1.24.1        </span></span>
+<span id="cb15-33"><a href="#cb15-33"></a><span class="co">## [25] stringr_1.4.0               pheatmap_1.0.12            </span></span>
+<span id="cb15-34"><a href="#cb15-34"></a><span class="co">## [27] RCurl_1.98-1.3              bit_4.0.4                  </span></span>
+<span id="cb15-35"><a href="#cb15-35"></a><span class="co">## [29] munsell_0.5.0               fgsea_1.16.0               </span></span>
+<span id="cb15-36"><a href="#cb15-36"></a><span class="co">## [31] DelayedArray_0.16.3         compiler_4.0.5             </span></span>
+<span id="cb15-37"><a href="#cb15-37"></a><span class="co">## [33] xfun_0.22                   pkgconfig_2.0.3            </span></span>
+<span id="cb15-38"><a href="#cb15-38"></a><span class="co">## [35] BiocGenerics_0.36.0         htmltools_0.5.1.1          </span></span>
+<span id="cb15-39"><a href="#cb15-39"></a><span class="co">## [37] tidyselect_1.1.0            SummarizedExperiment_1.20.0</span></span>
+<span id="cb15-40"><a href="#cb15-40"></a><span class="co">## [39] tibble_3.1.0                gridExtra_2.3              </span></span>
+<span id="cb15-41"><a href="#cb15-41"></a><span class="co">## [41] GenomeInfoDbData_1.2.4      edgeR_3.32.1               </span></span>
+<span id="cb15-42"><a href="#cb15-42"></a><span class="co">## [43] IRanges_2.24.1              matrixStats_0.58.0         </span></span>
+<span id="cb15-43"><a href="#cb15-43"></a><span class="co">## [45] fansi_0.4.2                 crayon_1.4.1               </span></span>
+<span id="cb15-44"><a href="#cb15-44"></a><span class="co">## [47] dplyr_1.0.5                 bitops_1.0-6               </span></span>
+<span id="cb15-45"><a href="#cb15-45"></a><span class="co">## [49] grid_4.0.5                  gtable_0.3.0               </span></span>
+<span id="cb15-46"><a href="#cb15-46"></a><span class="co">## [51] lifecycle_1.0.0             DBI_1.1.1                  </span></span>
+<span id="cb15-47"><a href="#cb15-47"></a><span class="co">## [53] magrittr_2.0.1              scales_1.1.1               </span></span>
+<span id="cb15-48"><a href="#cb15-48"></a><span class="co">## [55] stringi_1.5.3               cachem_1.0.4               </span></span>
+<span id="cb15-49"><a href="#cb15-49"></a><span class="co">## [57] farver_2.1.0                XVector_0.30.0             </span></span>
+<span id="cb15-50"><a href="#cb15-50"></a><span class="co">## [59] limma_3.46.0                ggfortify_0.4.11           </span></span>
+<span id="cb15-51"><a href="#cb15-51"></a><span class="co">## [61] ellipsis_0.3.1              generics_0.1.0             </span></span>
+<span id="cb15-52"><a href="#cb15-52"></a><span class="co">## [63] vctrs_0.3.7                 fastmatch_1.1-0            </span></span>
+<span id="cb15-53"><a href="#cb15-53"></a><span class="co">## [65] RColorBrewer_1.1-2          tools_4.0.5                </span></span>
+<span id="cb15-54"><a href="#cb15-54"></a><span class="co">## [67] bit64_4.0.5                 Biobase_2.50.0             </span></span>
+<span id="cb15-55"><a href="#cb15-55"></a><span class="co">## [69] glue_1.4.2                  purrr_0.3.4                </span></span>
+<span id="cb15-56"><a href="#cb15-56"></a><span class="co">## [71] MatrixGenerics_1.2.1        parallel_4.0.5             </span></span>
+<span id="cb15-57"><a href="#cb15-57"></a><span class="co">## [73] fastmap_1.1.0               yaml_2.2.1                 </span></span>
+<span id="cb15-58"><a href="#cb15-58"></a><span class="co">## [75] AnnotationDbi_1.52.0        colorspace_2.0-0           </span></span>
+<span id="cb15-59"><a href="#cb15-59"></a><span class="co">## [77] GenomicRanges_1.42.0        memoise_2.0.0              </span></span>
+<span id="cb15-60"><a href="#cb15-60"></a><span class="co">## [79] knitr_1.31</span></span></code></pre></div>
 </div>
 </div>
   </div>

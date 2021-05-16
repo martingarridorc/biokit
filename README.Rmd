@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+
+# Biokit <img src="man/figures/biokit_logo.svg" align="right" />
+
+[![Build Status](https://travis-ci.com/martingarridorc/biokit.svg?branch=master)](https://travis-ci.com/martingarridorc/biokit)
+[![CodeCov](https://codecov.io/gh/martingarridorc/biokit/branch/master/graph/badge.svg)](https://codecov.io/gh/martingarridorc/biokit/)
+[![License](https://img.shields.io/github/license/martingarridorc/biokit.svg?color=yellow)](https://github.com/martingarridorc/biokit/blob/master/LICENSE)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/martingarridorc/biokit?include_prereleases)
+
+This package is a toolkit that can be concieved as a wrapper for functions and utilities that I use repeatedly across projects and collaborations involving omics data analysis. Particularly, it makes use of the core functions from packages such as [limma](https://bioconductor.org/packages/release/bioc/html/limma.html), [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) and [fgsea](https://bioconductor.org/packages/release/bioc/html/fgsea.html) to automate processes as the statistical comparison and functional analysis of omics data.
+
+## Installation
+
+The package can be installed through the `install_github()` function from [devtools](https://cran.r-project.org/web/packages/devtools/index.html).
+
+```
+devtools::install_github(repo = "https://github.com/martingarridorc/biokit")
+```
+
+```{r}
+library(biokit)
+knitr::opts_chunk$set(
+  fig.path = "man/figures/"
+)
+data("sarsCovData")
+data("humanHallmarks")
+```
+
+Filter and normalize counts
+
+```{r}
+sarsCovMat <- sarsCovMat[rowSums(sarsCovMat) >= 15, ]
+tmmMat <- countsToTmm(sarsCovMat)
+```
+
+Plot value distribution per sample
+
+```{r}
+biokit::violinPlot(tmmMat)
+```
+
+
+PCA plot
+
+```{r}
+biokit::pcaPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
+```
+
+Heatmap of the top 25 most variable genes
+
+```{r, fig.height=8, fig.width=6}
+heatmapPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group",scaleBy = "row",  nTop = 25)
+```
+
+Perform differential expression analysis
+
+```{r}
+diffRes <- biokit::autoLimmaComparison(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
+```
+
+Visualize results with a volcano plot
+
+```{r, fig.height=6, fig.width=9}
+biokit::volcanoPlot(diffRes)
+```
+
+Perform functional analysis with GSEA
+
+```{r}
+gseaResults <- gseaFromStats(df = diffRes, funCatList = humanHallmarks, rankCol = "logFc", splitCol = "comparison")
+```
+
+And plot enriched hallmarks
+
+```{r, fig.height=10, fig.width=7}
+gseaPlot(gseaResults)
+```
+
+Session information
+
+```{r}
+sessionInfo()
+```
+
+

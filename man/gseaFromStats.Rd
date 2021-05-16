@@ -4,7 +4,16 @@
 \alias{gseaFromStats}
 \title{Gene set enrichment analysis from statistical results}
 \usage{
-gseaFromStats(df, funCatList, rankCol, featCol = "feature", seed = 149, ...)
+gseaFromStats(
+  df,
+  funCatList,
+  rankCol,
+  featCol = "feature",
+  splitCol = "comparison",
+  seed = 149,
+  nPerm = 1000,
+  ...
+)
 }
 \arguments{
 \item{df}{Data frame with results to analyze.}

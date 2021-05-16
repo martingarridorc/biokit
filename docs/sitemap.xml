@@ -46,6 +46,12 @@
     <loc>https://martingarridorc.github.io/biokit//reference/gseaFromStats.html</loc>
   </url>
   <url>
+    <loc>https://martingarridorc.github.io/biokit//reference/gseaPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://martingarridorc.github.io/biokit//reference/heatmapPlot.html</loc>
+  </url>
+  <url>
     <loc>https://martingarridorc.github.io/biokit//reference/humanHallmarks.html</loc>
   </url>
   <url>
@@ -68,6 +74,9 @@
   </url>
   <url>
     <loc>https://martingarridorc.github.io/biokit//reference/pairwiseMatrixTest.html</loc>
+  </url>
+  <url>
+    <loc>https://martingarridorc.github.io/biokit//reference/pcaPlot.html</loc>
   </url>
   <url>
     <loc>https://martingarridorc.github.io/biokit//reference/sarsCovMat.html</loc>
@@ -101,5 +110,11 @@
   </url>
   <url>
     <loc>https://martingarridorc.github.io/biokit//reference/validateTranslatorDf.html</loc>
+  </url>
+  <url>
+    <loc>https://martingarridorc.github.io/biokit//reference/violinPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://martingarridorc.github.io/biokit//reference/volcanoPlot.html</loc>
   </url>
 </urlset>

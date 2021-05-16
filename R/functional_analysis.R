@@ -44,15 +44,30 @@ oraFromStats <- function(df, funCatList, statusCol, noChangeLabel = "No change",
 #' @export
 #'
 #' @importFrom fgsea fgseaSimple
+#' @importFrom dplyr bind_rows
 #'
-gseaFromStats <- function(df, funCatList, rankCol, featCol = "feature", seed =149, ...) {
+gseaFromStats <- function(df, funCatList, rankCol, featCol = "feature", splitCol = "comparison", seed =149, nPerm = 1000, ...) {
 
-  toGsea <- df[ , rankCol]
-  names(toGsea) <- df[ , featCol]
-  toGsea <- toGsea[order(toGsea, decreasing = TRUE)]
-  # set seed to gain reproducibility between analyses
-  set.seed(seed)
-  gseaRes <- fgsea::fgseaSimple(pathways = funCatList, stats = toGsea, ...)
-  return(gseaRes)
+
+  splitted <- split(df, df[,splitCol])
+
+  outDfList <- lapply(splitted, function(intDf) {
+
+    toGsea <- intDf[ , rankCol]
+    names(toGsea) <- intDf[ , featCol]
+    toGsea <- toGsea[order(toGsea, decreasing = TRUE)]
+    # set seed to gain reproducibility between analyses
+    set.seed(seed)
+    gseaRes <- fgsea::fgseaSimple(pathways = funCatList, stats = toGsea, nperm = nPerm, ...)
+    return(gseaRes)
+
+  })
+
+  outDf <- dplyr::bind_rows(outDfList, .id = splitCol)
+
+  return(outDf)
 
 }
+
+
+
