@@ -41,7 +41,6 @@ Plot value distribution per sample
 biokit::violinPlot(tmmMat)
 ```
 
-
 PCA plot
 
 ```{r}

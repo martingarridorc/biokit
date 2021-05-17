@@ -1,0 +1,11 @@
+data("sarsCovData")
+data("humanHallmarks")
+sarsCovMat <- sarsCovMat[rowSums(sarsCovMat) >= 15, ]
+tmmMat <- countsToTmm(sarsCovMat)
+violinPlot(tmmMat)
+pcaPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
+heatmapPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group",scaleBy = "row",  nTop = 25)
+diffRes <- biokit::autoLimmaComparison(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
+volcanoPlot(diffRes)
+gseaResults <- gseaFromStats(df = diffRes, funCatList = humanHallmarks, rankCol = "logFc", splitCol = "comparison")
+gseaPlot(gseaResults)
