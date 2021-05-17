@@ -21,6 +21,7 @@ Imports:
     dplyr,
     limma,
     tibble,
+    tidyr,
     ggplot2,
     ggfortify,
     pheatmap
