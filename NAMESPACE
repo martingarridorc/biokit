@@ -2,7 +2,6 @@
 
 export(addStatusByCutoff)
 export(addStatusByRank)
-export(autoBiokitAnalysis)
 export(autoEdgerComparison)
 export(autoLimmaComparison)
 export(autoPairwiseMatrixTest)
