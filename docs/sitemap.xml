@@ -1,120 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://martingarridorc.github.io/biokit//index.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/index.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/addStatusByCutoff.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/addStatusByCutoff.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/addStatusByRank.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/addStatusByRank.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/autoBiokitAnalysis.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/autoEdgerComparison.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/autoEdgerComparison.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/autoLimmaComparison.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/autoLimmaComparison.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/autoPairwiseMatrixTest.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/autoPairwiseMatrixTest.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/contrastsFromDesign.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/contrastsFromDesign.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/countsToTmm.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/countsToTmm.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/createPairwiseContrasts.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/createPairwiseContrasts.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/defaultLogFc.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/defaultLogFc.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/designFromSampInfo.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/designFromSampInfo.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/edgerDfFromContrasts.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/edgerDfFromContrasts.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/fisherExactTest.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/fisherExactTest.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/gseaFromStats.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/gseaFromStats.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/gseaPlot.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/gseaPlot.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/heatmapPlot.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/heatmapPlot.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/humanHallmarks.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/humanHallmarks.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/limmaDfFromContrasts.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/limmaDfFromContrasts.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/messageMappingInfo.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/messageMappingInfo.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/nsTestPValue.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/nsTestPValue.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/nsTestT.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/nsTestT.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/oraFromStats.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/oraFromStats.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/overRepresentationAnalysis.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/overRepresentationAnalysis.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/pairwiseMatrixTest.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/pairwiseMatrixTest.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/pcaPlot.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/pcaPlot.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/sarsCovMat.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/sarsCovMat.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/sarsCovSampInfo.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/sarsCovSampInfo.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/singleMatrixTest.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/singleMatrixTest.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/splitFunMerge.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/splitFunMerge.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/translateMatrix.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/translateMatrix.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/translateMatrixWithDb.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/translateMatrixWithDb.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/translateSE.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/translateSE.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/translateSEWithDb.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/translateSEWithDb.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/validateMatrix.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/validateMatrix.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/validateSampInfo.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/validateSampInfo.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/validateTranslatorDf.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/validateTranslatorDf.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/violinPlot.html</loc>
   </url>
   <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/violinPlot.html</loc>
-  </url>
-  <url>
-    <loc>https://martingarridorc.github.io/biokit//reference/volcanoPlot.html</loc>
+    <loc>https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit/reference/volcanoPlot.html</loc>
   </url>
 </urlset>

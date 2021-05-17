@@ -2,14 +2,14 @@
 output: github_document
 ---
 
-# Biokit <img src="man/figures/biokit_logo.svg" align="right" />
+# Biokit <img src="man/figures/logo.svg" align="right" height=200 />
 
 [![Build Status](https://travis-ci.com/martingarridorc/biokit.svg?branch=master)](https://travis-ci.com/martingarridorc/biokit)
 [![CodeCov](https://codecov.io/gh/martingarridorc/biokit/branch/master/graph/badge.svg)](https://codecov.io/gh/martingarridorc/biokit/)
 [![License](https://img.shields.io/github/license/martingarridorc/biokit.svg?color=yellow)](https://github.com/martingarridorc/biokit/blob/master/LICENSE)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/martingarridorc/biokit?include_prereleases)
 
-This package is a toolkit that can be concieved as a wrapper for functions and utilities that I use repeatedly across projects and collaborations involving omics data analysis. Particularly, it makes use of the core functions from packages such as [limma](https://bioconductor.org/packages/release/bioc/html/limma.html), [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) and [fgsea](https://bioconductor.org/packages/release/bioc/html/fgsea.html) to automate processes as the statistical comparison and functional analysis of omics data.
+Biokit is an unified wrapper package for functions and utilities to perform the analysis of transcriptomic and proteomic data. It contains several functions to carry out a basic exploratory analysis of the omics data tables, together with tools to normalize and perform the differential analysis between the sample groups of interest. In addition, biokit can also conduct the functional analysis of the results to reduce its dimensionality and increase its interpretability, using over-representation analysis (ORA) or functional class scoring (FCS) approaches. 
 
 ## Installation
 
@@ -19,61 +19,76 @@ The package can be installed through the `install_github()` function from [devto
 devtools::install_github(repo = "https://github.com/martingarridorc/biokit")
 ```
 
-```{r}
+# Case-of-use
+
+```{r, message = FALSE, warning=FALSE}
 library(biokit)
+data("sarsCovData")
+data("humanHallmarks")
+
+# set output directory for images
 knitr::opts_chunk$set(
   fig.path = "man/figures/"
 )
-data("sarsCovData")
-data("humanHallmarks")
 ```
 
-Filter and normalize counts
+To exemplify the capabilities and features of biokit, we will apply it to a transcriptomic dataset obtained from the [following GEO entry](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147507). This dataset contains a subset of the samples analyzed in this project, where the reaction from different human cell lines to SARS-COV-2 infection is evaluated using RNA-Seq. The starting materials for the analysis are:
+
+**The RNA-Seq counts table**
 
 ```{r}
+head(sarsCovMat[, 1:3])
+```
+
+**A data frame containing the sample group information**
+
+```{r}
+head(sarsCovSampInfo)
+```
+
+**And a list containing the MSigDb functional categories, that we will use for the functional analysis**
+
+```{r, message = FALSE, warning=FALSE}
+lapply(humanHallmarks[1:10], head)
+```
+
+In a first step, we can explore the per-sample value distribution of the raw counts table. Then, we can filter and normalize the count matrix using a minimum cutoff of counts across samples, with a default value of **15**. Then, we can normalize the resulting count matrix with the edgeR TMM approach, using the `countsToTmm()` function from the biokit. 
+
+```{r}
+biokit::violinPlot(sarsCovMat)
 sarsCovMat <- sarsCovMat[rowSums(sarsCovMat) >= 15, ]
 tmmMat <- countsToTmm(sarsCovMat)
 ```
 
-Plot value distribution per sample
+Next, we can explore the new per-sample value distribution using again the violin plot function. 
 
 ```{r}
 biokit::violinPlot(tmmMat)
 ```
 
-PCA plot
+In a second exploratory step, we can apply a Principal Component Analysis (PCA) to reduce the dataset dimensionality and explore the group distribution in a bidimensional space formed by the first two principal components.
 
 ```{r}
 biokit::pcaPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
 ```
 
-Heatmap of the top 25 most variable genes
+Next, we can explore the top 25 genes with the higuest standard deviation in teh entire dataset, representing and clustering them through a heatmap representation.
 
 ```{r, fig.height=8, fig.width=6}
 heatmapPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group",scaleBy = "row",  nTop = 25)
 ```
 
-Perform differential expression analysis
-
-```{r}
-diffRes <- biokit::autoLimmaComparison(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
-```
-
-Visualize results with a volcano plot
+Once that we have evaluated the distribution of sample groups and of most variable genes with basic exploratory analysis, we can perform a differential expression between the sample groups of interest using the for the linear models included in the limma package. The `volcanoPlot()` function can be used to obtain a broad spectrum view of the results for each of the comparisons carried out.
 
 ```{r, fig.height=6, fig.width=9}
+diffRes <- biokit::autoLimmaComparison(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
 biokit::volcanoPlot(diffRes)
 ```
 
-Perform functional analysis with GSEA
+In a final step, we can perform the functional analysis for each comparison using the GSEA approach and visualize the significant results using the `gseaPlot()` function.
 
-```{r}
+```{r, warning=FALSE, message=FALSE, fig.height=10, fig.width=7}
 gseaResults <- gseaFromStats(df = diffRes, funCatList = humanHallmarks, rankCol = "logFc", splitCol = "comparison")
-```
-
-And plot enriched hallmarks
-
-```{r, fig.height=10, fig.width=7}
 gseaPlot(gseaResults)
 ```
 

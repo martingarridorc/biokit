@@ -1,5 +1,5 @@
 
-# Biokit <img src="man/figures/biokit_logo.svg" align="right" />
+# Biokit <img src="man/figures/logo.svg" align="right" height=200 />
 
 [![Build
 Status](https://travis-ci.com/martingarridorc/biokit.svg?branch=master)](https://travis-ci.com/martingarridorc/biokit)
@@ -8,16 +8,15 @@ Status](https://travis-ci.com/martingarridorc/biokit.svg?branch=master)](https:/
 ![GitHub release (latest by date including
 pre-releases)](https://img.shields.io/github/v/release/martingarridorc/biokit?include_prereleases)
 
-This package is a toolkit that can be concieved as a wrapper for
-functions and utilities that I use repeatedly across projects and
-collaborations involving omics data analysis. Particularly, it makes use
-of the core functions from packages such as
-[limma](https://bioconductor.org/packages/release/bioc/html/limma.html),
-[edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html)
-and
-[fgsea](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-to automate processes as the statistical comparison and functional
-analysis of omics data.
+Biokit is an unified wrapper package for functions and utilities to
+perform the analysis of transcriptomic and proteomic data. It contains
+several functions to carry out a basic exploratory analysis of the omics
+data tables, together with tools to normalize and perform the
+differential analysis between the sample groups of interest. In
+addition, biokit can also conduct the functional analysis of the results
+to reduce its dimensionality and increase its interpretability, using
+over-representation analysis (ORA) or functional class scoring (FCS)
+approaches.
 
 ## Installation
 
@@ -27,100 +26,163 @@ from
 
     devtools::install_github(repo = "https://github.com/martingarridorc/biokit")
 
+# Case-of-use
+
 ``` r
 library(biokit)
-```
+data("sarsCovData")
+data("humanHallmarks")
 
-    ## Warning: replacing previous import 'dplyr::select' by 'AnnotationDbi::select'
-    ## when loading 'biokit'
-
-    ## Warning: replacing previous import 'AnnotationDbi::select' by 'dplyr::select'
-    ## when loading 'biokit'
-
-``` r
+# set output directory for images
 knitr::opts_chunk$set(
   fig.path = "man/figures/"
 )
-data("sarsCovData")
-data("humanHallmarks")
 ```
 
-Filter and normalize counts
+To exemplify the capabilities and features of biokit, we will apply it
+to a transcriptomic dataset obtained from the [following GEO
+entry](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE147507).
+This dataset contains a subset of the samples analyzed in this project,
+where the reaction from different human cell lines to SARS-COV-2
+infection is evaluated using RNA-Seq. The starting materials for the
+analysis are:
+
+**The RNA-Seq counts table**
+
+``` r
+head(sarsCovMat[, 1:3])
+```
+
+    ##           NHBE_Mock_1 NHBE_Mock_2 NHBE_Mock_3
+    ## DDX11L1             0           0           0
+    ## WASH7P             29          24          23
+    ## FAM138A             0           0           0
+    ## FAM138F             0           0           0
+    ## OR4F5               0           0           0
+    ## LOC729737         112         119         113
+
+**A data frame containing the sample group information**
+
+``` r
+head(sarsCovSampInfo)
+```
+
+    ##                name           group
+    ## 1       NHBE_Mock_1       NHBE_Mock
+    ## 2       NHBE_Mock_2       NHBE_Mock
+    ## 3       NHBE_Mock_3       NHBE_Mock
+    ## 4 NHBE_SARS.CoV.2_1 NHBE_SARS.CoV.2
+    ## 5 NHBE_SARS.CoV.2_2 NHBE_SARS.CoV.2
+    ## 6 NHBE_SARS.CoV.2_3 NHBE_SARS.CoV.2
+
+**And a list containing the MSigDb functional categories, that we will
+use for the functional analysis**
+
+``` r
+lapply(humanHallmarks[1:10], head)
+```
+
+    ## $HALLMARK_ADIPOGENESIS
+    ## [1] "ABCA1" "ABCB8" "ACAA2" "ACADL" "ACADM" "ACADS"
+    ## 
+    ## $HALLMARK_ALLOGRAFT_REJECTION
+    ## [1] "AARS"   "ABCE1"  "ABI1"   "ACHE"   "ACVR2A" "AKT1"  
+    ## 
+    ## $HALLMARK_ANDROGEN_RESPONSE
+    ## [1] "ABCC4"   "ABHD2"   "ACSL3"   "ACTN1"   "ADAMTS1" "ADRM1"  
+    ## 
+    ## $HALLMARK_ANGIOGENESIS
+    ## [1] "APOH"   "APP"    "CCND2"  "COL3A1" "COL5A2" "CXCL6" 
+    ## 
+    ## $HALLMARK_APICAL_JUNCTION
+    ## [1] "ACTA1" "ACTB"  "ACTC1" "ACTG1" "ACTG2" "ACTN1"
+    ## 
+    ## $HALLMARK_APICAL_SURFACE
+    ## [1] "ADAM10"   "ADIPOR2"  "AFAP1L2"  "AKAP7"    "APP"      "ATP6V0A4"
+    ## 
+    ## $HALLMARK_APOPTOSIS
+    ## [1] "ADD1"  "AIFM3" "ANKH"  "ANXA1" "APP"   "ATF3" 
+    ## 
+    ## $HALLMARK_BILE_ACID_METABOLISM
+    ## [1] "ABCA1" "ABCA2" "ABCA3" "ABCA4" "ABCA5" "ABCA6"
+    ## 
+    ## $HALLMARK_CHOLESTEROL_HOMEOSTASIS
+    ## [1] "ABCA2" "ACAT2" "ACSS2" "ACTG1" "ADH4"  "ALCAM"
+    ## 
+    ## $HALLMARK_COAGULATION
+    ## [1] "A2M"   "ACOX2" "ADAM9" "ANG"   "ANXA1" "APOA1"
+
+In a first step, we can explore the per-sample value distribution of the
+raw counts table. Then, we can filter and normalize the count matrix
+using a minimum cutoff of counts across samples, with a default value of
+**15**. Then, we can normalize the resulting count matrix with the edgeR
+TMM approach, using the `countsToTmm()` function from the biokit.
+
+``` r
+biokit::violinPlot(sarsCovMat)
+```
+
+![](man/figures/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 sarsCovMat <- sarsCovMat[rowSums(sarsCovMat) >= 15, ]
 tmmMat <- countsToTmm(sarsCovMat)
 ```
 
-Plot value distribution per sample
+Next, we can explore the new per-sample value distribution using again
+the violin plot function.
 
 ``` r
 biokit::violinPlot(tmmMat)
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/unnamed-chunk-6-1.png)<!-- -->
 
-PCA plot
+In a second exploratory step, we can apply a Principal Component
+Analysis (PCA) to reduce the dataset dimensionality and explore the
+group distribution in a bidimensional space formed by the first two
+principal components.
 
 ``` r
 biokit::pcaPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
-Heatmap of the top 25 most variable genes
+Next, we can explore the top 25 genes with the higuest standard
+deviation in teh entire dataset, representing and clustering them
+through a heatmap representation.
 
 ``` r
 heatmapPlot(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group",scaleBy = "row",  nTop = 25)
 ```
 
-![](man/figures/unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/unnamed-chunk-8-1.png)<!-- -->
 
-Perform differential expression analysis
+Once that we have evaluated the distribution of sample groups and of
+most variable genes with basic exploratory analysis, we can perform a
+differential expression between the sample groups of interest using the
+for the linear models included in the limma package. The `volcanoPlot()`
+function can be used to obtain a broad spectrum view of the results for
+each of the comparisons carried out.
 
 ``` r
 diffRes <- biokit::autoLimmaComparison(mat = tmmMat, sampInfo = sarsCovSampInfo, groupCol = "group")
-```
-
-Visualize results with a volcano plot
-
-``` r
 biokit::volcanoPlot(diffRes)
 ```
 
-![](man/figures/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/unnamed-chunk-9-1.png)<!-- -->
 
-Perform functional analysis with GSEA
+In a final step, we can perform the functional analysis for each
+comparison using the GSEA approach and visualize the significant results
+using the `gseaPlot()` function.
 
 ``` r
 gseaResults <- gseaFromStats(df = diffRes, funCatList = humanHallmarks, rankCol = "logFc", splitCol = "comparison")
-```
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (2.2% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.58% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.43% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.73% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.42% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (4.55% of the list).
-    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
-
-And plot enriched hallmarks
-
-``` r
 gseaPlot(gseaResults)
 ```
 
-![](man/figures/unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/unnamed-chunk-10-1.png)<!-- -->
 
 Session information
 
@@ -155,7 +217,7 @@ sessionInfo()
     ##  [9] GenomeInfoDb_1.26.4         stats4_4.0.5               
     ## [11] RSQLite_2.2.5               evaluate_0.14              
     ## [13] highr_0.8                   ggplot2_3.3.3              
-    ## [15] pillar_1.5.1                zlibbioc_1.36.0            
+    ## [15] pillar_1.6.1                zlibbioc_1.36.0            
     ## [17] rlang_0.4.10                data.table_1.14.0          
     ## [19] blob_1.2.1                  S4Vectors_0.28.1           
     ## [21] Matrix_1.3-2                rmarkdown_2.7              
@@ -171,15 +233,15 @@ sessionInfo()
     ## [41] GenomeInfoDbData_1.2.4      edgeR_3.32.1               
     ## [43] IRanges_2.24.1              matrixStats_0.58.0         
     ## [45] fansi_0.4.2                 crayon_1.4.1               
-    ## [47] dplyr_1.0.5                 bitops_1.0-6               
+    ## [47] dplyr_1.0.6                 bitops_1.0-6               
     ## [49] grid_4.0.5                  gtable_0.3.0               
     ## [51] lifecycle_1.0.0             DBI_1.1.1                  
     ## [53] magrittr_2.0.1              scales_1.1.1               
     ## [55] stringi_1.5.3               cachem_1.0.4               
     ## [57] farver_2.1.0                XVector_0.30.0             
     ## [59] limma_3.46.0                ggfortify_0.4.11           
-    ## [61] ellipsis_0.3.1              generics_0.1.0             
-    ## [63] vctrs_0.3.7                 fastmatch_1.1-0            
+    ## [61] ellipsis_0.3.2              generics_0.1.0             
+    ## [63] vctrs_0.3.8                 fastmatch_1.1-0            
     ## [65] RColorBrewer_1.1-2          tools_4.0.5                
     ## [67] bit64_4.0.5                 Biobase_2.50.0             
     ## [69] glue_1.4.2                  purrr_0.3.4                

@@ -2,12 +2,19 @@ Package: biokit
 Type: Package
 Title: Toolkit for the automatic analysis of omics data
 Version: 0.1.1
-Author: Martin Garrido Rodriguez-Cordoba
-Maintainer: Martin Garrido Rodriguez-Cordoba<mgrcprof@gmail.com>
-Description: This package is my personal wrapper for functions and utilities 
-    that I use repeatedly across projects involving omics data analysis. 
-    Particularly, it makes use of the core functions from packages such as limma, edgeR and 
-    fgsea to automate processes as the statistical comparison and functional analysis of omics data.
+URL: https://martingarridorc.github.io/biokit/, https://github.com/martingarridorc/biokit
+Authors@R: c(
+    person("Martín", "Garrido Rodríguez-Córdoba", ,"mgrcprof@gmail.com", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0003-4125-5643")
+    ))
+Description: >
+    Biokit is an unified wrapper package for functions and utilities to perform 
+    the analysis of transcriptomic and proteomic data. It contains several functions
+    to carry out a basic exploratory analysis of the omics data tables, together with
+    tools to normalize and perform the differential analysis between the sample groups
+    of interest. In addition, biokit can also conduct the functional analysis of the 
+    results to reduce its dimensionality and increase its interpretability, using 
+    over-representation analysis (ORA) or functional class scoring (FCS) approaches. 
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
