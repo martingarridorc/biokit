@@ -33,5 +33,7 @@ test_that("Validators work nice", {
   expect_equal(class(validateTranslatorDf(translatorDf, "from", "to")), "data.frame")
   expect_equal(class(validateTranslatorDf(wrongTranslatorDf, "from", "to")), "data.frame")
 
+  expect_message(createPairwiseContrasts(c(NA, NA, 'a', 'b', 'b')))
+
 })
 
